@@ -14,7 +14,7 @@ from tkinter import ttk
 # TODO optimization
 
 # high priority:
-# TODO 
+# TODO
 
 # medium priority:
 # TODO check for updates (using github api)
@@ -42,7 +42,8 @@ if os.path.exists('.\\iwoSource\\options.json'):
     pass
 else:
     with open(".\\iwoSource\\options.json", "w") as f:
-        json.dump({"options": {"language": "en", "saveHistoryOnCheck": 0}}, f, indent=4)
+        json.dump(
+            {"options": {"language": "en", "saveHistoryOnCheck": 0}}, f, indent=4)
 
 if os.path.exists('.\\iwoSource\\fullHistory.json'):
     pass
