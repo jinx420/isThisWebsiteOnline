@@ -10,12 +10,21 @@ import tkinter as tk
 from tkinter import ttk
 
 
+# highest priority:
 # TODO optimization
 # TODO graph showing % of online and offline
 
-# lower priority:
-# TODO maybe add a status text to display "settings saved"
+# high priority:
+# TODO
+
+# medium priority:
 # TODO think of TODOS
+
+# lower priority:
+# TODO add a button to open the logs
+
+# lowest priority:
+# TODO maybe add a status text to display "settings saved"
 
 
 def thread(func):
