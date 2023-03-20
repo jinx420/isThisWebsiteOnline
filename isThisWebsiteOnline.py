@@ -130,7 +130,7 @@ def status():
         return 'offline'
 
 
-# save history with date and time EN
+# save history with date and time
 def historyWithDateAndTime():
     if os.path.exists('.\\iwoSource\\fullHistory.json'):
         json_file = '.\\iwoSource\\fullHistory.json'
@@ -234,7 +234,7 @@ def changeLanguage(lang):
         helpMenu.entryconfig(0, label="Über uns", command=about)
 
 
-# see logs EN
+# see logs 
 def seeLogs():
     with open('.\\iwoSource\\options.json', 'r') as f:
         options = json.load(f)
