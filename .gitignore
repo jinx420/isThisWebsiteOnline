@@ -127,6 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# custom
 compile.bat
 isThisWebsiteOnlineExE.py
 isThisWebsiteOnline.exe
+/iwoDev/
