@@ -136,3 +136,6 @@ isThisWebsiteOnlineExE.py
 isThisWebsiteOnline.exe
 /iwoDev/
 /iwoDev/move.py
+/iwoSource/history.json
+/iwoSource/options.json
+/iwoSource/fullHistory.json
