@@ -12,6 +12,7 @@ from tkinter import ttk
 
 # TODO optimization
 # TODO graph showing % of online and offline
+# TODO maybe add a status text to display "settings saved"
 # TODO think of TODOS
 
 
