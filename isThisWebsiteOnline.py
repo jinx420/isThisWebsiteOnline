@@ -14,11 +14,9 @@ from tkinter import ttk
 # TODO optimization
 
 # high priority:
-# TODO check for updates (using github api)
 # TODO
 
 # medium priority:
-# TODO add option to check for updates on startup
 # TODO think of TODOS
 
 # lower priority:
@@ -415,6 +413,7 @@ def optionsWindow():
     with open(".\\iwoSource\\options.json", "r") as f:
         data = json.load(f)
         saveHistoryOnCheck.set(data["options"]["saveHistoryOnCheck"])
+        checkUpdateCM.set(data["options"]["checkForUpdatesOnStartup"])
 
     # options window
     optionsWindow = tk.Toplevel()
@@ -439,18 +438,18 @@ def optionsWindow():
 
     # add reset button to reset the options
     resetButton = tk.Button(optionsWindow, text="Reset", command=resetOptions)
-    resetButton.place(x=60, y=170)
+    resetButton.place(x=80, y=170)
 
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options2 = json.load(f)
-    if options2['options']['language'] == 'en':
+    if data['options']['language'] == 'en':
         optionsWindow.title("Options")
         checkMarkBox1.config(text="Save history on every check")
+        checkUpdateCMBox.config(text="Check for updates on startup")
         saveButton.config(text="Save")
         resetButton.config(text="Reset")
-    elif options2['options']['language'] == 'de':
+    elif data['options']['language'] == 'de':
         optionsWindow.title("Optionen")
         checkMarkBox1.config(text="Verlauf bei jedem Check speichern")
+        checkUpdateCMBox.config(text="Auf Updates beim Start prüfen")
         saveButton.config(text="Speichern")
         resetButton.config(text="Zurücksetzen")
 
