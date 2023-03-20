@@ -26,6 +26,7 @@ from tkinter import ttk
 # TODO add a button to open the logs
 
 # lowest priority:
+# TODO add link to documentation in the help tab (to github wiki)
 # TODO change changeLanguage()
 # TODO add more languages (unlikely)
 # TODO maybe add a status text to display "settings saved"
