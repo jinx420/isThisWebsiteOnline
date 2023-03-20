@@ -129,6 +129,8 @@ dmypy.json
 .pyre/
 
 # custom
+*.7z
+*.zip
 compile.bat
 isThisWebsiteOnlineExE.py
 isThisWebsiteOnline.exe
