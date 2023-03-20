@@ -10,7 +10,14 @@ from tkinter import ttk
 
 
 # TODO options menu with option to save to logs on every check
+# TODO optimization
+# TODO graph showing % of online and offline
 # TODO think of TODOS
+
+
+def thread(func):
+    threading.Thread(target=func).start()
+
 
 # check if website is online using http
 def isWebsiteOnlineHTTP(url):
@@ -385,6 +392,8 @@ if __name__ == "__main__":
         root.geometry("670x350")
         root.iconbitmap(".\\iwoSource\\favicon.ico")
         root.resizable(False, False)
+
+        changeLanguage('en')
 
         # image
         image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
