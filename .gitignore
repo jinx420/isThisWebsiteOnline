@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+compile.bat
+isThisWebsiteOnlineExE.py
+isThisWebsiteOnline.exe
