@@ -18,6 +18,7 @@ from tkinter import ttk
 # TODO
 
 # medium priority:
+# TODO add option to check for updates on startup
 # TODO think of TODOS
 
 # lower priority:
@@ -43,7 +44,7 @@ if os.path.exists('.\\iwoSource\\options.json'):
 else:
     with open(".\\iwoSource\\options.json", "w") as f:
         json.dump(
-            {"options": {"language": "en", "saveHistoryOnCheck": 0}}, f, indent=4)
+            {"options": {"language": "en", "saveHistoryOnCheck": 0,"checkForUpdatesOnStartup": 0}}, f, indent=4)
 
 if os.path.exists('.\\iwoSource\\fullHistory.json'):
     pass
@@ -59,15 +60,25 @@ else:
 
 
 def checkUpdate():
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
     try:
         r = httpx.get('https://api.github.com/repos/jinx420/isThisWebsiteOnline/releases/latest')
         if r.status_code == 200:
             latestVersion = r.json()['tag_name']
-            if latestVersion != 'v0.2.1':
-                if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
-                    webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
-                else:
-                    pass
+            if latestVersion != 'v0.2.2':
+                if options['options']['language'] == 'en':
+                    if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
+                        # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
+                        webbrowser.open('https://github.com/jinx420/isThisWebsiteOnline/releases')
+                    else:
+                        pass
+                elif options['options']['language'] == 'de':
+                    if messagebox.askyesno('Update', 'Es ist ein Update verfügbar. Möchten Sie es herunterladen?'):
+                        # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
+                        webbrowser.open('https://github.com/jinx420/isThisWebsiteOnline/releases')
+                    else:
+                        pass
             else:
                 messagebox.showinfo('Update', 'You are using the latest version')
         else:
@@ -375,7 +386,8 @@ def optionsWindow():
         options = {
             "options": {
                 "language": lang2,
-                "saveHistoryOnCheck": saveHistoryOnCheck.get()
+                "saveHistoryOnCheck": saveHistoryOnCheck.get(),
+                "checkForUpdatesOnStartup": checkUpdateCM.get()
             }
         }
         with open(".\\iwoSource\\options.json", "w") as f:
@@ -386,7 +398,8 @@ def optionsWindow():
         options = {
             "options": {
                 "language": lang2,
-                "saveHistoryOnCheck": 0
+                "saveHistoryOnCheck": 0,
+                "checkForUpdatesOnStartup": 0
             }
         }
         with open(".\\iwoSource\\options.json", "w") as f:
@@ -396,6 +409,7 @@ def optionsWindow():
 
     # get the value of the check mark box
     saveHistoryOnCheck = tk.IntVar()  # 0 = off, 1 = on
+    checkUpdateCM = tk.IntVar()  # 0 = off, 1 = on
 
     # get the options from the options.json file
     with open(".\\iwoSource\\options.json", "r") as f:
@@ -413,6 +427,11 @@ def optionsWindow():
     checkMarkBox1 = tk.Checkbutton(optionsWindow, text="Save history on every check",
                                    variable=saveHistoryOnCheck, onvalue=1, offvalue=0, command=saveHistoryOnCheck)
     checkMarkBox1.place(x=10, y=10)
+
+    # add a check update on startup check mark box
+    checkUpdateCMBox = tk.Checkbutton(optionsWindow, text="Check for updates on startup",
+                                      variable=checkUpdateCM, onvalue=1, offvalue=0, command=checkUpdateCM)
+    checkUpdateCMBox.place(x=10, y=40)
 
     # add save button to save the options
     saveButton = tk.Button(optionsWindow, text="Save", command=saveOptions)
@@ -575,6 +594,9 @@ if __name__ == "__main__":
             options = json.load(f)
             lang2 = options['options']['language']
         changeLanguage(lang2)
+
+        if options['options']['checkForUpdatesOnStartup'] == True:
+            checkUpdate()
 
         # Mainloop
         root.mainloop()
