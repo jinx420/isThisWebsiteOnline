@@ -18,6 +18,7 @@ from tkinter import ttk
 # TODO
 
 # medium priority:
+# TODO change changeLanguage()
 # TODO think of TODOS
 
 # lower priority:
