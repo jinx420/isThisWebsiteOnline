@@ -20,71 +20,51 @@ def thread(func):
     threading.Thread(target=func).start()
 
 
-# check if website is online using http
-def isWebsiteOnlineHTTP(url):
-    try:
-        httpx.get(f'http://{url}')
-        return True
-    except:
-        return False
+# check if website is online
+def isWebsiteOnline(url):
+    if httpOrHttpsEntry.get().lower() == "http":
+        try:
+            httpx.get(f'http://{url}')
+            return True
+        except:
+            return False
+    elif httpOrHttpsEntry.get().lower() == "https":
+        try:
+            httpx.get(f'https://{url}')
+            return True
+        except:
+            return False
 
 
-# check if website is online using https
-def isWebsiteOnlineHTTPS(url):
-    try:
-        httpx.get(f'https://{url}')
-        return True
-    except:
-        return False
-
-
-# check website EN
-def checkWebsiteEN():
-    httpOrHttps = httpOrHttpsEntry.get()
-    httpOrHttpsL = httpOrHttps.lower()
-    url = urlEntry.get()
-    urlL = url.lower()
-    if httpOrHttpsL == "http":
-        if isWebsiteOnlineHTTP(urlL):
-            statusLabel.config(text="Website is online")
+# check website
+def checkWebsite():
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
+    if options['options']['saveHistoryOnCheck'] == 1:
+        historyWithDateAndTime()
+    httpOrHttps = httpOrHttpsEntry.get().lower()
+    url = urlEntry.get().lower()
+    if httpOrHttps == "http" or httpOrHttps == 'https':
+        if isWebsiteOnline(url):
+            if options['options']['language'] == 'en':
+                statusLabel.config(text="Website is online")
+            elif options['options']['language'] == 'de':
+                statusLabel.config(text="Website ist online")
         else:
-            statusLabel.config(text="Website is offline")
-    elif httpOrHttpsL == "https":
-        if isWebsiteOnlineHTTPS(urlL):
-            statusLabel.config(text="Website is online")
-        else:
-            statusLabel.config(text="Website is offline")
+            if options['options']['language'] == 'en':
+                statusLabel.config(text="Website is offline")
+            elif options['options']['language'] == 'de':
+                statusLabel.config(text="Website ist offline")
     else:
-        statusLabel.config(text="Please enter http or https")   
+        if options['options']['language'] == 'en':
+            statusLabel.config(text="Please enter http or https")
+        elif options['options']['language'] == 'de':
+            statusLabel.config(text="Bitte geben Sie http oder https ein")
 
 
-def checkWebsiteDE():
-    httpOrHttps = httpOrHttpsEntry.get()
-    httpOrHttpsL = httpOrHttps.lower()
-    url = urlEntry.get()
-    urlL = url.lower()
-    if httpOrHttpsL == "http":
-        if isWebsiteOnlineHTTP(urlL):
-            statusLabel.config(text="Webseite ist online")
-        else:
-            statusLabel.config(text="Webseite ist offline")
-    elif httpOrHttpsL == "https":
-        if isWebsiteOnlineHTTPS(urlL):
-            statusLabel.config(text="Website ist online")
-        else:
-            statusLabel.config(text="Website ist offline")
-    else:
-        statusLabel.config(text="http oder https eingeben")
-
-
-# check website ThreadEN
-def checkWebsiteThreadEN():
-    optionsEnabled()
-    threading.Thread(target=checkWebsiteEN).start()
-
-
-def checkWebsiteThreadDE():
-    threading.Thread(target=checkWebsiteDE).start()
+# check website Thread
+def checkWebsiteThread():
+    threading.Thread(target=checkWebsite).start()
 
 
 # save history
@@ -94,6 +74,12 @@ def history():
     history.append(httpOrHttpsEntry.get())
     with open(".\\iwoSource\\history.json", "w") as f:
         json.dump(history, f)
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
+    if options['options']['language'] == 'en':
+        statusLabel.config(text="History saved")
+    elif options['options']['language'] == 'de':
+        statusLabel.config(text="Verlauf gespeichert")
 
 
 # load history
@@ -104,67 +90,51 @@ def loadHistory():
     urlEntry.insert(0, history[0])
     httpOrHttpsEntry.delete(0, tk.END)
     httpOrHttpsEntry.insert(0, history[1])
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
+    if options['options']['language'] == 'en':
+        statusLabel.config(text="History loaded")
+    elif options['options']['language'] == 'de':
+        statusLabel.config(text="Verlauf geladen")
 
 
 # save history Thread
-def historyThreadEN():
-    statusLabel.config(text="History saved")
-    threading.Thread(target=history).start()
-
-
-def historyThreadDE():
-    statusLabel.config(text="Verlauf gespeichert")
+def historyThread():
     threading.Thread(target=history).start()
 
 
 # load history Thread
-def loadHistoryThreadEN():
-    statusLabel.config(text="History loaded")
+def loadHistoryThread():
     threading.Thread(target=loadHistory).start()
 
 
-def loadHistoryThreadDE():
-    statusLabel.config(text="Verlauf geladen")
-    threading.Thread(target=loadHistory).start()
-
-
-# clear all history EN
-def clearAllHistoryEN():
+# clear all history
+def clearAllHistory():
     with open(".\\iwoSource\\fullHistory.json", "w") as f:
         json.dump({"history": {}}, f, indent=4)
     with open(".\\iwoSource\\History.json", "w") as f:
         json.dump([], f, indent=4)
-    statusLabel.config(text="All history cleared")
-
-
-def clearAllHistoryDE():
-    with open(".\\iwoSource\\fullHistory.json", "w") as f:
-        json.dump({"history": {}}, f, indent=4)
-    with open(".\\iwoSource\\History.json", "w") as f:
-        json.dump([], f, indent=4)
-    statusLabel.config(text="Alle Verläufe gelöscht")
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
+    if options['options']['language'] == 'en':
+        statusLabel.config(text="All history cleared")
+    elif options['options']['language'] == 'de':
+        statusLabel.config(text="Alle Verlauf gelöscht")
 
 
 # get status for logs
 def status():
-    httpOrHttps = httpOrHttpsEntry.get()
-    httpOrHttpsL = httpOrHttps.lower()
+    httpOrHttps = httpOrHttpsEntry.get().lower()
     url = urlEntry.get()
     urlL = url.lower()
-    if httpOrHttpsL == "http":
-        if isWebsiteOnlineHTTP(urlL):
-            return 'online'
-        else:
-            return 'offline'
-    elif httpOrHttpsL == "https":
-        if isWebsiteOnlineHTTPS(urlL):
-            return 'online'
-        else:
-            return 'offline'
+    if isWebsiteOnline(urlL):
+        return 'online'
+    else:
+        return 'offline'
 
 
 # save history with date and time EN
-def historyWithDateAndTimeEN():
+def historyWithDateAndTime():
     if os.path.exists('.\\iwoSource\\fullHistory.json'):
         json_file = '.\\iwoSource\\fullHistory.json'
         with open(json_file, 'r+') as jfile:
@@ -180,7 +150,6 @@ def historyWithDateAndTimeEN():
                 "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
             }
         }
-        statusLabel.config(text="All history saved")
         with open(json_file, 'r+') as jfile:
             j = json.load(jfile)
             for k, v in json_data.items():
@@ -204,80 +173,12 @@ def historyWithDateAndTimeEN():
                 "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
             }
         }
-        statusLabel.config(text="All history saved")
         with open(json_file, 'r+') as jfile:
             j = json.load(jfile)
             for k, v in json_data.items():
                 j['history'][k] = v
             jfile.seek(0)
             json.dump(j, jfile, indent=4)
-        
-
-
-def historyWithDateAndTimeDE():
-    if os.path.exists('.\\iwoSource\\fullHistory.json'):
-        json_file = '.\\iwoSource\\fullHistory.json'
-        with open(json_file, 'r+') as jfile:
-            j = json.load(jfile)
-            data = j
-        i = len(data['history'])
-        i += 1
-        json_data = {
-            f"{i}": {
-                "url": urlEntry.get(),
-                "httpOrHttps": httpOrHttpsEntry.get(),
-                "status": status(),
-                "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
-            }
-        }
-        statusLabel.config(text="Alle Verläufe gespeichert")
-        with open(json_file, 'r+') as jfile:
-            j = json.load(jfile)
-            for k, v in json_data.items():
-                j['history'][k] = v
-            jfile.seek(0)
-            json.dump(j, jfile, indent=4)
-    else:
-        with open(".\\iwoSource\\fullHistory.json", "w") as f:
-            json.dump({"history": {}}, f, indent=4)
-        json_file = '.\\iwoSource\\fullHistory.json'
-        with open(json_file, 'r+') as jfile:
-            j = json.load(jfile)
-            data = j
-        i = len(data['history'])
-        i += 1
-        json_data = {
-            f"{i}": {
-                "url": urlEntry.get(),
-                "httpOrHttps": httpOrHttpsEntry.get(),
-                "status": status(),
-                "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
-            }
-        }
-        statusLabel.config(text="Alle Verläufe gespeichert")
-        with open(json_file, 'r+') as jfile:
-            j = json.load(jfile)
-            for k, v in json_data.items():
-                j['history'][k] = v
-            jfile.seek(0)
-            json.dump(j, jfile, indent=4)
-
-
-# save history with date and time Thread
-def historyWithDateAndTimeThreadEN():
-    threading.Thread(target=historyWithDateAndTimeEN).start()
-
-
-def historyWithDateAndTimeThreadDE():
-    threading.Thread(target=historyWithDateAndTimeDE).start()
-
-
-def optionsEnabled():
-    # open options.json and see which options are enabled
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        data = json.load(f)
-        if data["options"]['saveHistoryOnCheck'] == 1:
-            historyWithDateAndTimeThreadEN()
 
 
 # change language
@@ -294,18 +195,18 @@ def changeLanguage(lang):
         httpOrHttpsLabel.config(text="Is the website using http or https? : ")
         urlLabel.config(text="Enter the url: ")
         statusLabel.config(text="Waiting...")
-        checkButton.config(text="Check", command=checkWebsiteThreadEN)
+        checkButton.config(text="Check", command=checkWebsiteThread)
         clearButton.config(text="Clear", command=lambda: urlEntry.delete(
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Cleared"))
         saveLogsButton.config(
-            text="Save Logs", command=historyWithDateAndTimeThreadEN)
+            text="Save Logs", command=thread(historyWithDateAndTime))
         fileMenu.entryconfig(0, label="Open In Browser")
-        fileMenu.entryconfig(1, label="Save History", command=historyThreadEN)
+        fileMenu.entryconfig(1, label="Save History", command=historyThread)
         fileMenu.entryconfig(2, label="Load History",
-                             command=loadHistoryThreadEN)
+                             command=loadHistoryThread)
         fileMenu.entryconfig(3, label="View Logs", command=seeLogsEN)
         fileMenu.entryconfig(4, label="Clear All History",
-                             command=clearAllHistoryEN)
+                             command=clearAllHistory)
         fileMenu.entryconfig(6, label="Options", command=optionsEN)
         fileMenu.entryconfig(8, label="Exit", command=exit)
         helpMenu.entryconfig(0, label="About", command=aboutEN)
@@ -319,26 +220,26 @@ def changeLanguage(lang):
         httpOrHttpsLabel.config(text="Nutzt die Webseite http oder https? :")
         urlLabel.config(text="Url der Webseite: ")
         statusLabel.config(text="Warten...")
-        checkButton.config(text="Testen", command=checkWebsiteThreadDE)
+        checkButton.config(text="Testen", command=checkWebsiteThread)
         clearButton.config(text="Löschen", command=lambda: urlEntry.delete(
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Gelöscht"))
         saveLogsButton.config(text="In Logs speichern",
-                              command=historyWithDateAndTimeThreadDE)
+                              command=thread(historyWithDateAndTime))
         fileMenu.entryconfig(0, label="In Browser öffnen")
         fileMenu.entryconfig(1, label="Verlauf speichern",
-                             command=historyThreadDE)
+                             command=historyThread)
         fileMenu.entryconfig(2, label="Verlauf laden",
-                             command=loadHistoryThreadDE)
+                             command=loadHistoryThread)
         fileMenu.entryconfig(3, label="Logs ansehen", command=seeLogsDE)
         fileMenu.entryconfig(
-            4, label="Alle Verläufe löschen", command=clearAllHistoryDE)
+            4, label="Alle Verläufe löschen", command=clearAllHistory)
         fileMenu.entryconfig(6, label="Schließen")
         helpMenu.entryconfig(0, label="Über uns", command=aboutDE)
 
 
 # see logs EN
 def seeLogsEN():
-    root = tk.Tk()
+    root = tk.Toplevel()
     root.title("Press right click on a row to copy the url and method")
     root.geometry("670x350")
     root.iconbitmap(".\\iwoSource\\favicon.ico")
@@ -383,7 +284,7 @@ def seeLogsEN():
 
 # see logs EN
 def seeLogsDE():
-    root = tk.Tk()
+    root = tk.Toplevel()
     root.title("Rechtsklick auf eine Zeile um die Url und Methode zu kopieren")
     root.geometry("670x350")
     root.iconbitmap(".\\iwoSource\\favicon.ico")
@@ -422,16 +323,15 @@ def seeLogsDE():
         for i in data["history"]:
             tree.insert("", tk.END, text="", values=(
                 i, data["history"][i]["url"], data["history"][i]["httpOrHttps"], data["history"][i]["status"], data["history"][i]["dateAndTime"]))
-    tree.pack()
 
 
 def optionsEN():
     # save options
     def saveOptions():
         options = {
-            "options" : {
-                "language" : lang2,
-                "saveHistoryOnCheck" : saveHistoryOnCheck.get()
+            "options": {
+                "language": lang2,
+                "saveHistoryOnCheck": saveHistoryOnCheck.get()
             }
         }
         with open(".\\iwoSource\\options.json", "w") as f:
@@ -445,7 +345,7 @@ def optionsEN():
     with open(".\\iwoSource\\options.json", "r") as f:
         data = json.load(f)
         saveHistoryOnCheck.set(data["options"]["saveHistoryOnCheck"])
-        
+
     # options window
     optionsWindow = tk.Toplevel()
     optionsWindow.title("Options")
@@ -454,7 +354,8 @@ def optionsEN():
     optionsWindow.resizable(False, False)
 
     # check mark boxes to enable or disable the options
-    checkMarkBox1 = tk.Checkbutton(optionsWindow, text="Save history on every check", variable=saveHistoryOnCheck, onvalue=1, offvalue=0, command=saveHistoryOnCheck)
+    checkMarkBox1 = tk.Checkbutton(optionsWindow, text="Save history on every check",
+                                   variable=saveHistoryOnCheck, onvalue=1, offvalue=0, command=saveHistoryOnCheck)
     checkMarkBox1.place(x=10, y=10)
 
     # add save button to save the options
@@ -481,13 +382,8 @@ if __name__ == "__main__":
 
     # cli
     if sys.argv[1] == "cli":
-        if sys.argv[3] == "http":
-            if isWebsiteOnlineHTTP(sys.argv[2]):
-                print("Website is online")
-            else:
-                print("Website is offline")
-        elif sys.argv[3] == "https":
-            if isWebsiteOnlineHTTPS(sys.argv[2]):
+        if sys.argv[3] == "http" or sys.argv[3] == "https":
+            if isWebsiteOnline(sys.argv[2]):
                 print("Website is online")
             else:
                 print("Website is offline")
@@ -530,7 +426,7 @@ if __name__ == "__main__":
 
         # Check Button
         checkButton = ttk.Button(
-            root, text="Check", command=checkWebsiteThreadEN)
+            root, text="Check", command=checkWebsiteThread)
         checkButton.grid(row=2, column=0, padx=5, pady=5)
 
         # Status Label
@@ -544,7 +440,7 @@ if __name__ == "__main__":
 
         # save to logs button
         saveLogsButton = ttk.Button(
-            root, text="Save to logs", command=historyWithDateAndTimeThreadEN)
+            root, text="Save to logs", command=lambda: thread(historyWithDateAndTime))
         saveLogsButton.grid(row=3, column=1, padx=5, pady=5)
 
         # Menu
@@ -556,10 +452,10 @@ if __name__ == "__main__":
         menu.add_cascade(label="File", menu=fileMenu)
         fileMenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
             f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
-        fileMenu.add_command(label='Save History', command=historyThreadEN)
-        fileMenu.add_command(label='Load History', command=loadHistoryThreadEN)
+        fileMenu.add_command(label='Save History', command=historyThread)
+        fileMenu.add_command(label='Load History', command=loadHistoryThread)
         fileMenu.add_command(label="See logs", command=seeLogsEN)
-        fileMenu.add_command(label="Clear logs", command=clearAllHistoryEN)
+        fileMenu.add_command(label="Clear logs", command=clearAllHistory)
         fileMenu.add_separator()
         fileMenu.add_command(label='Options', command=optionsEN)
         fileMenu.add_separator()
