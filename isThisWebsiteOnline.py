@@ -74,11 +74,6 @@ def checkWebsite():
             statusLabel.config(text="Bitte geben Sie http oder https ein")
 
 
-# check website Thread
-def checkWebsiteThread():
-    threading.Thread(target=checkWebsite).start()
-
-
 # save history
 def history():
     history = []
@@ -108,16 +103,6 @@ def loadHistory():
         statusLabel.config(text="History loaded")
     elif options['options']['language'] == 'de':
         statusLabel.config(text="Verlauf geladen")
-
-
-# save history Thread
-def historyThread():
-    threading.Thread(target=history).start()
-
-
-# load history Thread
-def loadHistoryThread():
-    threading.Thread(target=loadHistory).start()
 
 
 # clear all history
@@ -205,15 +190,15 @@ def changeLanguage(lang):
         httpOrHttpsLabel.config(text="Is the website using http or https? : ")
         urlLabel.config(text="Enter the url: ")
         statusLabel.config(text="Waiting...")
-        checkButton.config(text="Check", command=checkWebsiteThread)
+        checkButton.config(text="Check", command=lambda: thread(checkWebsite))
         clearButton.config(text="Clear", command=lambda: urlEntry.delete(
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Cleared"))
         saveLogsButton.config(
             text="Save Logs", command=lambda: thread(historyWithDateAndTime))
         fileMenu.entryconfig(0, label="Open In Browser")
-        fileMenu.entryconfig(1, label="Save History", command=historyThread)
+        fileMenu.entryconfig(1, label="Save History", command=lambda: thread(history))
         fileMenu.entryconfig(2, label="Load History",
-                             command=loadHistoryThread)
+                             command=lambda: thread(loadHistory))
         fileMenu.entryconfig(3, label="View Logs", command=seeLogs)
         fileMenu.entryconfig(4, label="Clear All History",
                              command=clearAllHistory)
@@ -230,16 +215,16 @@ def changeLanguage(lang):
         httpOrHttpsLabel.config(text="Nutzt die Webseite http oder https? :")
         urlLabel.config(text="Url der Webseite: ")
         statusLabel.config(text="Warten...")
-        checkButton.config(text="Testen", command=checkWebsiteThread)
+        checkButton.config(text="Testen", command=lambda: thread(checkWebsite))
         clearButton.config(text="Löschen", command=lambda: urlEntry.delete(
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Gelöscht"))
         saveLogsButton.config(text="In Logs speichern",
                               command=lambda: thread(historyWithDateAndTime))
         fileMenu.entryconfig(0, label="In Browser öffnen")
         fileMenu.entryconfig(1, label="Verlauf speichern",
-                             command=historyThread)
+                             command=lambda: thread(history))
         fileMenu.entryconfig(2, label="Verlauf laden",
-                             command=loadHistoryThread)
+                             command=lambda: thread(loadHistory))
         fileMenu.entryconfig(3, label="Logs ansehen", command=seeLogs)
         fileMenu.entryconfig(
             4, label="Alle Verläufe löschen", command=clearAllHistory)
@@ -468,7 +453,7 @@ if __name__ == "__main__":
 
         # Check Button
         checkButton = ttk.Button(
-            root, text="Check", command=checkWebsiteThread)
+            root, text="Check", command=lambda: thread(checkWebsite))
         checkButton.grid(row=2, column=0, padx=5, pady=5)
 
         # Status Label
@@ -494,8 +479,8 @@ if __name__ == "__main__":
         menu.add_cascade(label="File", menu=fileMenu)
         fileMenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
             f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
-        fileMenu.add_command(label='Save History', command=historyThread)
-        fileMenu.add_command(label='Load History', command=loadHistoryThread)
+        fileMenu.add_command(label='Save History', command=lambda: thread(history))
+        fileMenu.add_command(label='Load History', command=lambda: thread(loadHistory))
         fileMenu.add_command(label="See logs", command=seeLogs)
         fileMenu.add_command(label="Clear logs", command=clearAllHistory)
         fileMenu.add_separator()
