@@ -14,10 +14,10 @@ from tkinter import ttk
 # TODO optimization
 
 # high priority:
+# TODO check for updates (using github api)
 # TODO
 
 # medium priority:
-# TODO check for updates (using github api)
 # TODO think of TODOS
 
 # lower priority:
@@ -56,6 +56,24 @@ if os.path.exists('.\\iwoSource\\History.json'):
 else:
     with open(".\\iwoSource\\History.json", "w") as f:
         json.dump([], f, indent=4)
+
+
+def checkUpdate():
+    try:
+        r = httpx.get('https://api.github.com/repos/jinx420/isThisWebsiteOnline/releases/latest')
+        if r.status_code == 200:
+            latestVersion = r.json()['tag_name']
+            if latestVersion != 'v0.2.1':
+                if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
+                    webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
+                else:
+                    pass
+            else:
+                messagebox.showinfo('Update', 'You are using the latest version')
+        else:
+            pass
+    except ValueError:
+        print('Error: Could not check for updates')
 
 
 def thread(func):
@@ -220,7 +238,9 @@ def changeLanguage(lang):
         miscSubMenu.entryconfig(0, label="Open in Browser")
 
         # help menu
-        helpMenu.entryconfig(0, label="About", command=about)
+        helpMenu.entryconfig(0, label="Check for update", command=checkUpdate)
+        helpMenu.entryconfig(1, label="About", command=about)
+
     elif lang == "de":
         with open('.\\iwoSource\\options.json', 'r+') as f:
             data = json.load(f)
@@ -255,7 +275,8 @@ def changeLanguage(lang):
         miscSubMenu.entryconfig(0, label="Im Browser öffnen")
 
         # help menu
-        helpMenu.entryconfig(0, label="Über", command=about)
+        helpMenu.entryconfig(0, label="Nach Updates suchen", command=checkUpdate)
+        helpMenu.entryconfig(1, label="Über", command=about)
 
 
 # see logs
@@ -528,6 +549,7 @@ if __name__ == "__main__":
         # Help Menu
         helpMenu = tk.Menu(menu, tearoff=False)
         menu.add_cascade(label="Help", menu=helpMenu)
+        helpMenu.add_command(label='Check for update', command=checkUpdate)
         helpMenu.add_command(label="About", command=about)
 
         # Language Menu
