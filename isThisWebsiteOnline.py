@@ -396,10 +396,10 @@ def about():
         options2 = json.load(f)
     if options2['options']['language'] == 'en':
         messagebox.showinfo("About", "A simple program to check if a website is online or not.\n\nFeatures:\n1. Save and load history (only one item can be saved at a time)\n2. Open in browser\n3. CLI and GUI\n"
-                            "4. Multiple languages\n5. Multithreading\n")
+                            "4. Multiple languages\n5. Multithreading\n6. Table to show the history and status of past checks\n")
     elif options2['options']['language'] == 'de':
         messagebox.showinfo("Über uns", "Ein einfaches Programm um zu überprüfen ob eine Webseite online ist oder nicht.\n\nFunktionen:\n1. Verlauf speichern und laden (nur ein Eintrag kann gespeichert werden)\n2. In Browser öffnen\n3. CLI und GUI\n"
-                            "4. Mehrere Sprachen\n5. Multithreading\n")
+                            "4. Mehrere Sprachen\n5. Multithreading\n6. Tabelle um den Verlauf und den Status von vergangenen Checks anzuzeigen\n")
 
 
 # main
