@@ -17,6 +17,7 @@ from tkinter import ttk
 # TODO check if every file and folder exists
 
 # medium priority:
+# TODO check for updates
 # TODO change changeLanguage()
 # TODO graph showing % of online and offline
 # TODO add more options (like: file path for logs, folder etc.)
