@@ -196,7 +196,8 @@ def changeLanguage(lang):
         saveLogsButton.config(
             text="Save Logs", command=lambda: thread(historyWithDateAndTime))
         fileMenu.entryconfig(0, label="Open In Browser")
-        fileMenu.entryconfig(1, label="Save History", command=lambda: thread(history))
+        fileMenu.entryconfig(1, label="Save History",
+                             command=lambda: thread(history))
         fileMenu.entryconfig(2, label="Load History",
                              command=lambda: thread(loadHistory))
         fileMenu.entryconfig(3, label="View Logs", command=seeLogs)
@@ -479,8 +480,10 @@ if __name__ == "__main__":
         menu.add_cascade(label="File", menu=fileMenu)
         fileMenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
             f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
-        fileMenu.add_command(label='Save History', command=lambda: thread(history))
-        fileMenu.add_command(label='Load History', command=lambda: thread(loadHistory))
+        fileMenu.add_command(label='Save History',
+                             command=lambda: thread(history))
+        fileMenu.add_command(label='Load History',
+                             command=lambda: thread(loadHistory))
         fileMenu.add_command(label="See logs", command=seeLogs)
         fileMenu.add_command(label="Clear logs", command=clearAllHistory)
         fileMenu.add_separator()
