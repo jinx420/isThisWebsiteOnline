@@ -12,13 +12,13 @@ from tkinter import ttk
 
 # highest priority:
 # TODO optimization
-# TODO graph showing % of online and offline
 
 # high priority:
 # TODO
 
 # medium priority:
 # TODO change changeLanguage()
+# TODO graph showing % of online and offline
 # TODO think of TODOS
 
 # lower priority:
