@@ -14,7 +14,7 @@ from tkinter import ttk
 # TODO optimization
 
 # high priority:
-# TODO check if every file and folder exists
+# TODO 
 
 # medium priority:
 # TODO check for updates (using github api)
@@ -30,6 +30,31 @@ from tkinter import ttk
 # TODO change changeLanguage()
 # TODO add more languages (unlikely)
 # TODO maybe add a status text to display "settings saved"
+
+
+# check if critical files and folders exist
+if os.path.exists('.\\iwoSource'):
+    pass
+else:
+    os.mkdir('.\\iwoSource')
+
+if os.path.exists('.\\iwoSource\\options.json'):
+    pass
+else:
+    with open(".\\iwoSource\\options.json", "w") as f:
+        json.dump({"options": {"language": "en", "saveHistoryOnCheck": 0}}, f, indent=4)
+
+if os.path.exists('.\\iwoSource\\fullHistory.json'):
+    pass
+else:
+    with open(".\\iwoSource\\fullHistory.json", "w") as f:
+        json.dump({"history": {}}, f, indent=4)
+
+if os.path.exists('.\\iwoSource\\History.json'):
+    pass
+else:
+    with open(".\\iwoSource\\History.json", "w") as f:
+        json.dump([], f, indent=4)
 
 
 def thread(func):
@@ -134,50 +159,26 @@ def status():
 
 # save history with date and time
 def historyWithDateAndTime():
-    if os.path.exists('.\\iwoSource\\fullHistory.json'):
-        json_file = '.\\iwoSource\\fullHistory.json'
-        with open(json_file, 'r+') as jfile:
-            j = json.load(jfile)
-            data = j
-        i = len(data['history'])
-        i += 1
-        json_data = {
-            f"{i}": {
-                "url": urlEntry.get(),
-                "httpOrHttps": httpOrHttpsEntry.get(),
-                "status": status(),
-                "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
-            }
+    json_file = '.\\iwoSource\\fullHistory.json'
+    with open(json_file, 'r+') as jfile:
+        j = json.load(jfile)
+        data = j
+    i = len(data['history'])
+    i += 1
+    json_data = {
+        f"{i}": {
+            "url": urlEntry.get(),
+            "httpOrHttps": httpOrHttpsEntry.get(),
+            "status": status(),
+            "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
         }
-        with open(json_file, 'r+') as jfile:
-            j = json.load(jfile)
-            for k, v in json_data.items():
-                j['history'][k] = v
-            jfile.seek(0)
-            json.dump(j, jfile, indent=4)
-    else:
-        with open(".\\iwoSource\\fullHistory.json", "w") as f:
-            json.dump({"history": {}}, f, indent=4)
-        json_file = '.\\iwoSource\\fullHistory.json'
-        with open(json_file, 'r+') as jfile:
-            j = json.load(jfile)
-            data = j
-        i = len(data['history'])
-        i += 1
-        json_data = {
-            f"{i}": {
-                "url": urlEntry.get(),
-                "httpOrHttps": httpOrHttpsEntry.get(),
-                "status": status(),
-                "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
-            }
-        }
-        with open(json_file, 'r+') as jfile:
-            j = json.load(jfile)
-            for k, v in json_data.items():
-                j['history'][k] = v
-            jfile.seek(0)
-            json.dump(j, jfile, indent=4)
+    }
+    with open(json_file, 'r+') as jfile:
+        j = json.load(jfile)
+        for k, v in json_data.items():
+            j['history'][k] = v
+        jfile.seek(0)
+        json.dump(j, jfile, indent=4)
 
 
 # change language
@@ -199,7 +200,7 @@ def changeLanguage(lang):
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Cleared"))
         saveLogsButton.config(
             text="Save Logs", command=lambda: thread(historyWithDateAndTime))
-        
+
         # file menu
         fileMenu.entryconfig(0, label="History")
         fileMenu.entryconfig(1, label="Misc")
@@ -209,14 +210,14 @@ def changeLanguage(lang):
         # History sub menu
         historysubMenu.entryconfig(0, label="Save History")
         historysubMenu.entryconfig(1, label="Load History",
-                             command=lambda: thread(loadHistory))
+                                   command=lambda: thread(loadHistory))
         historysubMenu.entryconfig(2, label="View Logs", command=seeLogs)
         historysubMenu.entryconfig(3, label="Clear All History",
-                             command=clearAllHistory)
-        
+                                   command=clearAllHistory)
+
         # misc sub menu
         miscSubMenu.entryconfig(0, label="Open in Browser")
-        
+
         # help menu
         helpMenu.entryconfig(0, label="About", command=about)
     elif lang == "de":
@@ -234,7 +235,7 @@ def changeLanguage(lang):
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Gelöscht"))
         saveLogsButton.config(text="In Logs speichern",
                               command=lambda: thread(historyWithDateAndTime))
-        
+
         # file menu
         fileMenu.entryconfig(0, label="Verlauf")
         fileMenu.entryconfig(1, label="Verschiedenes")
@@ -244,11 +245,11 @@ def changeLanguage(lang):
         # sub menu
         historysubMenu.entryconfig(0, label="Verlauf speichern")
         historysubMenu.entryconfig(1, label="Verlauf laden",
-                             command=lambda: thread(loadHistory))
+                                   command=lambda: thread(loadHistory))
         historysubMenu.entryconfig(2, label="Logs ansehen", command=seeLogs)
         historysubMenu.entryconfig(3, label="Alle Verläufe löschen",
-                             command=clearAllHistory)
-        
+                                   command=clearAllHistory)
+
         # misc sub menu
         miscSubMenu.entryconfig(0, label="Im Browser öffnen")
 
@@ -324,6 +325,7 @@ def seeLogs():
                 httpOrHttpsEntry.insert(0, httpOrHttps)
             except IndexError:
                 pass
+
         tree.bind("<Button-3>", popup)
         tree["columns"] = ("one", "two", "three", "four", "five")
         tree.column("#0", width=0, stretch=tk.NO)
@@ -500,17 +502,17 @@ if __name__ == "__main__":
         # File Menu
         fileMenu = tk.Menu(menu, tearoff=False)
         menu.add_cascade(label="File", menu=fileMenu)
-        
+
         # add History submenu
         historysubMenu = tk.Menu(fileMenu, tearoff=False)
         fileMenu.add_cascade(label="History", menu=historysubMenu)
         historysubMenu.add_command(label='Save History',
-                             command=lambda: thread(history))
+                                   command=lambda: thread(history))
         historysubMenu.add_command(label='Load History',
-                             command=lambda: thread(loadHistory))
+                                   command=lambda: thread(loadHistory))
         historysubMenu.add_command(label="See logs", command=seeLogs)
         historysubMenu.add_command(label="Clear logs", command=clearAllHistory)
-        
+
         # add misc submenu
         miscSubMenu = tk.Menu(fileMenu, tearoff=False)
         fileMenu.add_cascade(label="Misc", menu=miscSubMenu)
