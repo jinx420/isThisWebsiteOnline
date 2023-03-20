@@ -1,3 +1,4 @@
+import os
 from tkinter import messagebox
 import webbrowser
 import httpx
@@ -54,10 +55,9 @@ def checkWebsiteEN():
         else:
             statusLabel.config(text="Website is offline")
     else:
-        statusLabel.config(text="Please enter http or https")
+        statusLabel.config(text="Please enter http or https")   
 
 
-# check website DE
 def checkWebsiteDE():
     httpOrHttps = httpOrHttpsEntry.get()
     httpOrHttpsL = httpOrHttps.lower()
@@ -79,10 +79,10 @@ def checkWebsiteDE():
 
 # check website ThreadEN
 def checkWebsiteThreadEN():
+    optionsEnabled()
     threading.Thread(target=checkWebsiteEN).start()
 
 
-# check website ThreadDE
 def checkWebsiteThreadDE():
     threading.Thread(target=checkWebsiteDE).start()
 
@@ -165,51 +165,102 @@ def status():
 
 # save history with date and time EN
 def historyWithDateAndTimeEN():
-    json_file = '.\\iwoSource\\fullHistory.json'
-    with open(json_file, 'r+') as jfile:
-        j = json.load(jfile)
-        data = j
-    i = len(data['history'])
-    i += 1
-    json_data = {
-        f"{i}": {
-            "url": urlEntry.get(),
-            "httpOrHttps": httpOrHttpsEntry.get(),
-            "status": status(),
-            "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
+    if os.path.exists('.\\iwoSource\\fullHistory.json'):
+        json_file = '.\\iwoSource\\fullHistory.json'
+        with open(json_file, 'r+') as jfile:
+            j = json.load(jfile)
+            data = j
+        i = len(data['history'])
+        i += 1
+        json_data = {
+            f"{i}": {
+                "url": urlEntry.get(),
+                "httpOrHttps": httpOrHttpsEntry.get(),
+                "status": status(),
+                "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
+            }
         }
-    }
-    statusLabel.config(text="All history saved")
-    with open(json_file, 'r+') as jfile:
-        j = json.load(jfile)
-        for k, v in json_data.items():
-            j['history'][k] = v
-        jfile.seek(0)
-        json.dump(j, jfile, indent=4)
+        statusLabel.config(text="All history saved")
+        with open(json_file, 'r+') as jfile:
+            j = json.load(jfile)
+            for k, v in json_data.items():
+                j['history'][k] = v
+            jfile.seek(0)
+            json.dump(j, jfile, indent=4)
+    else:
+        with open(".\\iwoSource\\fullHistory.json", "w") as f:
+            json.dump({"history": {}}, f, indent=4)
+        json_file = '.\\iwoSource\\fullHistory.json'
+        with open(json_file, 'r+') as jfile:
+            j = json.load(jfile)
+            data = j
+        i = len(data['history'])
+        i += 1
+        json_data = {
+            f"{i}": {
+                "url": urlEntry.get(),
+                "httpOrHttps": httpOrHttpsEntry.get(),
+                "status": status(),
+                "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
+            }
+        }
+        statusLabel.config(text="All history saved")
+        with open(json_file, 'r+') as jfile:
+            j = json.load(jfile)
+            for k, v in json_data.items():
+                j['history'][k] = v
+            jfile.seek(0)
+            json.dump(j, jfile, indent=4)
+        
 
 
 def historyWithDateAndTimeDE():
-    json_file = '.\\iwoSource\\fullHistory.json'
-    with open(json_file, 'r+') as jfile:
-        j = json.load(jfile)
-        data = j
-    i = len(data['history'])
-    i += 1
-    json_data = {
-        f"{i}": {
-            "url": urlEntry.get(),
-            "httpOrHttps": httpOrHttpsEntry.get(),
-            "status": status(),
-            "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
+    if os.path.exists('.\\iwoSource\\fullHistory.json'):
+        json_file = '.\\iwoSource\\fullHistory.json'
+        with open(json_file, 'r+') as jfile:
+            j = json.load(jfile)
+            data = j
+        i = len(data['history'])
+        i += 1
+        json_data = {
+            f"{i}": {
+                "url": urlEntry.get(),
+                "httpOrHttps": httpOrHttpsEntry.get(),
+                "status": status(),
+                "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
+            }
         }
-    }
-    statusLabel.config(text="Alle Verläufe gespeichert")
-    with open(json_file, 'r+') as jfile:
-        j = json.load(jfile)
-        for k, v in json_data.items():
-            j['history'][k] = v
-        jfile.seek(0)
-        json.dump(j, jfile, indent=4)
+        statusLabel.config(text="Alle Verläufe gespeichert")
+        with open(json_file, 'r+') as jfile:
+            j = json.load(jfile)
+            for k, v in json_data.items():
+                j['history'][k] = v
+            jfile.seek(0)
+            json.dump(j, jfile, indent=4)
+    else:
+        with open(".\\iwoSource\\fullHistory.json", "w") as f:
+            json.dump({"history": {}}, f, indent=4)
+        json_file = '.\\iwoSource\\fullHistory.json'
+        with open(json_file, 'r+') as jfile:
+            j = json.load(jfile)
+            data = j
+        i = len(data['history'])
+        i += 1
+        json_data = {
+            f"{i}": {
+                "url": urlEntry.get(),
+                "httpOrHttps": httpOrHttpsEntry.get(),
+                "status": status(),
+                "dateAndTime": datetime.datetime.now().strftime("%H:%M:%S %d/%m")
+            }
+        }
+        statusLabel.config(text="Alle Verläufe gespeichert")
+        with open(json_file, 'r+') as jfile:
+            j = json.load(jfile)
+            for k, v in json_data.items():
+                j['history'][k] = v
+            jfile.seek(0)
+            json.dump(j, jfile, indent=4)
 
 
 # save history with date and time Thread
@@ -221,9 +272,25 @@ def historyWithDateAndTimeThreadDE():
     threading.Thread(target=historyWithDateAndTimeDE).start()
 
 
+def optionsEnabled():
+    # open options.json and see which options are enabled
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        data = json.load(f)
+        if data["options"]['saveHistoryOnCheck'] == 1:
+            historyWithDateAndTimeThreadEN()
+
+
 # change language
 def changeLanguage(lang):
+    global lang2
     if lang == "en":
+        with open('.\\iwoSource\\options.json', 'r+') as f:
+            data = json.load(f)
+            data["options"]['language'] = "en"
+            f.seek(0)
+            json.dump(data, f, indent=4)
+
+        lang2 = lang
         httpOrHttpsLabel.config(text="Is the website using http or https? : ")
         urlLabel.config(text="Enter the url: ")
         statusLabel.config(text="Waiting...")
@@ -239,9 +306,16 @@ def changeLanguage(lang):
         fileMenu.entryconfig(3, label="View Logs", command=seeLogsEN)
         fileMenu.entryconfig(4, label="Clear All History",
                              command=clearAllHistoryEN)
-        fileMenu.entryconfig(6, label="Exit")
+        fileMenu.entryconfig(6, label="Options", command=optionsEN)
+        fileMenu.entryconfig(8, label="Exit", command=exit)
         helpMenu.entryconfig(0, label="About", command=aboutEN)
     elif lang == "de":
+        with open('.\\iwoSource\\options.json', 'r+') as f:
+            data = json.load(f)
+            data["options"]['language'] = "de"
+            f.seek(0)
+            json.dump(data, f, indent=4)
+        lang2 = lang
         httpOrHttpsLabel.config(text="Nutzt die Webseite http oder https? :")
         urlLabel.config(text="Url der Webseite: ")
         statusLabel.config(text="Warten...")
@@ -351,6 +425,43 @@ def seeLogsDE():
     tree.pack()
 
 
+def optionsEN():
+    # save options
+    def saveOptions():
+        options = {
+            "options" : {
+                "language" : lang2,
+                "saveHistoryOnCheck" : saveHistoryOnCheck.get()
+            }
+        }
+        with open(".\\iwoSource\\options.json", "w") as f:
+            json.dump(options, f, indent=4)
+        optionsWindow.destroy()
+
+    # get the value of the check mark box
+    saveHistoryOnCheck = tk.IntVar()  # 0 = off, 1 = on
+
+    # get the options from the options.json file
+    with open(".\\iwoSource\\options.json", "r") as f:
+        data = json.load(f)
+        saveHistoryOnCheck.set(data["options"]["saveHistoryOnCheck"])
+        
+    # options window
+    optionsWindow = tk.Toplevel()
+    optionsWindow.title("Options")
+    optionsWindow.geometry("300x200")
+    optionsWindow.iconbitmap(".\\iwoSource\\favicon.ico")
+    optionsWindow.resizable(False, False)
+
+    # check mark boxes to enable or disable the options
+    checkMarkBox1 = tk.Checkbutton(optionsWindow, text="Save history on every check", variable=saveHistoryOnCheck, onvalue=1, offvalue=0, command=saveHistoryOnCheck)
+    checkMarkBox1.place(x=10, y=10)
+
+    # add save button to save the options
+    saveButton = tk.Button(optionsWindow, text="Save", command=saveOptions)
+    saveButton.place(x=10, y=170)
+
+
 def aboutEN():
     messagebox.showinfo("About", "A simple program to check if a website is online or not.\n\nFeatures:\n1. Save and load history (only one item can be saved at a time)\n2. Open in browser\n3. CLI and GUI\n"
                         "4. Multiple languages\n5. Multithreading\n")
@@ -392,8 +503,6 @@ if __name__ == "__main__":
         root.geometry("670x350")
         root.iconbitmap(".\\iwoSource\\favicon.ico")
         root.resizable(False, False)
-
-        changeLanguage('en')
 
         # image
         image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
@@ -452,6 +561,8 @@ if __name__ == "__main__":
         fileMenu.add_command(label="See logs", command=seeLogsEN)
         fileMenu.add_command(label="Clear logs", command=clearAllHistoryEN)
         fileMenu.add_separator()
+        fileMenu.add_command(label='Options', command=optionsEN)
+        fileMenu.add_separator()
         fileMenu.add_command(label="Exit", command=root.destroy)
 
         # Help Menu
@@ -463,9 +574,9 @@ if __name__ == "__main__":
         languageMenu = tk.Menu(menu, tearoff=False)
         menu.add_cascade(label="Language", menu=languageMenu)
         languageMenu.add_command(
-            label="English", command=lambda: changeLanguage("en"))
+            label="English", command=lambda: changeLanguage('en'))
         languageMenu.add_command(
-            label="Deutsch", command=lambda: changeLanguage("de"))
+            label="Deutsch", command=lambda: changeLanguage('de'))
 
         # MinSize and MaxSize
         root.update()
@@ -476,6 +587,12 @@ if __name__ == "__main__":
         # Topmost
         root.attributes("-topmost", True)
         root.attributes("-topmost", False)
+
+        # change default language
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options = json.load(f)
+            lang2 = options['options']['language']
+        changeLanguage(lang2)
 
         # Mainloop
         root.mainloop()
