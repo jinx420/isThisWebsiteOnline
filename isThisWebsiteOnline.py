@@ -12,6 +12,8 @@ from tkinter import ttk
 
 # TODO optimization
 # TODO graph showing % of online and offline
+
+# lower priority:
 # TODO maybe add a status text to display "settings saved"
 # TODO think of TODOS
 
@@ -236,7 +238,7 @@ def changeLanguage(lang):
         helpMenu.entryconfig(0, label="Über uns", command=about)
 
 
-# see logs 
+# see logs
 def seeLogs():
     with open('.\\iwoSource\\options.json', 'r') as f:
         options = json.load(f)
