@@ -205,7 +205,7 @@ def changeLanguage(lang):
         fileMenu.entryconfig(4, label="Clear All History",
                              command=clearAllHistory)
         fileMenu.entryconfig(6, label="Options", command=optionsWindow)
-        fileMenu.entryconfig(8, label="Exit", command=exit)
+        fileMenu.entryconfig(8, label="Exit", command=root.destroy)
         helpMenu.entryconfig(0, label="About", command=about)
     elif lang == "de":
         with open('.\\iwoSource\\options.json', 'r+') as f:
@@ -230,7 +230,8 @@ def changeLanguage(lang):
         fileMenu.entryconfig(3, label="Logs ansehen", command=seeLogs)
         fileMenu.entryconfig(
             4, label="Alle Verläufe löschen", command=clearAllHistory)
-        fileMenu.entryconfig(6, label="Schließen")
+        fileMenu.entryconfig(6, label="Optionen", command=optionsWindow)
+        fileMenu.entryconfig(8, label="Beenden", command=root.destroy)
         helpMenu.entryconfig(0, label="Über uns", command=about)
 
 
