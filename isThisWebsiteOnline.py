@@ -120,7 +120,7 @@ def clearAllHistory():
     if options['options']['language'] == 'en':
         statusLabel.config(text="All history cleared")
     elif options['options']['language'] == 'de':
-        statusLabel.config(text="Alle Verlauf gelöscht")
+        statusLabel.config(text="Alle Verläufe gelöscht")
 
 
 # get status for logs
@@ -199,16 +199,25 @@ def changeLanguage(lang):
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Cleared"))
         saveLogsButton.config(
             text="Save Logs", command=lambda: thread(historyWithDateAndTime))
-        fileMenu.entryconfig(0, label="Open In Browser")
-        fileMenu.entryconfig(1, label="Save History",
-                             command=lambda: thread(history))
-        fileMenu.entryconfig(2, label="Load History",
+        
+        # file menu
+        fileMenu.entryconfig(0, label="History")
+        fileMenu.entryconfig(1, label="Misc")
+        fileMenu.entryconfig(3, label="Options", command=optionsWindow)
+        fileMenu.entryconfig(5, label="Exit", command=root.destroy)
+
+        # History sub menu
+        historysubMenu.entryconfig(0, label="Save History")
+        historysubMenu.entryconfig(1, label="Load History",
                              command=lambda: thread(loadHistory))
-        fileMenu.entryconfig(3, label="View Logs", command=seeLogs)
-        fileMenu.entryconfig(4, label="Clear All History",
+        historysubMenu.entryconfig(2, label="View Logs", command=seeLogs)
+        historysubMenu.entryconfig(3, label="Clear All History",
                              command=clearAllHistory)
-        fileMenu.entryconfig(6, label="Options", command=optionsWindow)
-        fileMenu.entryconfig(8, label="Exit", command=root.destroy)
+        
+        # misc sub menu
+        miscSubMenu.entryconfig(0, label="Open in Browser")
+        
+        # help menu
         helpMenu.entryconfig(0, label="About", command=about)
     elif lang == "de":
         with open('.\\iwoSource\\options.json', 'r+') as f:
@@ -225,17 +234,26 @@ def changeLanguage(lang):
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Gelöscht"))
         saveLogsButton.config(text="In Logs speichern",
                               command=lambda: thread(historyWithDateAndTime))
-        fileMenu.entryconfig(0, label="In Browser öffnen")
-        fileMenu.entryconfig(1, label="Verlauf speichern",
-                             command=lambda: thread(history))
-        fileMenu.entryconfig(2, label="Verlauf laden",
+        
+        # file menu
+        fileMenu.entryconfig(0, label="Verlauf")
+        fileMenu.entryconfig(1, label="Verschiedenes")
+        fileMenu.entryconfig(3, label="Optionen", command=optionsWindow)
+        fileMenu.entryconfig(5, label="Schließen", command=root.destroy)
+
+        # sub menu
+        historysubMenu.entryconfig(0, label="Verlauf speichern")
+        historysubMenu.entryconfig(1, label="Verlauf laden",
                              command=lambda: thread(loadHistory))
-        fileMenu.entryconfig(3, label="Logs ansehen", command=seeLogs)
-        fileMenu.entryconfig(
-            4, label="Alle Verläufe löschen", command=clearAllHistory)
-        fileMenu.entryconfig(6, label="Optionen", command=optionsWindow)
-        fileMenu.entryconfig(8, label="Beenden", command=root.destroy)
-        helpMenu.entryconfig(0, label="Über uns", command=about)
+        historysubMenu.entryconfig(2, label="Logs ansehen", command=seeLogs)
+        historysubMenu.entryconfig(3, label="Alle Verläufe löschen",
+                             command=clearAllHistory)
+        
+        # misc sub menu
+        miscSubMenu.entryconfig(0, label="Im Browser öffnen")
+
+        # help menu
+        helpMenu.entryconfig(0, label="Über", command=about)
 
 
 # see logs
@@ -482,14 +500,23 @@ if __name__ == "__main__":
         # File Menu
         fileMenu = tk.Menu(menu, tearoff=False)
         menu.add_cascade(label="File", menu=fileMenu)
-        fileMenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
-            f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
-        fileMenu.add_command(label='Save History',
+        
+        # add History submenu
+        historysubMenu = tk.Menu(fileMenu, tearoff=False)
+        fileMenu.add_cascade(label="History", menu=historysubMenu)
+        historysubMenu.add_command(label='Save History',
                              command=lambda: thread(history))
-        fileMenu.add_command(label='Load History',
+        historysubMenu.add_command(label='Load History',
                              command=lambda: thread(loadHistory))
-        fileMenu.add_command(label="See logs", command=seeLogs)
-        fileMenu.add_command(label="Clear logs", command=clearAllHistory)
+        historysubMenu.add_command(label="See logs", command=seeLogs)
+        historysubMenu.add_command(label="Clear logs", command=clearAllHistory)
+        
+        # add misc submenu
+        miscSubMenu = tk.Menu(fileMenu, tearoff=False)
+        fileMenu.add_cascade(label="Misc", menu=miscSubMenu)
+        miscSubMenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
+            f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
+
         fileMenu.add_separator()
         fileMenu.add_command(label='Options', command=optionsWindow)
         fileMenu.add_separator()
