@@ -18,15 +18,16 @@ from tkinter import ttk
 
 # medium priority:
 # TODO check for updates (using github api)
-# TODO change changeLanguage()
-# TODO graph showing % of online and offline
-# TODO add more options (like: file path for logs, folder etc.)
 # TODO think of TODOS
 
 # lower priority:
+# TODO add more options (like: file path for logs, folder etc.)
+# TODO graph showing % of online and offline
 # TODO add a button to open the logs
 
 # lowest priority:
+# TODO change changeLanguage()
+# TODO add more languages (unlikely)
 # TODO maybe add a status text to display "settings saved"
 
 
