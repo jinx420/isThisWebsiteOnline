@@ -192,7 +192,7 @@ def changeLanguage(lang):
         httpOrHttpsLabel.config(text="Is the website using http or https? : ")
         urlLabel.config(text="Enter the url: ")
         statusLabel.config(text="Waiting...")
-        checkButton.config(text="Check", command=lambda: checkWebsiteThread)
+        checkButton.config(text="Check", command=checkWebsiteThread)
         clearButton.config(text="Clear", command=lambda: urlEntry.delete(
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Cleared"))
         saveLogsButton.config(
@@ -217,7 +217,7 @@ def changeLanguage(lang):
         httpOrHttpsLabel.config(text="Nutzt die Webseite http oder https? :")
         urlLabel.config(text="Url der Webseite: ")
         statusLabel.config(text="Warten...")
-        checkButton.config(text="Testen", command=lambda: checkWebsiteThread)
+        checkButton.config(text="Testen", command=checkWebsiteThread)
         clearButton.config(text="Löschen", command=lambda: urlEntry.delete(
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Gelöscht"))
         saveLogsButton.config(text="In Logs speichern",
