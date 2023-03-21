@@ -38,14 +38,14 @@ critFiles = ['.\\iwoSource\\options.json',
 # check if critical files and folders exist
 for dirs in critDirs:
     if os.path.exists(dirs):
-        print(f'{dirs} Directory exists')
+        # print(f'{dirs} Directory exists')
         pass
     else:
         os.mkdir(dirs)
 
 for files in critFiles:
     if os.path.exists(files):
-        print(f'{files} File exists')
+        # print(f'{files} File exists')
         pass
     else:
         if files == '.\\iwoSource\\options.json':
@@ -69,7 +69,7 @@ def checkUpdate():
         if r.status_code == 200:
             latestVersion = r.json()['tag_name']
             if latestVersion != 'v0.2.2':
-                if optionsData['options']['language'] == 'en':
+                if options['options']['language'] == 'en':
                     if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
                         # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
                         webbrowser.open(
