@@ -22,7 +22,7 @@ from tkinter import ttk
 # lower priority:
 # TODO add more options (like: file path for logs, folder etc.)
 # TODO graph showing % of online and offline
-# TODO add a button to open the logs
+# TODO add a button to the main window to open the logs
 
 # lowest priority:
 # TODO add link to documentation in the help tab (to github wiki)
