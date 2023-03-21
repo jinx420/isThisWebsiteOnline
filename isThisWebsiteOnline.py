@@ -30,53 +30,60 @@ from tkinter import ttk
 # TODO add more languages (unlikely because its too much work)
 # TODO maybe add a status text to display "settings saved" in the settings tab
 
+critDirs = ['.\\iwoSource']
+critFiles = ['.\\iwoSource\\options.json',
+             '.\\iwoSource\\fullHistory.json', '.\\iwoSource\\History.json']
+
 
 # check if critical files and folders exist
-if os.path.exists('.\\iwoSource'):
-    pass
-else:
-    os.mkdir('.\\iwoSource')
+for dirs in critDirs:
+    if os.path.exists(dirs):
+        print(f'{dirs} Directory exists')
+        pass
+    else:
+        os.mkdir(dirs)
 
-if os.path.exists('.\\iwoSource\\options.json'):
-    pass
-else:
-    with open(".\\iwoSource\\options.json", "w") as f:
-        json.dump(
-            {"options": {"language": "en", "saveHistoryOnCheck": 0,"checkForUpdatesOnStartup": 0}}, f, indent=4)
-
-if os.path.exists('.\\iwoSource\\fullHistory.json'):
-    pass
-else:
-    with open(".\\iwoSource\\fullHistory.json", "w") as f:
-        json.dump({"history": {}}, f, indent=4)
-
-if os.path.exists('.\\iwoSource\\History.json'):
-    pass
-else:
-    with open(".\\iwoSource\\History.json", "w") as f:
-        json.dump([], f, indent=4)
+for files in critFiles:
+    if os.path.exists(files):
+        print(f'{files} File exists')
+        pass
+    else:
+        if files == '.\\iwoSource\\options.json':
+            with open(files, "w") as f:
+                json.dump(
+                    {"options": {"language": "en", "saveHistoryOnCheck": 0, "checkForUpdatesOnStartup": 0}}, f, indent=4)
+        elif files == '.\\iwoSource\\fullHistory.json':
+            with open(".\\iwoSource\\fullHistory.json", "w") as f:
+                json.dump({"history": {}}, f, indent=4)
+        elif files == '.\\iwoSource\\History.json':
+            with open(".\\iwoSource\\History.json", "w") as f:
+                json.dump([], f, indent=4)
 
 
 def checkUpdate():
     try:
-        r = httpx.get('https://api.github.com/repos/jinx420/isThisWebsiteOnline/releases/latest')
+        r = httpx.get(
+            'https://api.github.com/repos/jinx420/isThisWebsiteOnline/releases/latest')
         if r.status_code == 200:
             latestVersion = r.json()['tag_name']
             if latestVersion != 'v0.2.2':
                 if optionsData['options']['language'] == 'en':
                     if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
                         # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
-                        webbrowser.open('https://github.com/jinx420/isThisWebsiteOnline/releases')
+                        webbrowser.open(
+                            'https://github.com/jinx420/isThisWebsiteOnline/releases')
                     else:
                         pass
                 elif optionsData['options']['language'] == 'de':
                     if messagebox.askyesno('Update', 'Es ist ein Update verfügbar. Möchten Sie es herunterladen?'):
                         # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
-                        webbrowser.open('https://github.com/jinx420/isThisWebsiteOnline/releases')
+                        webbrowser.open(
+                            'https://github.com/jinx420/isThisWebsiteOnline/releases')
                     else:
                         pass
             else:
-                messagebox.showinfo('Update', 'You are using the latest version')
+                messagebox.showinfo(
+                    'Update', 'You are using the latest version')
         else:
             pass
     except ValueError:
@@ -274,7 +281,8 @@ def changeLanguage(lang):
         miscSubMenu.entryconfig(0, label="Im Browser öffnen")
 
         # help menu
-        helpMenu.entryconfig(0, label="Nach Updates suchen", command=checkUpdate)
+        helpMenu.entryconfig(
+            0, label="Nach Updates suchen", command=checkUpdate)
         helpMenu.entryconfig(1, label="Über", command=about)
 
 
