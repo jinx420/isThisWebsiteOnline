@@ -61,12 +61,14 @@ for files in critFiles:
 
 
 def checkUpdate():
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
     try:
         r = httpx.get(
             'https://api.github.com/repos/jinx420/isThisWebsiteOnline/releases/latest')
         if r.status_code == 200:
             latestVersion = r.json()['tag_name']
-            if latestVersion != 'v0.2.3':
+            if latestVersion != 'v0.2.2':
                 if optionsData['options']['language'] == 'en':
                     if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
                         # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
@@ -74,7 +76,7 @@ def checkUpdate():
                             'https://github.com/jinx420/isThisWebsiteOnline/releases')
                     else:
                         pass
-                elif optionsData['options']['language'] == 'de':
+                elif options['options']['language'] == 'de':
                     if messagebox.askyesno('Update', 'Es ist ein Update verfügbar. Möchten Sie es herunterladen?'):
                         # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
                         webbrowser.open(
@@ -112,25 +114,27 @@ def isWebsiteOnline(url):
 
 # check website
 def checkWebsite():
-    if optionsData['options']['saveHistoryOnCheck'] == 1:
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
+    if options['options']['saveHistoryOnCheck'] == 1:
         historyWithDateAndTime()
     httpOrHttps = httpOrHttpsEntry.get().lower()
     url = urlEntry.get().lower()
     if httpOrHttps == "http" or httpOrHttps == 'https':
         if isWebsiteOnline(url):
-            if optionsData['options']['language'] == 'en':
+            if options['options']['language'] == 'en':
                 statusLabel.config(text="Website is online")
-            elif optionsData['options']['language'] == 'de':
+            elif options['options']['language'] == 'de':
                 statusLabel.config(text="Website ist online")
         else:
-            if optionsData['options']['language'] == 'en':
+            if options['options']['language'] == 'en':
                 statusLabel.config(text="Website is offline")
-            elif optionsData['options']['language'] == 'de':
+            elif options['options']['language'] == 'de':
                 statusLabel.config(text="Website ist offline")
     else:
-        if optionsData['options']['language'] == 'en':
+        if options['options']['language'] == 'en':
             statusLabel.config(text="Please enter http or https")
-        elif optionsData['options']['language'] == 'de':
+        elif options['options']['language'] == 'de':
             statusLabel.config(text="Bitte geben Sie http oder https ein")
 
 
@@ -141,9 +145,11 @@ def history():
     history.append(httpOrHttpsEntry.get())
     with open(".\\iwoSource\\history.json", "w") as f:
         json.dump(history, f)
-    if optionsData['options']['language'] == 'en':
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
+    if options['options']['language'] == 'en':
         statusLabel.config(text="History saved")
-    elif optionsData['options']['language'] == 'de':
+    elif options['options']['language'] == 'de':
         statusLabel.config(text="Verlauf gespeichert")
 
 
@@ -155,9 +161,11 @@ def loadHistory():
     urlEntry.insert(0, history[0])
     httpOrHttpsEntry.delete(0, tk.END)
     httpOrHttpsEntry.insert(0, history[1])
-    if optionsData['options']['language'] == 'en':
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
+    if options['options']['language'] == 'en':
         statusLabel.config(text="History loaded")
-    elif optionsData['options']['language'] == 'de':
+    elif options['options']['language'] == 'de':
         statusLabel.config(text="Verlauf geladen")
 
 
@@ -167,9 +175,11 @@ def clearAllHistory():
         json.dump({"history": {}}, f, indent=4)
     with open(".\\iwoSource\\History.json", "w") as f:
         json.dump([], f, indent=4)
-    if optionsData['options']['language'] == 'en':
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
+    if options['options']['language'] == 'en':
         statusLabel.config(text="All history cleared")
-    elif optionsData['options']['language'] == 'de':
+    elif options['options']['language'] == 'de':
         statusLabel.config(text="Alle Verläufe gelöscht")
 
 
@@ -288,7 +298,9 @@ def changeLanguage(lang):
 
 # see logs
 def seeLogs():
-    if optionsData['options']['language'] == 'en':
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
+    if options['options']['language'] == 'en':
         root = tk.Toplevel()
         root.title("Press right click on a row to copy the url and method")
         root.geometry("670x350")
@@ -330,7 +342,7 @@ def seeLogs():
                 tree.insert("", tk.END, text="", values=(
                     i, data["history"][i]["url"], data["history"][i]["httpOrHttps"], data["history"][i]["status"], data["history"][i]["dateAndTime"]))
         tree.pack()
-    elif optionsData['options']['language'] == 'de':
+    elif options['options']['language'] == 'de':
         root = tk.Toplevel()
         root.title(
             "Rechtsklick auf eine Zeile um die Url und Methode zu kopieren")
@@ -405,8 +417,11 @@ def optionsWindow():
     saveHistoryOnCheck = tk.IntVar()  # 0 = off, 1 = on
     checkUpdateCM = tk.IntVar()  # 0 = off, 1 = on
 
-    saveHistoryOnCheck.set(optionsData["options"]["saveHistoryOnCheck"])
-    checkUpdateCM.set(optionsData["options"]["checkForUpdatesOnStartup"])
+    # get the options from the options.json file
+    with open(".\\iwoSource\\options.json", "r") as f:
+        data = json.load(f)
+        saveHistoryOnCheck.set(data["options"]["saveHistoryOnCheck"])
+        checkUpdateCM.set(data["options"]["checkForUpdatesOnStartup"])
 
     # options window
     optionsWindow = tk.Toplevel()
@@ -433,13 +448,13 @@ def optionsWindow():
     resetButton = tk.Button(optionsWindow, text="Reset", command=resetOptions)
     resetButton.place(x=80, y=170)
 
-    if optionsData['options']['language'] == 'en':
+    if data['options']['language'] == 'en':
         optionsWindow.title("Options")
         checkMarkBox1.config(text="Save history on every check")
         checkUpdateCMBox.config(text="Check for updates on startup")
         saveButton.config(text="Save")
         resetButton.config(text="Reset")
-    elif optionsData['options']['language'] == 'de':
+    elif data['options']['language'] == 'de':
         optionsWindow.title("Optionen")
         checkMarkBox1.config(text="Verlauf bei jedem Check speichern")
         checkUpdateCMBox.config(text="Auf Updates beim Start prüfen")
@@ -448,10 +463,12 @@ def optionsWindow():
 
 
 def about():
-    if optionsData['options']['language'] == 'en':
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options2 = json.load(f)
+    if options2['options']['language'] == 'en':
         messagebox.showinfo("About", "A simple program to check if a website is online or not.\n\nFeatures:\n1. Save and load history (only one item can be saved at a time)\n2. Open in browser\n3. CLI and GUI\n"
                             "4. Multiple languages\n5. Multithreading\n6. Table to show the history and status of past checks\n")
-    elif optionsData['options']['language'] == 'de':
+    elif options2['options']['language'] == 'de':
         messagebox.showinfo("Über uns", "Ein einfaches Programm um zu überprüfen ob eine Webseite online ist oder nicht.\n\nFunktionen:\n1. Verlauf speichern und laden (nur ein Eintrag kann gespeichert werden)\n2. In Browser öffnen\n3. CLI und GUI\n"
                             "4. Mehrere Sprachen\n5. Multithreading\n6. Tabelle um den Verlauf und den Status von vergangenen Checks anzuzeigen\n")
 
@@ -476,9 +493,6 @@ if __name__ == "__main__":
 
     # gui
     elif sys.argv[1] == "gui":
-        # get the options from the options.json file
-        with open(".\\iwoSource\\options.json", "r") as f:
-            optionsData = json.load(f)
         # root
         root = tk.Tk()
         root.title("IsThisWebsiteOnline?")
@@ -583,10 +597,12 @@ if __name__ == "__main__":
         root.attributes("-topmost", False)
 
         # change default language
-        lang2 = optionsData['options']['language']
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options = json.load(f)
+            lang2 = options['options']['language']
         changeLanguage(lang2)
 
-        if optionsData['options']['checkForUpdatesOnStartup'] == True:
+        if options['options']['checkForUpdatesOnStartup'] == True:
             checkUpdate()
 
         # Mainloop
