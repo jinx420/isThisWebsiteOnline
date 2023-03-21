@@ -27,8 +27,8 @@ from tkinter import ttk
 # lowest priority:
 # TODO add link to documentation in the help tab (to github wiki)
 # TODO change changeLanguage()
-# TODO add more languages (unlikely)
-# TODO maybe add a status text to display "settings saved"
+# TODO add more languages (unlikely because its too much work)
+# TODO maybe add a status text to display "settings saved" in the settings tab
 
 
 # check if critical files and folders exist
