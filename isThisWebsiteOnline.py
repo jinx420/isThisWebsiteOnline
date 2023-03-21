@@ -66,7 +66,7 @@ def checkUpdate():
             'https://api.github.com/repos/jinx420/isThisWebsiteOnline/releases/latest')
         if r.status_code == 200:
             latestVersion = r.json()['tag_name']
-            if latestVersion != 'v0.2.2':
+            if latestVersion != 'v0.2.3':
                 if optionsData['options']['language'] == 'en':
                     if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
                         # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
