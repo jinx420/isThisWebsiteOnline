@@ -132,10 +132,12 @@ dmypy.json
 *.7z
 *.zip
 compile.bat
-isThisWebsiteOnlineExE.py
+compileToExe.bat
 isThisWebsiteOnline.exe
+/iwoDev/move.exe
 /iwoDev/
 /iwoDev/move.py
+/iwoDev/move2.py
 /iwoSource/history.json
 /iwoSource/options.json
 /iwoSource/fullHistory.json

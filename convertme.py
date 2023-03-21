@@ -3,13 +3,13 @@ from tkinter import messagebox
 import webbrowser
 import httpx
 import json
-import sys
 import threading
 import datetime
 import tkinter as tk
 from tkinter import ttk
 
 
+# highest priority:
 # highest priority:
 # TODO optimization
 
@@ -30,12 +30,12 @@ from tkinter import ttk
 # TODO add more languages (unlikely because its too much work)
 # TODO maybe add a status text to display "settings saved" in the settings tab
 
+
+# check if critical files and folders exist
 critDirs = ['.\\iwoSource']
 critFiles = ['.\\iwoSource\\options.json',
              '.\\iwoSource\\fullHistory.json', '.\\iwoSource\\History.json']
 
-
-# check if critical files and folders exist
 for dirs in critDirs:
     if os.path.exists(dirs):
         print(f'{dirs} Directory exists')
@@ -458,148 +458,116 @@ def about():
 
 # main
 if __name__ == "__main__":
-    # check if the user entered the correct arguments
-    if len(sys.argv) < 4:
-        print('usage: python isThisWebsiteOnline.py <cli or gui> <url> <http or https>')
-        sys.exit(1)
+    # get the options from the options.json file
+    with open(".\\iwoSource\\options.json", "r") as f:
+        optionsData = json.load(f)
+    # root
+    root = tk.Tk()
+    root.title("IsThisWebsiteOnline?")
+    root.geometry("670x350")
+    root.iconbitmap(".\\iwoSource\\favicon.ico")
+    root.resizable(False, False)
 
-    # cli
-    if sys.argv[1] == "cli":
-        if sys.argv[3] == "http" or sys.argv[3] == "https":
-            if isWebsiteOnline(sys.argv[2]):
-                print("Website is online")
-            else:
-                print("Website is offline")
-        else:
-            print(
-                "usage: python isThisWebsiteOnline.py <cli or gui> <url> <http or https>")
+    # image
+    image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
+    imageLabel = ttk.Label(root, image=image)
+    imageLabel.grid(row=0, column=2, rowspan=4, padx=30, pady=5)
 
-    # gui
-    elif sys.argv[1] == "gui":
-        # get the options from the options.json file
-        with open(".\\iwoSource\\options.json", "r") as f:
-            optionsData = json.load(f)
-        # root
-        root = tk.Tk()
-        root.title("IsThisWebsiteOnline?")
-        root.geometry("670x350")
-        root.iconbitmap(".\\iwoSource\\favicon.ico")
-        root.resizable(False, False)
+    # http or https label
+    httpOrHttpsLabel = ttk.Label(
+        root, text="Is the website using http or https? : ")
+    httpOrHttpsLabel.grid(row=0, column=0, padx=5, pady=5)
 
-        # image
-        image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
-        imageLabel = ttk.Label(root, image=image)
-        imageLabel.grid(row=0, column=2, rowspan=4, padx=30, pady=5)
+    # http or https entry
+    httpOrHttpsEntry = ttk.Entry(root)
+    httpOrHttpsEntry.grid(row=0, column=1, padx=5, pady=5)
 
-        # http or https label
-        httpOrHttpsLabel = ttk.Label(
-            root, text="Is the website using http or https? : ")
-        httpOrHttpsLabel.grid(row=0, column=0, padx=5, pady=5)
+    # url label
+    urlLabel = ttk.Label(root, text="Enter the url: ")
+    urlLabel.grid(row=1, column=0, padx=5, pady=5)
 
-        # http or https entry
-        httpOrHttpsEntry = ttk.Entry(root)
-        httpOrHttpsEntry.insert(0, sys.argv[3])
-        httpOrHttpsEntry.grid(row=0, column=1, padx=5, pady=5)
+    # url entry
+    urlEntry = ttk.Entry(root)
+    urlEntry.grid(row=1, column=1, padx=5, pady=5)
 
-        # url label
-        urlLabel = ttk.Label(root, text="Enter the url: ")
-        urlLabel.grid(row=1, column=0, padx=5, pady=5)
+    # Check Button
+    checkButton = ttk.Button(
+        root, text="Check", command=lambda: thread(checkWebsite))
+    checkButton.grid(row=2, column=0, padx=5, pady=5)
 
-        # url entry
-        urlEntry = ttk.Entry(root)
-        urlEntry.insert(0, sys.argv[2])
-        urlEntry.grid(row=1, column=1, padx=5, pady=5)
+    # Status Label
+    statusLabel = ttk.Label(root, text="Waiting...")
+    statusLabel.grid(row=2, column=1, columnspan=1, padx=0, pady=5)
 
-        # Check Button
-        checkButton = ttk.Button(
-            root, text="Check", command=lambda: thread(checkWebsite))
-        checkButton.grid(row=2, column=0, padx=5, pady=5)
+    # Clear Button
+    clearButton = ttk.Button(root, text="Clear", command=lambda: urlEntry.delete(
+        0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Cleared"))
+    clearButton.grid(row=3, column=0, padx=5, pady=5)
 
-        # Status Label
-        statusLabel = ttk.Label(root, text="Waiting...")
-        statusLabel.grid(row=2, column=1, columnspan=1, padx=0, pady=5)
+    # save to logs button
+    saveLogsButton = ttk.Button(
+        root, text="Save to logs", command=lambda: thread(historyWithDateAndTime))
+    saveLogsButton.grid(row=3, column=1, padx=5, pady=5)
 
-        # Clear Button
-        clearButton = ttk.Button(root, text="Clear", command=lambda: urlEntry.delete(
-            0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Cleared"))
-        clearButton.grid(row=3, column=0, padx=5, pady=5)
+    # Menu
+    menu = tk.Menu(root, tearoff=False)
+    root.config(menu=menu)
 
-        # save to logs button
-        saveLogsButton = ttk.Button(
-            root, text="Save to logs", command=lambda: thread(historyWithDateAndTime))
-        saveLogsButton.grid(row=3, column=1, padx=5, pady=5)
+    # File Menu
+    fileMenu = tk.Menu(menu, tearoff=False)
+    menu.add_cascade(label="File", menu=fileMenu)
 
-        # Menu
-        menu = tk.Menu(root, tearoff=False)
-        root.config(menu=menu)
+    # add History submenu
+    historysubMenu = tk.Menu(fileMenu, tearoff=False)
+    fileMenu.add_cascade(label="History", menu=historysubMenu)
+    historysubMenu.add_command(label='Save History',
+                               command=lambda: thread(history))
+    historysubMenu.add_command(label='Load History',
+                               command=lambda: thread(loadHistory))
+    historysubMenu.add_command(label="See logs", command=seeLogs)
+    historysubMenu.add_command(label="Clear logs", command=clearAllHistory)
 
-        # File Menu
-        fileMenu = tk.Menu(menu, tearoff=False)
-        menu.add_cascade(label="File", menu=fileMenu)
+    # add misc submenu
+    miscSubMenu = tk.Menu(fileMenu, tearoff=False)
+    fileMenu.add_cascade(label="Misc", menu=miscSubMenu)
+    miscSubMenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
+        f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
 
-        # add History submenu
-        historysubMenu = tk.Menu(fileMenu, tearoff=False)
-        fileMenu.add_cascade(label="History", menu=historysubMenu)
-        historysubMenu.add_command(label='Save History',
-                                   command=lambda: thread(history))
-        historysubMenu.add_command(label='Load History',
-                                   command=lambda: thread(loadHistory))
-        historysubMenu.add_command(label="See logs", command=seeLogs)
-        historysubMenu.add_command(label="Clear logs", command=clearAllHistory)
+    fileMenu.add_separator()
+    fileMenu.add_command(label='Options', command=optionsWindow)
+    fileMenu.add_separator()
+    fileMenu.add_command(label="Exit", command=root.destroy)
 
-        # add misc submenu
-        miscSubMenu = tk.Menu(fileMenu, tearoff=False)
-        fileMenu.add_cascade(label="Misc", menu=miscSubMenu)
-        miscSubMenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
-            f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
+    # Help Menu
+    helpMenu = tk.Menu(menu, tearoff=False)
+    menu.add_cascade(label="Help", menu=helpMenu)
+    helpMenu.add_command(label='Check for update', command=checkUpdate)
+    helpMenu.add_command(label="About", command=about)
 
-        fileMenu.add_separator()
-        fileMenu.add_command(label='Options', command=optionsWindow)
-        fileMenu.add_separator()
-        fileMenu.add_command(label="Exit", command=root.destroy)
+    # Language Menu
+    languageMenu = tk.Menu(menu, tearoff=False)
+    menu.add_cascade(label="Language", menu=languageMenu)
+    languageMenu.add_command(
+        label="English", command=lambda: changeLanguage('en'))
+    languageMenu.add_command(
+        label="Deutsch", command=lambda: changeLanguage('de'))
 
-        # Help Menu
-        helpMenu = tk.Menu(menu, tearoff=False)
-        menu.add_cascade(label="Help", menu=helpMenu)
-        helpMenu.add_command(label='Check for update', command=checkUpdate)
-        helpMenu.add_command(label="About", command=about)
+    # MinSize and MaxSize
+    root.update()
+    root.minsize(root.winfo_width(), root.winfo_height())
+    root.maxsize(root.winfo_width(), root.winfo_height())
+    root.update()
 
-        # Language Menu
-        languageMenu = tk.Menu(menu, tearoff=False)
-        menu.add_cascade(label="Language", menu=languageMenu)
-        languageMenu.add_command(
-            label="English", command=lambda: changeLanguage('en'))
-        languageMenu.add_command(
-            label="Deutsch", command=lambda: changeLanguage('de'))
+    # Topmost
+    root.attributes("-topmost", True)
+    root.attributes("-topmost", False)
 
-        # MinSize and MaxSize
-        root.update()
-        root.minsize(root.winfo_width(), root.winfo_height())
-        root.maxsize(root.winfo_width(), root.winfo_height())
-        root.update()
+    # change default language
+    lang2 = optionsData['options']['language']
+    changeLanguage(lang2)
 
-        # Topmost
-        root.attributes("-topmost", True)
-        root.attributes("-topmost", False)
+    if optionsData['options']['checkForUpdatesOnStartup'] == True:
+        checkUpdate()
 
-        # change default language
-        lang2 = optionsData['options']['language']
-        changeLanguage(lang2)
-
-        if optionsData['options']['checkForUpdatesOnStartup'] == True:
-            checkUpdate()
-
-        # Mainloop
-        root.mainloop()
-
-    # neither cli nor gui
-    elif sys.argv[1] != "cli" and sys.argv[1] != "gui":
-        print('usage: python isThisWebsiteOnline.py <cli or gui> <url> <http or https>')
-        sys.exit(1)
-
-    # invalid http or https
-    elif sys.argv[3] != "http" and sys.argv[3] != "https":
-        print('usage: python isThisWebsiteOnline.py <cli or gui> <url> <http or https>')
-        sys.exit(1)
-
-    sys.exit(0)
+    # Mainloop
+    root.mainloop()
