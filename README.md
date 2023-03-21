@@ -10,8 +10,8 @@
 # Planned features:
 1. Graph showing the online offline ratio
 
-## How to install and / or compile
-1. download the files (duh)
+## How to compile it yourself
+1. download the files and install python if you havent done that (duh)
 2. open terminal / cmd 
 3. pip install -r requirements.txt
 4. .\compile.bat
