@@ -9,3 +9,10 @@
 
 # Planned features:
 1. Graph showing the online offline ratio
+
+## How to install and / or compile
+1. download the files (duh)
+2. open terminal / cmd 
+3. pip install -r requirements.txt
+4. .\compile.bat
+5. then you are done
