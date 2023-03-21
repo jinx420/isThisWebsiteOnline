@@ -132,7 +132,7 @@ dmypy.json
 *.7z
 *.zip
 compile.bat
-convert.py
+convertme.py
 isThisWebsiteOnline.exe
 /iwoDev/move.exe
 /iwoDev/
