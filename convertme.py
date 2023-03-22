@@ -13,7 +13,7 @@ from tkinter import ttk
 # TODO optimization
 
 # high priority:
-# TODO
+
 
 # medium priority:
 
