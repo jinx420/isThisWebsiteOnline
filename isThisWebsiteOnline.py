@@ -30,7 +30,7 @@ from tkinter import ttk
 # TODO add more languages (unlikely because its too much work)
 # TODO maybe add a status text to display "settings saved" in the settings tab
 
-# version
+
 version = 'v0.2.5'
 
 critDirs = ['.\\iwoSource']
