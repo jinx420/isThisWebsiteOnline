@@ -128,12 +128,12 @@ def checkWebsite():
             if options['options']['language'] == 'en':
                 statusLabel.config(text="Website is online")
             elif options['options']['language'] == 'de':
-                statusLabel.config(text="Website ist online")
+                statusLabel.config(text="Webseite ist online")
         else:
             if options['options']['language'] == 'en':
                 statusLabel.config(text="Website is offline")
             elif options['options']['language'] == 'de':
-                statusLabel.config(text="Website ist offline")
+                statusLabel.config(text="Webseite ist offline")
     else:
         if options['options']['language'] == 'en':
             statusLabel.config(text="Please enter http or https")
