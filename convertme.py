@@ -16,7 +16,6 @@ from tkinter import ttk
 # TODO
 
 # medium priority:
-# TODO think of TODOS
 
 # lower priority:
 # TODO add more options (like: file path for logs, folder etc.)
