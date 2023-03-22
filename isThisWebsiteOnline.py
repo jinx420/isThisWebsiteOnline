@@ -33,12 +33,12 @@ from tkinter import ttk
 
 version = 'v0.2.5'
 
+
+# check if critical files and folders exist
 critDirs = ['.\\iwoSource']
 critFiles = ['.\\iwoSource\\options.json',
              '.\\iwoSource\\fullHistory.json', '.\\iwoSource\\History.json']
 
-
-# check if critical files and folders exist
 for dirs in critDirs:
     if os.path.exists(dirs):
         # print(f'{dirs} Directory exists')
