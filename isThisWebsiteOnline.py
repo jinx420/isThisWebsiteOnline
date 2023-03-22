@@ -33,7 +33,6 @@ from tkinter import ttk
 
 version = 'v0.2.5'
 
-
 # check if critical files and folders exist
 critDirs = ['.\\iwoSource']
 critFiles = ['.\\iwoSource\\options.json',
