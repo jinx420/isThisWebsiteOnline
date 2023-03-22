@@ -273,7 +273,7 @@ def changeLanguage(lang):
         checkButton.config(text="Testen", command=lambda: thread(checkWebsite))
         clearButton.config(text="Löschen", command=lambda: urlEntry.delete(
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Gelöscht"))
-        saveLogsButton.config(text="In Logs speichern",
+        saveLogsButton.config(text="Logs speichern",
                               command=lambda: thread(historyWithDateAndTime))
 
         # file menu
