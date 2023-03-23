@@ -547,7 +547,7 @@ if __name__ == "__main__":
 
         # version
         versionLabel = tk.Label(root, text=f"Version: {version}")
-        versionLabel.place(x=580, y=310)
+        versionLabel.place(x=580, y=311)
 
         # Menu
         menu = tk.Menu(root, tearoff=False)
