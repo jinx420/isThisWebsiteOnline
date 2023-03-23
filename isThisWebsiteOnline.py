@@ -31,7 +31,7 @@ from tkinter import ttk
 # TODO maybe add a status text to display "settings saved" in the settings tab
 
 
-version = 'v0.2.5'
+version = 'v0.2.6'
 
 # check if critical files and folders exist
 critDirs = ['.\\iwoSource']
