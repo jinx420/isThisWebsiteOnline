@@ -24,3 +24,10 @@
 2. open terminal / cmd
 3. pip install -r requirements.txt
 4. pyinstaller -F -w --icon=iwoSource\favicon.ico -n isThisWebsiteOnline convertme.py
+
+# Known issues:
+When you open the about window it shows the yes / no button in the os language
+- This is an issue with how message boxes are handled by the os (i cant fix this if i want to keep the message box)
+
+My AV is flagging the .exe as malicous
+- This is an issue with pyinstaller since it can be used to compile python malware and obfuscate it so that AVs cant detect it, and because the pyinstaller bootloader is the only shared part it gets flagged as malicious, i would have to encrypt or encode the code and currently there is no plan to do so
