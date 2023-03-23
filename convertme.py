@@ -13,10 +13,9 @@ from tkinter import ttk
 # TODO optimization
 
 # high priority:
-# TODO
+
 
 # medium priority:
-# TODO think of TODOS
 
 # lower priority:
 # TODO add more options (like: file path for logs, folder etc.)
@@ -29,12 +28,14 @@ from tkinter import ttk
 # TODO add more languages (unlikely because its too much work)
 # TODO maybe add a status text to display "settings saved" in the settings tab
 
+
+version = 'v0.2.6'
+
+# check if critical files and folders exist
 critDirs = ['.\\iwoSource']
 critFiles = ['.\\iwoSource\\options.json',
              '.\\iwoSource\\fullHistory.json', '.\\iwoSource\\History.json']
 
-
-# check if critical files and folders exist
 for dirs in critDirs:
     if os.path.exists(dirs):
         # print(f'{dirs} Directory exists')
@@ -67,7 +68,7 @@ def checkUpdate():
             'https://api.github.com/repos/jinx420/isThisWebsiteOnline/releases/latest')
         if r.status_code == 200:
             latestVersion = r.json()['tag_name']
-            if latestVersion != 'v0.2.4':
+            if latestVersion != f'{version}':
                 if options['options']['language'] == 'en':
                     if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
                         # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
@@ -124,12 +125,12 @@ def checkWebsite():
             if options['options']['language'] == 'en':
                 statusLabel.config(text="Website is online")
             elif options['options']['language'] == 'de':
-                statusLabel.config(text="Website ist online")
+                statusLabel.config(text="Webseite ist online")
         else:
             if options['options']['language'] == 'en':
                 statusLabel.config(text="Website is offline")
             elif options['options']['language'] == 'de':
-                statusLabel.config(text="Website ist offline")
+                statusLabel.config(text="Webseite ist offline")
     else:
         if options['options']['language'] == 'en':
             statusLabel.config(text="Please enter http or https")
@@ -269,7 +270,7 @@ def changeLanguage(lang):
         checkButton.config(text="Testen", command=lambda: thread(checkWebsite))
         clearButton.config(text="Löschen", command=lambda: urlEntry.delete(
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Gelöscht"))
-        saveLogsButton.config(text="In Logs speichern",
+        saveLogsButton.config(text="Logs speichern",
                               command=lambda: thread(historyWithDateAndTime))
 
         # file menu
@@ -484,7 +485,7 @@ if __name__ == "__main__":
     # image
     image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
     imageLabel = ttk.Label(root, image=image)
-    imageLabel.grid(row=0, column=2, rowspan=4, padx=30, pady=5)
+    imageLabel.grid(row=0, column=2, rowspan=4, padx=30, pady=3)
 
     # http or https label
     httpOrHttpsLabel = ttk.Label(
@@ -522,6 +523,10 @@ if __name__ == "__main__":
         root, text="Save to logs", command=lambda: thread(historyWithDateAndTime))
     saveLogsButton.grid(row=3, column=1, padx=5, pady=5)
 
+    # version
+    versionLabel = tk.Label(root, text=f"Version: {version}")
+    versionLabel.place(x=580, y=310)
+
     # Menu
     menu = tk.Menu(root, tearoff=False)
     root.config(menu=menu)
@@ -534,9 +539,9 @@ if __name__ == "__main__":
     historysubMenu = tk.Menu(fileMenu, tearoff=False)
     fileMenu.add_cascade(label="History", menu=historysubMenu)
     historysubMenu.add_command(label='Save History',
-                                command=lambda: thread(history))
+                               command=lambda: thread(history))
     historysubMenu.add_command(label='Load History',
-                                command=lambda: thread(loadHistory))
+                               command=lambda: thread(loadHistory))
     historysubMenu.add_command(label="See logs", command=seeLogs)
     historysubMenu.add_command(label="Clear logs", command=clearAllHistory)
 
