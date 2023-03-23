@@ -30,4 +30,5 @@ When you open the about window it shows the yes / no button in the os language
 - This is an issue with how message boxes are handled by the os (i cant fix this if i want to keep the message box)
 
 My AV is flagging the .exe as malicous
-- This is an issue with pyinstaller since it can be used to compile python malware and obfuscate it so that AVs cant detect it, and because the pyinstaller bootloader is the only shared part it gets flagged as malicious, i would have to encrypt or encode the code and currently there is no plan to do so
+- UPDATE: This should be fixed for most AV products since i compiled my own pyinstaller bootloader, if you want to see which AV products will flag this file feel free to upload it to virustotal, windows defender should no longer flag this file if it does maybe you are using an older version, the new .exe will be available for the version v.0.2.6 or newer
+- OLD: This is an issue with pyinstaller since it can be used to compile python malware and obfuscate it so that AVs cant detect it, and because the pyinstaller bootloader is the only shared part it gets flagged as malicious, i would have to encrypt or encode the code and currently there is no plan to do so
