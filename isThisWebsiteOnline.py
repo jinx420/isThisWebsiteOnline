@@ -34,8 +34,7 @@ version = 'v0.2.7'
 
 # check if critical files and folders exist
 critDirs = ['.\\iwoSource']
-critFiles = ['.\\iwoSource\\options.json',
-             '.\\iwoSource\\fullHistory.json', '.\\iwoSource\\History.json']
+critFiles = ['.\\iwoSource\\options.json', '.\\iwoSource\\History.json']
 
 for dirs in critDirs:
     if os.path.exists(dirs):
@@ -52,10 +51,7 @@ for files in critFiles:
         if files == '.\\iwoSource\\options.json':
             with open(files, "w") as f:
                 json.dump(
-                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}}, f, indent=4)
-        elif files == '.\\iwoSource\\fullHistory.json':
-            with open(".\\iwoSource\\fullHistory.json", "w") as f:
-                json.dump({"history": {}}, f, indent=4)
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
         elif files == '.\\iwoSource\\History.json':
             with open(".\\iwoSource\\History.json", "w") as f:
                 json.dump([], f, indent=4)
@@ -185,12 +181,20 @@ def loadHistory():
 
 # clear all history
 def clearAllHistory():
-    with open(".\\iwoSource\\fullHistory.json", "w") as f:
-        json.dump({"history": {}}, f, indent=4)
-    with open(".\\iwoSource\\History.json", "w") as f:
-        json.dump([], f, indent=4)
     with open('.\\iwoSource\\options.json', 'r') as f:
         options = json.load(f)
+
+    saveHistoryOnCheck = options["options"]["saveHistoryOnCheck"]
+    checkUpdateCM = options["options"]["checkForUpdatesOnStartup"]
+    checkUpdateCM = options["options"]["clearLogsWithClearButton"]
+
+    with open(".\\iwoSource\\options.json", "w") as f:
+        json.dump({"options": {"language": lang2, "saveHistoryOnCheck": saveHistoryOnCheck,
+                  "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": checkUpdateCM}, "fullHistory": {}}, f, indent=4)
+
+    with open(".\\iwoSource\\History.json", "w") as f:
+        json.dump([], f, indent=4)
+
     if options['options']['language'] == 'en':
         if options['options']['clearLogsWithClearButton'] == 0:
             statusLabel.config(text="All logs deleted")
@@ -214,11 +218,11 @@ def status():
 
 # save history with date and time
 def historyWithDateAndTime():
-    json_file = '.\\iwoSource\\fullHistory.json'
+    json_file = '.\\iwoSource\\options.json'
     with open(json_file, 'r+') as jfile:
         j = json.load(jfile)
         data = j
-    i = len(data['history'])
+    i = len(data['fullHistory'])
     i += 1
     json_data = {
         f"{i}": {
@@ -231,7 +235,7 @@ def historyWithDateAndTime():
     with open(json_file, 'r+') as jfile:
         j = json.load(jfile)
         for k, v in json_data.items():
-            j['history'][k] = v
+            j['fullHistory'][k] = v
         jfile.seek(0)
         json.dump(j, jfile, indent=4)
 
@@ -354,11 +358,11 @@ def seeLogs():
         tree.heading("three", text="http/https", anchor=tk.W)
         tree.heading("four", text="Status", anchor=tk.W)
         tree.heading("five", text="Date and Time", anchor=tk.W)
-        with open(".\\iwoSource\\fullHistory.json", "r") as f:
+        with open(".\\iwoSource\\options.json", "r") as f:
             data = json.load(f)
-            for i in data["history"]:
+            for i in data["fullHistory"]:
                 tree.insert("", tk.END, text="", values=(
-                    i, data["history"][i]["url"], data["history"][i]["httpOrHttps"], data["history"][i]["status"], data["history"][i]["dateAndTime"]))
+                    i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
         tree.pack()
     elif options['options']['language'] == 'de':
         root = tk.Toplevel()
@@ -397,11 +401,11 @@ def seeLogs():
         tree.heading("three", text="http/https", anchor=tk.W)
         tree.heading("four", text="Status", anchor=tk.W)
         tree.heading("five", text="Datum und Uhrzeit", anchor=tk.W)
-        with open(".\\iwoSource\\fullHistory.json", "r") as f:
+        with open(".\\iwoSource\\options.json", "r") as f:
             data = json.load(f)
             for i in data["history"]:
                 tree.insert("", tk.END, text="", values=(
-                    i, data["history"][i]["url"], data["history"][i]["httpOrHttps"], data["history"][i]["status"], data["history"][i]["dateAndTime"]))
+                    i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
 
 
 def optionsWindow():
@@ -415,6 +419,8 @@ def optionsWindow():
                 "saveHistoryOnCheck": saveHistoryOnCheck.get(),
                 "checkForUpdatesOnStartup": checkUpdateCM.get(),
                 "clearLogsWithClearButton": clearCM.get()
+            },
+            "history": {
             }
         }
         with open(".\\iwoSource\\options.json", "w") as f:
@@ -428,6 +434,8 @@ def optionsWindow():
                 "saveHistoryOnCheck": 1,
                 "checkForUpdatesOnStartup": 0,
                 "clearLogsWithClearButton": 0
+            },
+            "fullHistory": {
             }
         }
         with open(".\\iwoSource\\options.json", "w") as f:
