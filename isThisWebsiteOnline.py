@@ -389,6 +389,7 @@ def seeLogs():
 
 
 def optionsWindow():
+    cwd = os.getcwd()
     # save options
     def saveOptions():
         options = {
@@ -413,6 +414,7 @@ def optionsWindow():
         with open(".\\iwoSource\\options.json", "w") as f:
             json.dump(options, f, indent=4)
         saveHistoryOnCheck.set(0)
+        checkUpdateCM.set(0)
         # optionsWindow.destroy()
 
     # get the value of the check mark box
@@ -424,7 +426,7 @@ def optionsWindow():
         data = json.load(f)
         saveHistoryOnCheck.set(data["options"]["saveHistoryOnCheck"])
         checkUpdateCM.set(data["options"]["checkForUpdatesOnStartup"])
-
+    
     # options window
     optionsWindow = tk.Toplevel()
     optionsWindow.title("Options")
