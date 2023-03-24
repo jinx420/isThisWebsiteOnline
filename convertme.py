@@ -17,19 +17,20 @@ from tkinter import ttk
 
 # medium priority:
 
+
 # lower priority:
-# TODO add more options (like: file path for logs, folder etc.)
 # TODO graph showing % of online and offline
-# TODO add a button to the main window to open the logs
+# TODO make the clear button also clear the logs
 
 # lowest priority:
+# TODO add more options (like: file path for logs, folder etc.)
 # TODO add link to documentation in the help tab (to github wiki)
 # TODO change changeLanguage()
 # TODO add more languages (unlikely because its too much work)
 # TODO maybe add a status text to display "settings saved" in the settings tab
 
 
-version = 'v0.2.6'
+version = 'v0.2.7'
 
 # check if critical files and folders exist
 critDirs = ['.\\iwoSource']
@@ -51,7 +52,7 @@ for files in critFiles:
         if files == '.\\iwoSource\\options.json':
             with open(files, "w") as f:
                 json.dump(
-                    {"options": {"language": "en", "saveHistoryOnCheck": 0, "checkForUpdatesOnStartup": 0}}, f, indent=4)
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}}, f, indent=4)
         elif files == '.\\iwoSource\\fullHistory.json':
             with open(".\\iwoSource\\fullHistory.json", "w") as f:
                 json.dump({"history": {}}, f, indent=4)
@@ -69,23 +70,36 @@ def checkUpdate():
         if r.status_code == 200:
             latestVersion = r.json()['tag_name']
             if latestVersion != f'{version}':
-                if options['options']['language'] == 'en':
-                    if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
-                        # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
-                        webbrowser.open(
-                            'https://github.com/jinx420/isThisWebsiteOnline/releases')
-                    else:
-                        pass
-                elif options['options']['language'] == 'de':
-                    if messagebox.askyesno('Update', 'Es ist ein Update verfügbar. Möchten Sie es herunterladen?'):
-                        # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
-                        webbrowser.open(
-                            'https://github.com/jinx420/isThisWebsiteOnline/releases')
-                    else:
-                        pass
+                if latestVersion > f'{version}':
+                    if options['options']['language'] == 'en':
+                        if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
+                            # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
+                            webbrowser.open(
+                                'https://github.com/jinx420/isThisWebsiteOnline/releases')
+                        else:
+                            pass
+                    elif options['options']['language'] == 'de':
+                        if messagebox.askyesno('Update', 'Es ist ein Update verfügbar. Möchten Sie es herunterladen?'):
+                            # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
+                            webbrowser.open(
+                                'https://github.com/jinx420/isThisWebsiteOnline/releases')
+                        else:
+                            pass
+                elif latestVersion < f'{version}':
+                    if options['options']['language'] == 'en':
+                        messagebox.showinfo(
+                            'Update', 'You are using the latest version')
+                    elif options['options']['language'] == 'de':
+                        messagebox.showinfo(
+                            'Update', 'Sie verwenden die neueste Version')
+
             else:
-                messagebox.showinfo(
-                    'Update', 'You are using the latest version')
+                if options['options']['language'] == 'en':
+                    messagebox.showinfo(
+                        'Update', 'You are using the latest version')
+                elif options['options']['language'] == 'de':
+                    messagebox.showinfo(
+                        'Update', 'Sie verwenden die neueste Version')
         else:
             pass
     except ValueError:
@@ -178,9 +192,15 @@ def clearAllHistory():
     with open('.\\iwoSource\\options.json', 'r') as f:
         options = json.load(f)
     if options['options']['language'] == 'en':
-        statusLabel.config(text="All history cleared")
+        if options['options']['clearLogsWithClearButton'] == 0:
+            statusLabel.config(text="All logs deleted")
+        elif options['options']['clearLogsWithClearButton'] == 1:
+            statusLabel.config(text="Cleared everything")
     elif options['options']['language'] == 'de':
-        statusLabel.config(text="Alle Verläufe gelöscht")
+        if options['options']['clearLogsWithClearButton'] == 0:
+            statusLabel.config(text="Alle Logs gelöscht")
+        elif options['options']['clearLogsWithClearButton'] == 1:
+            statusLabel.config(text="Alles geleert")
 
 
 # get status for logs
@@ -231,10 +251,9 @@ def changeLanguage(lang):
         urlLabel.config(text="Enter the url: ")
         statusLabel.config(text="Waiting...")
         checkButton.config(text="Check", command=lambda: thread(checkWebsite))
-        clearButton.config(text="Clear", command=lambda: urlEntry.delete(
-            0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Cleared"))
-        saveLogsButton.config(
-            text="Save Logs", command=lambda: thread(historyWithDateAndTime))
+        clearButton.config(text="Clear", command=clear)
+        viewLogsButton.config(
+            text="View Logs", command=seeLogs)
 
         # file menu
         fileMenu.entryconfig(0, label="History")
@@ -268,10 +287,9 @@ def changeLanguage(lang):
         urlLabel.config(text="Url der Webseite: ")
         statusLabel.config(text="Warten...")
         checkButton.config(text="Testen", command=lambda: thread(checkWebsite))
-        clearButton.config(text="Löschen", command=lambda: urlEntry.delete(
-            0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Gelöscht"))
-        saveLogsButton.config(text="Logs speichern",
-                              command=lambda: thread(historyWithDateAndTime))
+        clearButton.config(text="Leeren", command=clear)
+        viewLogsButton.config(text="Logs ansehen",
+                              command=seeLogs)
 
         # file menu
         fileMenu.entryconfig(0, label="Verlauf")
@@ -387,13 +405,16 @@ def seeLogs():
 
 
 def optionsWindow():
+    cwd = os.getcwd()
     # save options
+
     def saveOptions():
         options = {
             "options": {
                 "language": lang2,
                 "saveHistoryOnCheck": saveHistoryOnCheck.get(),
-                "checkForUpdatesOnStartup": checkUpdateCM.get()
+                "checkForUpdatesOnStartup": checkUpdateCM.get(),
+                "clearLogsWithClearButton": clearCM.get()
             }
         }
         with open(".\\iwoSource\\options.json", "w") as f:
@@ -404,24 +425,29 @@ def optionsWindow():
         options = {
             "options": {
                 "language": lang2,
-                "saveHistoryOnCheck": 0,
-                "checkForUpdatesOnStartup": 0
+                "saveHistoryOnCheck": 1,
+                "checkForUpdatesOnStartup": 0,
+                "clearLogsWithClearButton": 0
             }
         }
         with open(".\\iwoSource\\options.json", "w") as f:
             json.dump(options, f, indent=4)
-        saveHistoryOnCheck.set(0)
+        saveHistoryOnCheck.set(1)
+        checkUpdateCM.set(0)
+        clearCM.set(0)
         # optionsWindow.destroy()
 
     # get the value of the check mark box
     saveHistoryOnCheck = tk.IntVar()  # 0 = off, 1 = on
     checkUpdateCM = tk.IntVar()  # 0 = off, 1 = on
+    clearCM = tk.IntVar()  # 0 = off, 1 = on
 
     # get the options from the options.json file
     with open(".\\iwoSource\\options.json", "r") as f:
         data = json.load(f)
         saveHistoryOnCheck.set(data["options"]["saveHistoryOnCheck"])
         checkUpdateCM.set(data["options"]["checkForUpdatesOnStartup"])
+        clearCM.set(data["options"]["clearLogsWithClearButton"])
 
     # options window
     optionsWindow = tk.Toplevel()
@@ -440,6 +466,11 @@ def optionsWindow():
                                       variable=checkUpdateCM, onvalue=1, offvalue=0, command=checkUpdateCM)
     checkUpdateCMBox.place(x=10, y=40)
 
+    # clear button to also clear the logs
+    clearCMBox = tk.Checkbutton(
+        optionsWindow, text="Clear the logs with the clear button", variable=clearCM, onvalue=1, offvalue=0)
+    clearCMBox.place(x=10, y=70)
+
     # add save button to save the options
     saveButton = tk.Button(optionsWindow, text="Save", command=saveOptions)
     saveButton.place(x=10, y=170)
@@ -452,12 +483,14 @@ def optionsWindow():
         optionsWindow.title("Options")
         checkMarkBox1.config(text="Save history on every check")
         checkUpdateCMBox.config(text="Check for updates on startup")
+        clearCMBox.config(text="Clear the logs with the clear button")
         saveButton.config(text="Save")
         resetButton.config(text="Reset")
     elif data['options']['language'] == 'de':
         optionsWindow.title("Optionen")
         checkMarkBox1.config(text="Verlauf bei jedem Check speichern")
         checkUpdateCMBox.config(text="Auf Updates beim Start prüfen")
+        clearCMBox.config(text="Logs beim leeren löschen")
         saveButton.config(text="Speichern")
         resetButton.config(text="Zurücksetzen")
 
@@ -471,6 +504,24 @@ def about():
     elif options2['options']['language'] == 'de':
         messagebox.showinfo("Über uns", "Ein einfaches Programm um zu überprüfen ob eine Webseite online ist oder nicht.\n\nFunktionen:\n1. Verlauf speichern und laden (nur ein Eintrag kann gespeichert werden)\n2. In Browser öffnen\n3. CLI und GUI\n"
                             "4. Mehrere Sprachen\n5. Multithreading\n6. Tabelle um den Verlauf und den Status von vergangenen Checks anzuzeigen\n")
+
+
+def clear():
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
+
+    if options['options']['clearLogsWithClearButton'] == 0:
+        urlEntry.delete(0, tk.END)
+        httpOrHttpsEntry.delete(0, tk.END)
+        if options['options']['language'] == 'en':
+            statusLabel.config(text="Cleared")
+        elif options['options']['language'] == 'de':
+            statusLabel.config(text="Gelöscht")
+
+    elif options['options']['clearLogsWithClearButton'] == 1:
+        urlEntry.delete(0, tk.END)
+        httpOrHttpsEntry.delete(0, tk.END)
+        clearAllHistory()
 
 
 # main
@@ -514,18 +565,17 @@ if __name__ == "__main__":
     statusLabel.grid(row=2, column=1, columnspan=1, padx=0, pady=5)
 
     # Clear Button
-    clearButton = ttk.Button(root, text="Clear", command=lambda: urlEntry.delete(
-        0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Cleared"))
+    clearButton = ttk.Button(root, text="Clear", command=clear)
     clearButton.grid(row=3, column=0, padx=5, pady=5)
 
     # save to logs button
-    saveLogsButton = ttk.Button(
-        root, text="Save to logs", command=lambda: thread(historyWithDateAndTime))
-    saveLogsButton.grid(row=3, column=1, padx=5, pady=5)
+    viewLogsButton = ttk.Button(
+        root, text="View logs", command=seeLogs)
+    viewLogsButton.grid(row=3, column=1, padx=5, pady=5)
 
     # version
     versionLabel = tk.Label(root, text=f"Version: {version}")
-    versionLabel.place(x=580, y=310)
+    versionLabel.place(x=580, y=311)
 
     # Menu
     menu = tk.Menu(root, tearoff=False)
