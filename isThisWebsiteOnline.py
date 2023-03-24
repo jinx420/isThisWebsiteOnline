@@ -21,7 +21,7 @@ from tkinter import ttk
 
 # lower priority:
 # TODO graph showing % of online and offline
-# TODO add a button to the main window to open the logs
+# TODO make the clear button also clear the logs
 
 # lowest priority:
 # TODO add more options (like: file path for logs, folder etc.)
@@ -235,8 +235,8 @@ def changeLanguage(lang):
         checkButton.config(text="Check", command=lambda: thread(checkWebsite))
         clearButton.config(text="Clear", command=lambda: urlEntry.delete(
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Cleared"))
-        saveLogsButton.config(
-            text="Save Logs", command=lambda: thread(historyWithDateAndTime))
+        viewLogsButton.config(
+            text="View Logs", command=seeLogs)
 
         # file menu
         fileMenu.entryconfig(0, label="History")
@@ -272,8 +272,8 @@ def changeLanguage(lang):
         checkButton.config(text="Testen", command=lambda: thread(checkWebsite))
         clearButton.config(text="Löschen", command=lambda: urlEntry.delete(
             0, tk.END) or httpOrHttpsEntry.delete(0, tk.END) or statusLabel.config(text="Gelöscht"))
-        saveLogsButton.config(text="Logs speichern",
-                              command=lambda: thread(historyWithDateAndTime))
+        viewLogsButton.config(text="Logs ansehen",
+                              command=seeLogs)
 
         # file menu
         fileMenu.entryconfig(0, label="Verlauf")
@@ -543,9 +543,9 @@ if __name__ == "__main__":
         clearButton.grid(row=3, column=0, padx=5, pady=5)
 
         # save to logs button
-        saveLogsButton = ttk.Button(
-            root, text="Save to logs", command=lambda: thread(historyWithDateAndTime))
-        saveLogsButton.grid(row=3, column=1, padx=5, pady=5)
+        viewLogsButton = ttk.Button(
+            root, text="View logs", command=seeLogs)
+        viewLogsButton.grid(row=3, column=1, padx=5, pady=5)
 
         # version
         versionLabel = tk.Label(root, text=f"Version: {version}")
