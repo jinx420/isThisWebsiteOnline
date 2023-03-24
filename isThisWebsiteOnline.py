@@ -20,11 +20,11 @@ from tkinter import ttk
 
 
 # lower priority:
-# TODO add more options (like: file path for logs, folder etc.)
 # TODO graph showing % of online and offline
 # TODO add a button to the main window to open the logs
 
 # lowest priority:
+# TODO add more options (like: file path for logs, folder etc.)
 # TODO add link to documentation in the help tab (to github wiki)
 # TODO change changeLanguage()
 # TODO add more languages (unlikely because its too much work)
@@ -407,13 +407,13 @@ def optionsWindow():
         options = {
             "options": {
                 "language": lang2,
-                "saveHistoryOnCheck": 0,
+                "saveHistoryOnCheck": 1,
                 "checkForUpdatesOnStartup": 0
             }
         }
         with open(".\\iwoSource\\options.json", "w") as f:
             json.dump(options, f, indent=4)
-        saveHistoryOnCheck.set(0)
+        saveHistoryOnCheck.set(1)
         checkUpdateCM.set(0)
         # optionsWindow.destroy()
 
