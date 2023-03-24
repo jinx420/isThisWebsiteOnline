@@ -28,7 +28,6 @@ from tkinter import ttk
 # TODO add link to documentation in the help tab (to github wiki)
 # TODO change changeLanguage()
 # TODO add more languages (unlikely because its too much work)
-# TODO maybe add a status text to display "settings saved" in the settings tab
 
 
 version = 'v0.2.7'
@@ -480,19 +479,25 @@ def optionsWindow():
     resetButton = tk.Button(optionsWindow, text="Reset", command=resetOptions)
     resetButton.place(x=80, y=170)
 
+    # add a status text to show if the options are saved or not
+    savedText = tk.Label(optionsWindow, text="", padx=0, pady=0)
+    savedText.place(x=175, y=175)
+
     if data['options']['language'] == 'en':
         optionsWindow.title("Options")
         checkMarkBox1.config(text="Save history on every check")
         checkUpdateCMBox.config(text="Check for updates on startup")
         clearCMBox.config(text="Clear the logs with the clear button")
-        saveButton.config(text="Save")
+        saveButton.config(
+            text="Save", command=lambda: savedText.config(text="Options saved!"))
         resetButton.config(text="Reset")
     elif data['options']['language'] == 'de':
         optionsWindow.title("Optionen")
         checkMarkBox1.config(text="Verlauf bei jedem Check speichern")
         checkUpdateCMBox.config(text="Auf Updates beim Start prüfen")
         clearCMBox.config(text="Logs beim leeren löschen")
-        saveButton.config(text="Speichern")
+        saveButton.config(text="Speichern", command=lambda: savedText.config(
+            text="Optionen gespeichert!"))
         resetButton.config(text="Zurücksetzen")
 
 
