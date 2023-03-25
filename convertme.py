@@ -5,6 +5,9 @@ import httpx
 import json
 import threading
 import datetime
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk
 
@@ -18,8 +21,7 @@ from tkinter import ttk
 # medium priority:
 
 
-# lower priority:
-# TODO graph showing % of online and offline
+# low priority:
 
 
 # lowest priority:
@@ -508,6 +510,41 @@ def optionsWindow():
         resetButton.config(text="Zurücksetzen")
 
 
+def graph():
+    with open(".\\iwoSource\\options.json", "r") as f:
+        data = json.load(f)
+        online = 0
+        offline = 0
+        for i in data["fullHistory"]:
+            if data["fullHistory"][i]["status"] == "online":
+                online += 1
+            elif data["fullHistory"][i]["status"] == "offline":
+                offline += 1
+        if online == 0 and offline == 0:
+            if data['options']['language'] == 'en':
+                messagebox.showerror(
+                    "Error", "You need to check a website first to make a graph.")
+            elif data['options']['language'] == 'de':
+                messagebox.showerror(
+                    "Fehler", "Du musst zuerst eine Website überprüfen, um einen Graphen zu erstellen.")
+        else:
+            graphWindow = tk.Toplevel()
+            graphWindow.title("Graph")
+            graphWindow.geometry("500x500")
+            graphWindow.iconbitmap(".\\iwoSource\\favicon.ico")
+            graphWindow.resizable(False, False)
+
+            colors = ["#32cd32", "#dc143c"]
+            fig = Figure(figsize=(5, 5), dpi=100)
+            fig.add_subplot(111).pie([online, offline], labels=[
+                "Online", "Offline"], autopct='%1.1f%%', shadow=True, startangle=90, colors=colors)
+            fig.set_facecolor("#808080")
+            fig.set_edgecolor("#808080")
+            canvas = FigureCanvasTkAgg(fig, master=graphWindow)
+            canvas.draw()
+            canvas.get_tk_widget().pack()
+
+
 def about():
     with open('.\\iwoSource\\options.json', 'r') as f:
         options2 = json.load(f)
@@ -549,42 +586,47 @@ if __name__ == "__main__":
     # image
     image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
     imageLabel = ttk.Label(root, image=image)
-    imageLabel.grid(row=0, column=2, rowspan=4, padx=30, pady=3)
+    imageLabel.place(x=390, y=0)
 
     # http or https label
     httpOrHttpsLabel = ttk.Label(
         root, text="Is the website using http or https? : ")
-    httpOrHttpsLabel.grid(row=0, column=0, padx=5, pady=5)
+    httpOrHttpsLabel.place(x=10, y=20)
 
     # http or https entry
     httpOrHttpsEntry = ttk.Entry(root)
-    httpOrHttpsEntry.grid(row=0, column=1, padx=5, pady=5)
+    httpOrHttpsEntry.place(x=220, y=20)
 
     # url label
     urlLabel = ttk.Label(root, text="Enter the url: ")
-    urlLabel.grid(row=1, column=0, padx=5, pady=5)
+    urlLabel.place(x=10, y=50)
 
     # url entry
     urlEntry = ttk.Entry(root)
-    urlEntry.grid(row=1, column=1, padx=5, pady=5)
+    urlEntry.place(x=220, y=50)
 
     # Check Button
     checkButton = ttk.Button(
         root, text="Check", command=lambda: thread(checkWebsite))
-    checkButton.grid(row=2, column=0, padx=5, pady=5)
+    checkButton.place(x=10, y=100)
 
     # Status Label
     statusLabel = ttk.Label(root, text="Waiting...")
-    statusLabel.grid(row=2, column=1, columnspan=1, padx=0, pady=5)
+    statusLabel.place(x=235, y=102)
 
     # Clear Button
     clearButton = ttk.Button(root, text="Clear", command=clear)
-    clearButton.grid(row=3, column=0, padx=5, pady=5)
+    clearButton.place(x=120, y=100)
 
     # save to logs button
     viewLogsButton = ttk.Button(
         root, text="View logs", command=seeLogs)
-    viewLogsButton.grid(row=3, column=1, padx=5, pady=5)
+    viewLogsButton.place(x=10, y=150)
+
+    # graph button
+    graphButton = ttk.Button(
+        root, text="Graph", command=lambda: thread(graph))
+    graphButton.place(x=147, y=233)
 
     # version
     versionLabel = tk.Label(root, text=f"Version: {version}")
