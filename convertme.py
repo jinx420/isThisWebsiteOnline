@@ -5,6 +5,8 @@ import httpx
 import json
 import threading
 import datetime
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 import tkinter as tk
 from tkinter import ttk
 
@@ -18,24 +20,21 @@ from tkinter import ttk
 # medium priority:
 
 
-# lower priority:
-# TODO graph showing % of online and offline
-# TODO make the clear button also clear the logs
+# low priority:
+
 
 # lowest priority:
 # TODO add more options (like: file path for logs, folder etc.)
 # TODO add link to documentation in the help tab (to github wiki)
 # TODO change changeLanguage()
 # TODO add more languages (unlikely because its too much work)
-# TODO maybe add a status text to display "settings saved" in the settings tab
 
 
-version = 'v0.2.7'
+version = 'v0.2.8'
 
 # check if critical files and folders exist
 critDirs = ['.\\iwoSource']
-critFiles = ['.\\iwoSource\\options.json',
-             '.\\iwoSource\\fullHistory.json', '.\\iwoSource\\History.json']
+critFiles = ['.\\iwoSource\\options.json', '.\\iwoSource\\History.json']
 
 for dirs in critDirs:
     if os.path.exists(dirs):
@@ -52,10 +51,7 @@ for files in critFiles:
         if files == '.\\iwoSource\\options.json':
             with open(files, "w") as f:
                 json.dump(
-                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}}, f, indent=4)
-        elif files == '.\\iwoSource\\fullHistory.json':
-            with open(".\\iwoSource\\fullHistory.json", "w") as f:
-                json.dump({"history": {}}, f, indent=4)
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
         elif files == '.\\iwoSource\\History.json':
             with open(".\\iwoSource\\History.json", "w") as f:
                 json.dump([], f, indent=4)
@@ -185,12 +181,20 @@ def loadHistory():
 
 # clear all history
 def clearAllHistory():
-    with open(".\\iwoSource\\fullHistory.json", "w") as f:
-        json.dump({"history": {}}, f, indent=4)
-    with open(".\\iwoSource\\History.json", "w") as f:
-        json.dump([], f, indent=4)
     with open('.\\iwoSource\\options.json', 'r') as f:
         options = json.load(f)
+
+    saveHistoryOnCheck = options["options"]["saveHistoryOnCheck"]
+    checkUpdateCM = options["options"]["checkForUpdatesOnStartup"]
+    checkUpdateCM = options["options"]["clearLogsWithClearButton"]
+
+    with open(".\\iwoSource\\options.json", "w") as f:
+        json.dump({"options": {"language": lang2, "saveHistoryOnCheck": saveHistoryOnCheck,
+                  "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": checkUpdateCM}, "fullHistory": {}}, f, indent=4)
+
+    with open(".\\iwoSource\\History.json", "w") as f:
+        json.dump([], f, indent=4)
+
     if options['options']['language'] == 'en':
         if options['options']['clearLogsWithClearButton'] == 0:
             statusLabel.config(text="All logs deleted")
@@ -214,11 +218,11 @@ def status():
 
 # save history with date and time
 def historyWithDateAndTime():
-    json_file = '.\\iwoSource\\fullHistory.json'
+    json_file = '.\\iwoSource\\options.json'
     with open(json_file, 'r+') as jfile:
         j = json.load(jfile)
         data = j
-    i = len(data['history'])
+    i = len(data['fullHistory'])
     i += 1
     json_data = {
         f"{i}": {
@@ -231,7 +235,7 @@ def historyWithDateAndTime():
     with open(json_file, 'r+') as jfile:
         j = json.load(jfile)
         for k, v in json_data.items():
-            j['history'][k] = v
+            j['fullHistory'][k] = v
         jfile.seek(0)
         json.dump(j, jfile, indent=4)
 
@@ -354,11 +358,11 @@ def seeLogs():
         tree.heading("three", text="http/https", anchor=tk.W)
         tree.heading("four", text="Status", anchor=tk.W)
         tree.heading("five", text="Date and Time", anchor=tk.W)
-        with open(".\\iwoSource\\fullHistory.json", "r") as f:
+        with open(".\\iwoSource\\options.json", "r") as f:
             data = json.load(f)
-            for i in data["history"]:
+            for i in data["fullHistory"]:
                 tree.insert("", tk.END, text="", values=(
-                    i, data["history"][i]["url"], data["history"][i]["httpOrHttps"], data["history"][i]["status"], data["history"][i]["dateAndTime"]))
+                    i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
         tree.pack()
     elif options['options']['language'] == 'de':
         root = tk.Toplevel()
@@ -397,11 +401,11 @@ def seeLogs():
         tree.heading("three", text="http/https", anchor=tk.W)
         tree.heading("four", text="Status", anchor=tk.W)
         tree.heading("five", text="Datum und Uhrzeit", anchor=tk.W)
-        with open(".\\iwoSource\\fullHistory.json", "r") as f:
+        with open(".\\iwoSource\\options.json", "r") as f:
             data = json.load(f)
             for i in data["history"]:
                 tree.insert("", tk.END, text="", values=(
-                    i, data["history"][i]["url"], data["history"][i]["httpOrHttps"], data["history"][i]["status"], data["history"][i]["dateAndTime"]))
+                    i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
 
 
 def optionsWindow():
@@ -415,6 +419,8 @@ def optionsWindow():
                 "saveHistoryOnCheck": saveHistoryOnCheck.get(),
                 "checkForUpdatesOnStartup": checkUpdateCM.get(),
                 "clearLogsWithClearButton": clearCM.get()
+            },
+            "history": {
             }
         }
         with open(".\\iwoSource\\options.json", "w") as f:
@@ -428,6 +434,8 @@ def optionsWindow():
                 "saveHistoryOnCheck": 1,
                 "checkForUpdatesOnStartup": 0,
                 "clearLogsWithClearButton": 0
+            },
+            "fullHistory": {
             }
         }
         with open(".\\iwoSource\\options.json", "w") as f:
@@ -479,20 +487,61 @@ def optionsWindow():
     resetButton = tk.Button(optionsWindow, text="Reset", command=resetOptions)
     resetButton.place(x=80, y=170)
 
+    # add a status text to show if the options are saved or not
+    savedText = tk.Label(optionsWindow, text="", padx=0, pady=0)
+    savedText.place(x=175, y=175)
+
     if data['options']['language'] == 'en':
         optionsWindow.title("Options")
         checkMarkBox1.config(text="Save history on every check")
         checkUpdateCMBox.config(text="Check for updates on startup")
         clearCMBox.config(text="Clear the logs with the clear button")
-        saveButton.config(text="Save")
+        saveButton.config(
+            text="Save", command=lambda: savedText.config(text="Options saved!"))
         resetButton.config(text="Reset")
     elif data['options']['language'] == 'de':
         optionsWindow.title("Optionen")
         checkMarkBox1.config(text="Verlauf bei jedem Check speichern")
         checkUpdateCMBox.config(text="Auf Updates beim Start prüfen")
         clearCMBox.config(text="Logs beim leeren löschen")
-        saveButton.config(text="Speichern")
+        saveButton.config(text="Speichern", command=lambda: savedText.config(
+            text="Optionen gespeichert!"))
         resetButton.config(text="Zurücksetzen")
+
+
+def graph():
+    with open(".\\iwoSource\\options.json", "r") as f:
+        data = json.load(f)
+        online = 0
+        offline = 0
+        for i in data["fullHistory"]:
+            if data["fullHistory"][i]["status"] == "online":
+                online += 1
+            elif data["fullHistory"][i]["status"] == "offline":
+                offline += 1
+        if online == 0 and offline == 0:
+            if data['options']['language'] == 'en':
+                messagebox.showerror(
+                    "Error", "You need to check a website first to make a graph.")
+            elif data['options']['language'] == 'de':
+                messagebox.showerror(
+                    "Fehler", "Du musst zuerst eine Website überprüfen, um einen Graphen zu erstellen.")
+        else:
+            graphWindow = tk.Toplevel()
+            graphWindow.title("Graph")
+            graphWindow.geometry("500x500")
+            graphWindow.iconbitmap(".\\iwoSource\\favicon.ico")
+            graphWindow.resizable(False, False)
+
+            colors = ["#32cd32", "#dc143c"]
+            fig = Figure(figsize=(5, 5), dpi=100)
+            fig.add_subplot(111).pie([online, offline], labels=[
+                "Online", "Offline"], autopct='%1.1f%%', shadow=True, startangle=90, colors=colors)
+            fig.set_facecolor("#808080")
+            fig.set_edgecolor("#808080")
+            canvas = FigureCanvasTkAgg(fig, master=graphWindow)
+            canvas.draw()
+            canvas.get_tk_widget().pack()
 
 
 def about():
@@ -536,42 +585,47 @@ if __name__ == "__main__":
     # image
     image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
     imageLabel = ttk.Label(root, image=image)
-    imageLabel.grid(row=0, column=2, rowspan=4, padx=30, pady=3)
+    imageLabel.place(x=390, y=0)
 
     # http or https label
     httpOrHttpsLabel = ttk.Label(
         root, text="Is the website using http or https? : ")
-    httpOrHttpsLabel.grid(row=0, column=0, padx=5, pady=5)
+    httpOrHttpsLabel.place(x=10, y=20)
 
     # http or https entry
     httpOrHttpsEntry = ttk.Entry(root)
-    httpOrHttpsEntry.grid(row=0, column=1, padx=5, pady=5)
+    httpOrHttpsEntry.place(x=220, y=20)
 
     # url label
     urlLabel = ttk.Label(root, text="Enter the url: ")
-    urlLabel.grid(row=1, column=0, padx=5, pady=5)
+    urlLabel.place(x=10, y=50)
 
     # url entry
     urlEntry = ttk.Entry(root)
-    urlEntry.grid(row=1, column=1, padx=5, pady=5)
+    urlEntry.place(x=220, y=50)
 
     # Check Button
     checkButton = ttk.Button(
         root, text="Check", command=lambda: thread(checkWebsite))
-    checkButton.grid(row=2, column=0, padx=5, pady=5)
+    checkButton.place(x=10, y=100)
 
     # Status Label
     statusLabel = ttk.Label(root, text="Waiting...")
-    statusLabel.grid(row=2, column=1, columnspan=1, padx=0, pady=5)
+    statusLabel.place(x=235, y=102)
 
     # Clear Button
     clearButton = ttk.Button(root, text="Clear", command=clear)
-    clearButton.grid(row=3, column=0, padx=5, pady=5)
+    clearButton.place(x=120, y=100)
 
     # save to logs button
     viewLogsButton = ttk.Button(
         root, text="View logs", command=seeLogs)
-    viewLogsButton.grid(row=3, column=1, padx=5, pady=5)
+    viewLogsButton.place(x=10, y=150)
+
+    # graph button
+    graphButton = ttk.Button(
+        root, text="Graph", command=lambda: thread(graph))
+    graphButton.place(x=147, y=233)
 
     # version
     versionLabel = tk.Label(root, text=f"Version: {version}")
