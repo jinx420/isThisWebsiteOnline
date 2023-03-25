@@ -30,7 +30,7 @@ from tkinter import ttk
 # TODO add more languages (unlikely because its too much work)
 
 
-version = 'v0.2.8'
+version = 'v0.2.9'
 
 # check if critical files and folders exist
 critDirs = ['.\\iwoSource']
@@ -525,7 +525,7 @@ def graph():
                     "Error", "You need to check a website first to make a graph.")
             elif data['options']['language'] == 'de':
                 messagebox.showerror(
-                    "Fehler", "Du musst zuerst eine Website überprüfen, um einen Graphen zu erstellen.")
+                    "Fehler", "Du musst zuerst eine Webseite überprüfen, um einen Graphen zu erstellen.")
         else:
             graphWindow = tk.Toplevel()
             graphWindow.title("Graph")
@@ -625,7 +625,7 @@ if __name__ == "__main__":
     # graph button
     graphButton = ttk.Button(
         root, text="Graph", command=lambda: thread(graph))
-    graphButton.place(x=147, y=233)
+    graphButton.place(x=120, y=150)
 
     # version
     versionLabel = tk.Label(root, text=f"Version: {version}")
