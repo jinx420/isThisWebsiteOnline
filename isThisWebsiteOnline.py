@@ -21,7 +21,6 @@ from tkinter import ttk
 
 # lower priority:
 # TODO graph showing % of online and offline
-# TODO make the clear button also clear the logs
 
 # lowest priority:
 # TODO add more options (like: file path for logs, folder etc.)
