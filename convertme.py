@@ -21,7 +21,7 @@ from tkinter import ttk
 
 
 # low priority:
-
+# TODO work on a fix for the options not opening if user is using the old options.json file
 
 # lowest priority:
 # TODO add more options (like: file path for logs, folder etc.)
