@@ -32,7 +32,7 @@ from tkinter import ttk
 # TODO add more languages (unlikely because its too much work)
 
 
-version = 'v0.2.9'
+version = 'v0.3.0'
 
 # check if critical files and folders exist
 critDirs = ['.\\iwoSource']
@@ -188,11 +188,11 @@ def clearAllHistory():
 
     saveHistoryOnCheck = options["options"]["saveHistoryOnCheck"]
     checkUpdateCM = options["options"]["checkForUpdatesOnStartup"]
-    checkUpdateCM = options["options"]["clearLogsWithClearButton"]
+    clearCM = options["options"]["clearLogsWithClearButton"]
 
     with open(".\\iwoSource\\options.json", "w") as f:
         json.dump({"options": {"language": lang2, "saveHistoryOnCheck": saveHistoryOnCheck,
-                  "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": checkUpdateCM}, "fullHistory": {}}, f, indent=4)
+                  "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM}, "fullHistory": {}}, f, indent=4)
 
     with open(".\\iwoSource\\History.json", "w") as f:
         json.dump([], f, indent=4)
@@ -411,9 +411,6 @@ def seeLogs():
 
 
 def optionsWindow():
-    cwd = os.getcwd()
-    # save options
-
     def saveOptions():
         options = {
             "options": {
@@ -422,26 +419,32 @@ def optionsWindow():
                 "checkForUpdatesOnStartup": checkUpdateCM.get(),
                 "clearLogsWithClearButton": clearCM.get()
             },
-            "history": {
-            }
+            "fullHistory": {}
         }
         with open(".\\iwoSource\\options.json", "w") as f:
             json.dump(options, f, indent=4)
+
+        if lang2 == 'en':
+            saveButton.config(
+                text="Save", command=savedText.config(text="Options saved!"))
+        elif lang2 == 'de':
+            saveButton.config(
+                text="Speichern", command=savedText.config(text="Optionen gespeichert!"))
         # optionsWindow.destroy()
 
     def resetOptions():
-        options = {
+        optionsReset = {
             "options": {
                 "language": lang2,
                 "saveHistoryOnCheck": 1,
                 "checkForUpdatesOnStartup": 0,
                 "clearLogsWithClearButton": 0
             },
-            "fullHistory": {
-            }
+            "fullHistory": {}
         }
+
         with open(".\\iwoSource\\options.json", "w") as f:
-            json.dump(options, f, indent=4)
+            json.dump(optionsReset, f, indent=4)
         saveHistoryOnCheck.set(1)
         checkUpdateCM.set(0)
         clearCM.set(0)
@@ -455,9 +458,9 @@ def optionsWindow():
     # get the options from the options.json file
     with open(".\\iwoSource\\options.json", "r") as f:
         data = json.load(f)
-        saveHistoryOnCheck.set(data["options"]["saveHistoryOnCheck"])
-        checkUpdateCM.set(data["options"]["checkForUpdatesOnStartup"])
-        clearCM.set(data["options"]["clearLogsWithClearButton"])
+    saveHistoryOnCheck.set(data["options"]["saveHistoryOnCheck"])
+    checkUpdateCM.set(data["options"]["checkForUpdatesOnStartup"])
+    clearCM.set(data["options"]["clearLogsWithClearButton"])
 
     # options window
     optionsWindow = tk.Toplevel()
@@ -481,7 +484,6 @@ def optionsWindow():
         optionsWindow, text="Clear the logs with the clear button", variable=clearCM, onvalue=1, offvalue=0)
     clearCMBox.place(x=10, y=70)
 
-    # add save button to save the options
     saveButton = tk.Button(optionsWindow, text="Save", command=saveOptions)
     saveButton.place(x=10, y=170)
 
@@ -498,52 +500,48 @@ def optionsWindow():
         checkMarkBox1.config(text="Save history on every check")
         checkUpdateCMBox.config(text="Check for updates on startup")
         clearCMBox.config(text="Clear the logs with the clear button")
-        saveButton.config(
-            text="Save", command=lambda: savedText.config(text="Options saved!"))
         resetButton.config(text="Reset")
     elif data['options']['language'] == 'de':
         optionsWindow.title("Optionen")
         checkMarkBox1.config(text="Verlauf bei jedem Check speichern")
         checkUpdateCMBox.config(text="Auf Updates beim Start prüfen")
         clearCMBox.config(text="Logs beim leeren löschen")
-        saveButton.config(text="Speichern", command=lambda: savedText.config(
-            text="Optionen gespeichert!"))
         resetButton.config(text="Zurücksetzen")
 
 
 def graph():
     with open(".\\iwoSource\\options.json", "r") as f:
         data = json.load(f)
-        online = 0
-        offline = 0
-        for i in data["fullHistory"]:
-            if data["fullHistory"][i]["status"] == "online":
-                online += 1
-            elif data["fullHistory"][i]["status"] == "offline":
-                offline += 1
-        if online == 0 and offline == 0:
-            if data['options']['language'] == 'en':
-                messagebox.showerror(
-                    "Error", "You need to check a website first to make a graph.")
-            elif data['options']['language'] == 'de':
-                messagebox.showerror(
-                    "Fehler", "Du musst zuerst eine Webseite überprüfen, um einen Graphen zu erstellen.")
-        else:
-            graphWindow = tk.Toplevel()
-            graphWindow.title("Graph")
-            graphWindow.geometry("500x500")
-            graphWindow.iconbitmap(".\\iwoSource\\favicon.ico")
-            graphWindow.resizable(False, False)
+    online = 0
+    offline = 0
+    for i in data["fullHistory"]:
+        if data["fullHistory"][i]["status"] == "online":
+            online += 1
+        elif data["fullHistory"][i]["status"] == "offline":
+            offline += 1
+    if online == 0 and offline == 0:
+        if data['options']['language'] == 'en':
+            messagebox.showerror(
+                "Error", "You need to check a website first to make a graph.")
+        elif data['options']['language'] == 'de':
+            messagebox.showerror(
+                "Fehler", "Du musst zuerst eine Webseite überprüfen, um einen Graphen zu erstellen.")
+    else:
+        graphWindow = tk.Toplevel()
+        graphWindow.title("Graph")
+        graphWindow.geometry("500x500")
+        graphWindow.iconbitmap(".\\iwoSource\\favicon.ico")
+        graphWindow.resizable(False, False)
 
-            colors = ["#32cd32", "#dc143c"]
-            fig = Figure(figsize=(5, 5), dpi=100)
-            fig.add_subplot(111).pie([online, offline], labels=[
-                "Online", "Offline"], autopct='%1.1f%%', shadow=True, startangle=90, colors=colors)
-            fig.set_facecolor("#808080")
-            fig.set_edgecolor("#808080")
-            canvas = FigureCanvasTkAgg(fig, master=graphWindow)
-            canvas.draw()
-            canvas.get_tk_widget().pack()
+        colors = ["#32cd32", "#dc143c"]
+        fig = Figure(figsize=(5, 5), dpi=100)
+        fig.add_subplot(111).pie([online, offline], labels=[
+            "Online", "Offline"], autopct='%1.1f%%', shadow=True, startangle=90, colors=colors)
+        fig.set_facecolor("#808080")
+        fig.set_edgecolor("#808080")
+        canvas = FigureCanvasTkAgg(fig, master=graphWindow)
+        canvas.draw()
+        canvas.get_tk_widget().pack()
 
 
 def about():
