@@ -15,8 +15,10 @@ from tkinter import ttk
 # highest priority:
 # TODO optimization
 
+
 # high priority:
 # TODO make program more performant
+
 
 # medium priority:
 # TODO add more buttons / functions
