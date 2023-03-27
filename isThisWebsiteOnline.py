@@ -19,6 +19,7 @@ from tkinter import ttk
 # TODO make program more performant
 
 # medium priority:
+# TODO add more buttons / functions
 
 
 # low priority:
