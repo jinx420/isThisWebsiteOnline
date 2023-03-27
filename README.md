@@ -44,3 +44,6 @@ My history is empty after updating from v0.2.7 to v0.2.8 or newer
 
 The program wont open the options menu
 - This is most likely caused by having an old options.json file, because when opening the options it checks which options are enabled or not and if the new option doesnt exist in the old options.json then the program doesnt know what to do. I might work on a fix for this but right now the easiest fix is to just delete the old options.json (This will reset all you options, which isnt a big deal currently since there are only 3 options).
+
+My settings wont get saved on version v0.2.9
+- The version 0.2.9 (and maybe older versions) had a bug in it where the settings wont get saved due to the way how i updated the status text, this is fixed in the version v0.3.0 or newer.

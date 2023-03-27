@@ -14,10 +14,13 @@ from tkinter import ttk
 # highest priority:
 # TODO optimization
 
+
 # high priority:
+# TODO make program more performant
 
 
 # medium priority:
+# TODO add more buttons / functions
 
 
 # low priority:
@@ -25,13 +28,13 @@ from tkinter import ttk
 
 
 # lowest priority:
-# TODO add more options (like: file path for logs, folder etc.)
+# TODO add more options (like: file path for logs, folder etc.) 1 done
 # TODO add link to documentation in the help tab (to github wiki)
 # TODO change changeLanguage()
 # TODO add more languages (unlikely because its too much work)
 
 
-version = 'v0.3.0'
+version = 'v0.3.1'
 
 # check if critical files and folders exist
 critDirs = ['.\\iwoSource']
