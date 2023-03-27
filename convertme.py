@@ -25,7 +25,7 @@ from tkinter import ttk
 
 
 # lowest priority:
-# TODO add more options (like: file path for logs, folder etc.)
+# TODO add more options (like: file path for logs, folder etc.) 1 done
 # TODO add link to documentation in the help tab (to github wiki)
 # TODO change changeLanguage()
 # TODO add more languages (unlikely because its too much work)
