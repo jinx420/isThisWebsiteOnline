@@ -16,7 +16,7 @@ from tkinter import ttk
 # TODO optimization
 
 # high priority:
-
+# TODO make program more performant
 
 # medium priority:
 
