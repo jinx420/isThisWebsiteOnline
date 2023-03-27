@@ -32,7 +32,7 @@ from tkinter import ttk
 # TODO add more languages (unlikely because its too much work)
 
 
-version = 'v0.3.0'
+version = 'v0.3.1'
 
 # check if critical files and folders exist
 critDirs = ['.\\iwoSource']
