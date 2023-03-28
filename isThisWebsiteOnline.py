@@ -21,6 +21,7 @@ from tkinter import ttk
 
 
 # medium priority:
+# TODO add dark mode
 # TODO add more buttons / functions
 
 
