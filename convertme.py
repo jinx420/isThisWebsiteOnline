@@ -9,6 +9,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import tkinter as tk
 from tkinter import ttk
+import ttkbootstrap
 
 
 # highest priority:
@@ -35,7 +36,10 @@ from tkinter import ttk
 # TODO add more languages (unlikely because its too much work)
 
 
-version = 'v0.3.1'
+version = 'v0.3.2'
+
+# install dependencies
+os.system('pip install httpx matplotlib ttkbootstrap')
 
 # check if critical files and folders exist
 critDirs = ['.\\iwoSource']
@@ -589,19 +593,23 @@ if __name__ == "__main__":
     image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
     imageLabel = ttk.Label(root, image=image)
     imageLabel.place(x=390, y=0)
+    imageLabel.config(background="#FFFFFF")
 
     # http or https label
     httpOrHttpsLabel = ttk.Label(
         root, text="Is the website using http or https? : ")
     httpOrHttpsLabel.place(x=10, y=20)
+    httpOrHttpsLabel.config(background="#FFFFFF")
 
     # http or https entry
     httpOrHttpsEntry = ttk.Entry(root)
+    httpOrHttpsEntry.config(background="#FFFFFF")
     httpOrHttpsEntry.place(x=220, y=20)
 
     # url label
     urlLabel = ttk.Label(root, text="Enter the url: ")
     urlLabel.place(x=10, y=50)
+    urlLabel.config(background="#FFFFFF")
 
     # url entry
     urlEntry = ttk.Entry(root)
@@ -615,6 +623,7 @@ if __name__ == "__main__":
     # Status Label
     statusLabel = ttk.Label(root, text="Waiting...")
     statusLabel.place(x=235, y=102)
+    statusLabel.config(background="#FFFFFF")
 
     # Clear Button
     clearButton = ttk.Button(root, text="Clear", command=clear)
@@ -633,14 +642,19 @@ if __name__ == "__main__":
     # version
     versionLabel = tk.Label(root, text=f"Version: {version}")
     versionLabel.place(x=580, y=311)
+    versionLabel.config(background="#FFFFFF")
 
     # Menu
     menu = tk.Menu(root, tearoff=False)
     root.config(menu=menu)
 
+    style = ttkbootstrap.Style(theme='pulse')
+
     # File Menu
     fileMenu = tk.Menu(menu, tearoff=False)
     menu.add_cascade(label="File", menu=fileMenu)
+    menu.config(background="#FFFFFF")
+    fileMenu.config(background="#FFFFFF")
 
     # add History submenu
     historysubMenu = tk.Menu(fileMenu, tearoff=False)
@@ -695,6 +709,9 @@ if __name__ == "__main__":
 
     if options['options']['checkForUpdatesOnStartup'] == True:
         checkUpdate()
+
+    # set background color to hex #FFFFFF
+    root.configure(background='#FFFFFF')
 
     # Mainloop
     root.mainloop()
