@@ -1,49 +1,63 @@
-# This is a simple python project to check if a website is online or not
-# Features:
-1. CLI and Gui
-2. Open in Browser
-3. Save and Load history
-4. Multithreading
-5. Multiple Languages
-6. Automatic Updates
+# Website Status Checker
 
-# Planned features:
-1. Graph showing the online offline ratio
+![Website Status Checker](https://github.com/jinx420/isThisWebsiteOnline/blob/master/iwoSource/favicon.png?raw=true)
 
-## How to compile it yourself (with the batch file)
-* Note: you need to have the Folder iwoSource and the .ico, .png file from it otherwise it wont work (you could choose a different icon for compiling but the program needs the .ico and .png for displaying the icon and the picture in the main window)
-1. download the files (compile.bat, convertme.py, move.py and requirements.txt) and install python if you havent done that
-2. open terminal / cmd 
-3. pip install -r requirements.txt
-4. .\compile.bat
-5. then you are done
+This is a simple Python project designed to check the availability of websites. It provides both a command-line interface (CLI) and a graphical user interface (GUI), making it easy to use for different preferences. The project offers the following features:
 
-# How to compile it yourself (without the batch file)
-* Note: you need to have the Folder iwoSource and the .ico, .png file from it otherwise it wont work (you could choose a different icon for compiling but the program needs the .ico and .png for displaying the icon and the picture in the main window)
-1. download the files (convertme.py and requirements.txt) and install python if you havent done that
-2. open terminal / cmd
-3. pip install -r requirements.txt
-4. pyinstaller -F -w --icon=iwoSource\favicon.ico -n isThisWebsiteOnline convertme.py
+## Features
 
-# Known issues:
-When you open the about window it shows the yes / no button in the os language
-- This is an issue with how message boxes are handled by the os (i cant fix this if i want to keep the message box)
+1. CLI and GUI: Choose between the command-line interface or the graphical user interface to check the status of a website.
+2. Open in Browser: Quickly open the website in your default web browser directly from the program.
+3. Save and Load History: Keep a record of website status checks by saving and loading the history.
+4. Multithreading: Utilize multithreading to improve performance and check multiple websites simultaneously.
+5. Multiple Languages: Enjoy the flexibility of multiple language support to cater to a global user base.
+6. Automatic Updates: Stay up to date with the latest version of the program through automatic updates.
+7. Automatic Dependency Install: Simplify the installation process by automatically installing necessary dependencies.
+8. Online-Offline Ratio Graph: Visualize the online and offline ratio of websites with a graphical representation.
 
-My AV is flagging the .exe as malicous
-- UPDATE: This should be fixed for most AV products since i compiled my own pyinstaller bootloader, if you want to see which AV products will flag this file feel free to upload it to virustotal, windows defender should no longer flag this file if it does maybe you are using an older version, the new .exe will be available for the version v.0.2.6 or newer.
-- OLD: This is an issue with pyinstaller since it can be used to compile python malware and obfuscate it so that AVs cant detect it, and because the pyinstaller bootloader is the only shared part it gets flagged as malicious, i would have to encrypt or encode the code and currently there is no plan to do so.
+## Planned Features
 
-The program wont run it gives me an error showing Failed to execute script 'convertme' due to unhandled exception: bitmap ".\iwoSource\favicon.ico" not defined
-- Currently I havent found a fix for that yet :(, the only fix would be to download the iwoSource folder and its contents or use the old iwoSource folder from your previous install.
+1. Option to Disable Automatic Dependency Installation: In an upcoming update, an option to disable automatic dependency installation will be added to allow advanced users more control over the installation process.
 
-The program wont run it gives me an error showing Failed to execute script 'convertme' due to unhandled exception: bitmap ".\iwoSource\favicon.png" not defined
-- As described above currently there is no fix for it, the only fix would be to download the iwoSource folder and its contents or the old iwoSource folder from your previous install.
+## How to Compile It Yourself
 
-My history is empty after updating from v0.2.7 to v0.2.8 or newer
-- This is because in v0.2.8 I changed the way how the full history is saved, now the full history will be saved in the options.json file. (You can delete the old fullHistory.json file since it isnt used anymore and is jsut wasted space)
+### With the Batch File
 
-The program wont open the options menu
-- This is most likely caused by having an old options.json file, because when opening the options it checks which options are enabled or not and if the new option doesnt exist in the old options.json then the program doesnt know what to do. I might work on a fix for this but right now the easiest fix is to just delete the old options.json (This will reset all you options, which isnt a big deal currently since there are only 3 options).
+*Note: Make sure you have the `iwoSource` folder along with the required `.ico` and `.png` files in the same directory. These files are necessary for displaying the program's icon and main window image.*
 
-My settings wont get saved on version v0.2.9
-- The version 0.2.9 (and maybe older versions) had a bug in it where the settings wont get saved due to the way how i updated the status text, this is fixed in the version v0.3.0 or newer.
+1. Download the following files: `compile.bat`, `convertme.py`, `move.py`, and `requirements.txt`. If you haven't already, install Python.
+2. Open the terminal or command prompt.
+3. Install the required dependencies by running the command: `pip install -r requirements.txt`.
+4. Execute the batch file by entering the command: `.\compile.bat`.
+5. The compilation process will be completed, and you're ready to use the program.
+
+### Without the Batch File
+
+*Note: Make sure you have the `iwoSource` folder along with the required `.ico` and `.png` files in the same directory. These files are necessary for displaying the program's icon and main window image.*
+
+1. Download the following files: `convertme.py` and `requirements.txt`. If you haven't already, install Python.
+2. Open the terminal or command prompt.
+3. Install the required dependencies by running the command: `pip install -r requirements.txt`.
+4. Compile the program by entering the following command: `pyinstaller -F -w --icon=iwoSource\favicon.ico -n isThisWebsiteOnline convertme.py`.
+
+## Known Issues
+
+1. **Language-dependent Message Box Buttons:** When opening the about window, the "Yes/No" buttons may appear in the language set by the operating system. This issue is inherent to how message boxes are handled by the OS and cannot be fixed without compromising the functionality of the message box.
+
+2. **False Positive Antivirus Detection:** Some antivirus software may flag the `.exe` file generated by the program as malicious. This is a known issue with PyInstaller due to its potential for compiling Python malware. However, this issue should be resolved for most antivirus products since a custom PyInstaller bootloader was compiled. You can verify the file's safety by uploading it to VirusTotal. Windows Defender should no longer flag the file, but if it does, ensure you are using an up-to-date version. The fixed `.exe` file will be available in version v0.2.6 or newer.
+
+3. **Failed to Execute Script: Unhandled Exception - Bitmap Not Defined:** If you encounter an error stating "Failed to execute script 'convertme' due to an unhandled exception: bitmap ".\iwoSource\favicon.ico" not defined" or "bitmap ".\iwoSource\favicon.png" not defined," it means the `iwoSource` folder and its contents are missing. Please download the `iwoSource` folder and ensure it is present in the correct location.
+
+4. **Empty History After Updating to v0.2.8 or Newer:** After updating to version v0.2.8 or newer, the history may appear empty. This is because the program now saves the full history in the `options.json` file instead of the previous `fullHistory.json` file. You can safely delete the old `fullHistory.json` file as it is no longer used.
+
+5. **Unable to Open Options Menu:** If you are unable to open the options menu, it is likely due to having an outdated `options.json` file. The program checks for enabled options when opening the menu, and if a new option does not exist in the old `options.json`, the program cannot proceed. Deleting the old `options.json` file is the easiest fix for this issue, but please note that it will reset all your options. Currently, there are only three options, so this is not a significant concern.
+
+6. **Settings Not Saved in v0.2.9:** In version v0.2.9 (and possibly older versions), a bug prevented settings from being saved due to an update in the status text. This issue has been resolved in version v0.3.0 or newer.
+
+## Notice for Developers
+
+⚠️ **Important Notice:** Starting from version v0.3.2, the branch `develop` has been renamed to `old-develop` and is no longer actively maintained. To streamline our development process and focus efforts on the `master` branch, which contains the latest stable version, we have made this change.
+
+If you have been actively working on the `develop` branch, we recommend switching to the `master` branch and creating a new branch based on it for your ongoing development work. Please ensure that any bug fixes or new features are implemented on the `master` branch going forward.
+
+We appreciate your understanding and cooperation in this transition. If you have any questions or need further assistance, please don't hesitate to reach out to our team. Thank you for your continued support and dedication to this project!
