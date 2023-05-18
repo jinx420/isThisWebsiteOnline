@@ -178,8 +178,8 @@ def loadHistory():
     with open(".\\iwoSource\\history.json", "r") as f:
         history = json.load(f)
     urlEntry.delete(0, tk.END)
-    urlEntry.insert(0, history[0])
     httpOrHttpsEntry.delete(0, tk.END)
+    urlEntry.insert(0, history[0])
     httpOrHttpsEntry.insert(0, history[1])
     with open('.\\iwoSource\\options.json', 'r') as f:
         options = json.load(f)

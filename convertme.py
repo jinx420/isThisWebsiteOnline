@@ -177,8 +177,8 @@ def loadHistory():
     with open(".\\iwoSource\\history.json", "r") as f:
         history = json.load(f)
     urlEntry.delete(0, tk.END)
-    urlEntry.insert(0, history[0])
     httpOrHttpsEntry.delete(0, tk.END)
+    urlEntry.insert(0, history[0])
     httpOrHttpsEntry.insert(0, history[1])
     with open('.\\iwoSource\\options.json', 'r') as f:
         options = json.load(f)
@@ -582,136 +582,136 @@ def clear():
 
 # main
 if __name__ == "__main__":
-    # root
-    root = tk.Tk()
-    root.title("IsThisWebsiteOnline?")
-    root.geometry("670x350")
-    root.iconbitmap(".\\iwoSource\\favicon.ico")
-    root.resizable(False, False)
+        # root
+        root = tk.Tk()
+        root.title("IsThisWebsiteOnline?")
+        root.geometry("670x350")
+        root.iconbitmap(".\\iwoSource\\favicon.ico")
+        root.resizable(False, False)
 
-    # image
-    image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
-    imageLabel = ttk.Label(root, image=image)
-    imageLabel.place(x=390, y=0)
-    imageLabel.config(background="#FFFFFF")
+        # image
+        image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
+        imageLabel = ttk.Label(root, image=image)
+        imageLabel.place(x=390, y=0)
+        imageLabel.config(background="#FFFFFF")
 
-    # http or https label
-    httpOrHttpsLabel = ttk.Label(
-        root, text="Is the website using http or https? : ")
-    httpOrHttpsLabel.place(x=10, y=20)
-    httpOrHttpsLabel.config(background="#FFFFFF")
+        # http or https label
+        httpOrHttpsLabel = ttk.Label(
+            root, text="Is the website using http or https? : ")
+        httpOrHttpsLabel.place(x=10, y=20)
+        httpOrHttpsLabel.config(background="#FFFFFF")
 
-    # http or https entry
-    httpOrHttpsEntry = ttk.Entry(root)
-    httpOrHttpsEntry.config(background="#FFFFFF")
-    httpOrHttpsEntry.place(x=220, y=20)
+        # http or https entry
+        httpOrHttpsEntry = ttk.Entry(root)
+        httpOrHttpsEntry.config(background="#FFFFFF")
+        httpOrHttpsEntry.place(x=220, y=20)
 
-    # url label
-    urlLabel = ttk.Label(root, text="Enter the url: ")
-    urlLabel.place(x=10, y=50)
-    urlLabel.config(background="#FFFFFF")
+        # url label
+        urlLabel = ttk.Label(root, text="Enter the url: ")
+        urlLabel.place(x=10, y=50)
+        urlLabel.config(background="#FFFFFF")
 
-    # url entry
-    urlEntry = ttk.Entry(root)
-    urlEntry.place(x=220, y=50)
+        # url entry
+        urlEntry = ttk.Entry(root)
+        urlEntry.place(x=220, y=50)
 
-    # Check Button
-    checkButton = ttk.Button(
-        root, text="Check", command=lambda: thread(checkWebsite))
-    checkButton.place(x=10, y=100)
+        # Check Button
+        checkButton = ttk.Button(
+            root, text="Check", command=lambda: thread(checkWebsite))
+        checkButton.place(x=10, y=100)
 
-    # Status Label
-    statusLabel = ttk.Label(root, text="Waiting...")
-    statusLabel.place(x=235, y=102)
-    statusLabel.config(background="#FFFFFF")
+        # Status Label
+        statusLabel = ttk.Label(root, text="Waiting...")
+        statusLabel.place(x=235, y=102)
+        statusLabel.config(background="#FFFFFF")
 
-    # Clear Button
-    clearButton = ttk.Button(root, text="Clear", command=clear)
-    clearButton.place(x=120, y=100)
+        # Clear Button
+        clearButton = ttk.Button(root, text="Clear", command=clear)
+        clearButton.place(x=120, y=100)
 
-    # save to logs button
-    viewLogsButton = ttk.Button(
-        root, text="View logs", command=seeLogs)
-    viewLogsButton.place(x=10, y=150)
+        # save to logs button
+        viewLogsButton = ttk.Button(
+            root, text="View logs", command=seeLogs)
+        viewLogsButton.place(x=10, y=150)
 
-    # graph button
-    graphButton = ttk.Button(
-        root, text="Graph", command=lambda: thread(graph))
-    graphButton.place(x=120, y=150)
+        # graph button
+        graphButton = ttk.Button(
+            root, text="Graph", command=lambda: thread(graph))
+        graphButton.place(x=120, y=150)
 
-    # version
-    versionLabel = tk.Label(root, text=f"Version: {version}")
-    versionLabel.place(x=580, y=311)
-    versionLabel.config(background="#FFFFFF")
+        # version
+        versionLabel = tk.Label(root, text=f"Version: {version}")
+        versionLabel.place(x=580, y=311)
+        versionLabel.config(background="#FFFFFF")
 
-    # Menu
-    menu = tk.Menu(root, tearoff=False)
-    root.config(menu=menu)
+        # Menu
+        menu = tk.Menu(root, tearoff=False)
+        root.config(menu=menu)
 
-    style = ttkbootstrap.Style(theme='pulse')
+        style = ttkbootstrap.Style(theme='pulse')
 
-    # File Menu
-    fileMenu = tk.Menu(menu, tearoff=False)
-    menu.add_cascade(label="File", menu=fileMenu)
-    menu.config(background="#FFFFFF")
-    fileMenu.config(background="#FFFFFF")
+        # File Menu
+        fileMenu = tk.Menu(menu, tearoff=False)
+        menu.add_cascade(label="File", menu=fileMenu)
+        menu.config(background="#FFFFFF")
+        fileMenu.config(background="#FFFFFF")
 
-    # add History submenu
-    historysubMenu = tk.Menu(fileMenu, tearoff=False)
-    fileMenu.add_cascade(label="History", menu=historysubMenu)
-    historysubMenu.add_command(label='Save History',
-                               command=lambda: thread(history))
-    historysubMenu.add_command(label='Load History',
-                               command=lambda: thread(loadHistory))
-    historysubMenu.add_command(label="See logs", command=seeLogs)
-    historysubMenu.add_command(label="Clear logs", command=clearAllHistory)
+        # add History submenuS
+        historysubMenu = tk.Menu(fileMenu, tearoff=False)
+        fileMenu.add_cascade(label="History", menu=historysubMenu)
+        historysubMenu.add_command(label='Save History',
+                                   command=lambda: thread(history))
+        historysubMenu.add_command(label='Load History',
+                                   command=lambda: thread(loadHistory))
+        historysubMenu.add_command(label="See logs", command=seeLogs)
+        historysubMenu.add_command(label="Clear logs", command=clearAllHistory)
 
-    # add misc submenu
-    miscSubMenu = tk.Menu(fileMenu, tearoff=False)
-    fileMenu.add_cascade(label="Misc", menu=miscSubMenu)
-    miscSubMenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
-        f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
+        # add misc submenu
+        miscSubMenu = tk.Menu(fileMenu, tearoff=False)
+        fileMenu.add_cascade(label="Misc", menu=miscSubMenu)
+        miscSubMenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
+            f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
 
-    fileMenu.add_separator()
-    fileMenu.add_command(label='Options', command=optionsWindow)
-    fileMenu.add_separator()
-    fileMenu.add_command(label="Exit", command=root.destroy)
+        fileMenu.add_separator()
+        fileMenu.add_command(label='Options', command=optionsWindow)
+        fileMenu.add_separator()
+        fileMenu.add_command(label="Exit", command=root.destroy)
 
-    # Help Menu
-    helpMenu = tk.Menu(menu, tearoff=False)
-    menu.add_cascade(label="Help", menu=helpMenu)
-    helpMenu.add_command(label='Check for update', command=checkUpdate)
-    helpMenu.add_command(label="About", command=about)
+        # Help Menu
+        helpMenu = tk.Menu(menu, tearoff=False)
+        menu.add_cascade(label="Help", menu=helpMenu)
+        helpMenu.add_command(label='Check for update', command=checkUpdate)
+        helpMenu.add_command(label="About", command=about)
 
-    # Language Menu
-    languageMenu = tk.Menu(menu, tearoff=False)
-    menu.add_cascade(label="Language", menu=languageMenu)
-    languageMenu.add_command(
-        label="English", command=lambda: changeLanguage('en'))
-    languageMenu.add_command(
-        label="Deutsch", command=lambda: changeLanguage('de'))
+        # Language Menu
+        languageMenu = tk.Menu(menu, tearoff=False)
+        menu.add_cascade(label="Language", menu=languageMenu)
+        languageMenu.add_command(
+            label="English", command=lambda: changeLanguage('en'))
+        languageMenu.add_command(
+            label="Deutsch", command=lambda: changeLanguage('de'))
 
-    # MinSize and MaxSize
-    root.update()
-    root.minsize(root.winfo_width(), root.winfo_height())
-    root.maxsize(root.winfo_width(), root.winfo_height())
-    root.update()
+        # MinSize and MaxSize
+        root.update()
+        root.minsize(root.winfo_width(), root.winfo_height())
+        root.maxsize(root.winfo_width(), root.winfo_height())
+        root.update()
 
-    # Topmost
-    root.attributes("-topmost", True)
-    root.attributes("-topmost", False)
+        # Topmost
+        root.attributes("-topmost", True)
+        root.attributes("-topmost", False)
 
-    # change default language
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options = json.load(f)
-        lang2 = options['options']['language']
-    changeLanguage(lang2)
+        # change default language
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options = json.load(f)
+            lang2 = options['options']['language']
+        changeLanguage(lang2)
 
-    if options['options']['checkForUpdatesOnStartup'] == True:
-        checkUpdate()
+        if options['options']['checkForUpdatesOnStartup'] == True:
+            checkUpdate()
 
-    # set background color to hex #FFFFFF
-    root.configure(background='#FFFFFF')
+        # set background color to hex #FFFFFF
+        root.configure(background='#FFFFFF')
 
-    # Mainloop
-    root.mainloop()
+        # Mainloop
+        root.mainloop()
