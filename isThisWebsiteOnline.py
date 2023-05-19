@@ -1,11 +1,10 @@
 import os
 import subprocess
-from subprocess import DEVNULL, STDOUT  
+from subprocess import DEVNULL, STDOUT
 from tkinter import messagebox
 import webbrowser
 import httpx
 import json
-import sys
 import threading
 import datetime
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -46,7 +45,7 @@ os_name = os.name
 if os_name == 'nt':
     critDirs = ['.\\iwoSource']
     critFiles = ['.\\iwoSource\\options.json',
-                    '.\\iwoSource\\History.json']
+                 '.\\iwoSource\\History.json']
 elif os_name == 'posix':
     critDirs = ['./iwoSource']
     critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
@@ -82,6 +81,7 @@ for files in critFiles:
         elif os_name == 'posix' and files == './iwoSource/History.json':
             with open("./iwoSource/History.json", "w") as f:
                 json.dump([], f, indent=4)
+
 
 def checkUpdate():
     if os_name == 'nt':
@@ -339,10 +339,10 @@ def changeLanguage(lang):
         # History sub menu
         history_submenu.entryconfig(0, label="Save History")
         history_submenu.entryconfig(1, label="Load History",
-                                   command=lambda: thread(loadHistory))
+                                    command=lambda: thread(loadHistory))
         history_submenu.entryconfig(2, label="View Logs", command=seeLogs)
         history_submenu.entryconfig(3, label="Clear All History",
-                                   command=clearAllHistory)
+                                    command=clearAllHistory)
 
         # misc sub menu
         misc_submenu.entryconfig(0, label="Open in Browser")
@@ -385,10 +385,10 @@ def changeLanguage(lang):
         # sub menu
         history_submenu.entryconfig(0, label="Verlauf speichern")
         history_submenu.entryconfig(1, label="Verlauf laden",
-                                   command=lambda: thread(loadHistory))
+                                    command=lambda: thread(loadHistory))
         history_submenu.entryconfig(2, label="Logs ansehen", command=seeLogs)
         history_submenu.entryconfig(3, label="Alle Verläufe löschen",
-                                   command=clearAllHistory)
+                                    command=clearAllHistory)
 
         # misc sub menu
         misc_submenu.entryconfig(0, label="Im Browser öffnen")
@@ -574,7 +574,7 @@ def optionsWindow():
         clearCM.set(0)
         reloadGUIwith.set(0)
         # optionsWindow.destroy()
-    
+
     def devPopUp():
         if os_name == 'nt':
             with open(".\\iwoSource\\options.json", "r") as f:
@@ -583,7 +583,8 @@ def optionsWindow():
             with open("./iwoSource/options.json", "r") as f:
                 data = json.load(f)
         if data['options']['devPopUp'] == 0:
-            messagebox.showinfo("Dev", "This feature is meant for developers. If you are not a developer, please do not use this feature.\nUsing this feature can cause the program to break, use with caution.")
+            messagebox.showinfo(
+                "Dev", "This feature is meant for developers. If you are not a developer, please do not use this feature.\nUsing this feature can cause the program to break, use with caution.")
             options = {
                 "options": {
                     "language": lang2,
@@ -603,7 +604,6 @@ def optionsWindow():
                     json.dump(options, f, indent=4)
         elif data['options']['devPopUp'] == 1:
             pass
-
 
     # get the value of the check mark box
     saveHistoryOnCheck = tk.IntVar()  # 0 = off, 1 = on
@@ -649,7 +649,8 @@ def optionsWindow():
     clearCMBox.place(x=10, y=70)
 
     # reload gui with .py or .exe
-    reloadGUIBox = tk.Checkbutton(optionsWindow, text="Reload GUI with .exe or .py", variable=reloadGUIwith, onvalue=1, offvalue=0, command=lambda: devPopUp())
+    reloadGUIBox = tk.Checkbutton(optionsWindow, text="Reload GUI with .exe or .py",
+                                  variable=reloadGUIwith, onvalue=1, offvalue=0, command=lambda: devPopUp())
     reloadGUIBox.place(x=10, y=100)
 
     # save button
@@ -771,228 +772,206 @@ if __name__ == "__main__":
     #         subprocess.call(
     #             ["pip3", "install", "-r", "./requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
 
-    # cli
-    if sys.argv[1] == "cli":
-        if sys.argv[3] == "http" or sys.argv[3] == "https":
-            if isWebsiteOnline(sys.argv[2]):
-                print("Website is online")
-            else:
-                print("Website is offline")
-        else:
-            print(
-                "usage: python isThisWebsiteOnline.py <cli or gui> <url> <http or https>")
+    if os_name == 'nt':
+        with open(".\\iwoSource\\options.json", "r") as f:
+            options = json.load(f)
+    elif os_name == 'posix':
+        with open("./iwoSource/options.json", "r") as f:
+            options = json.load(f)
 
-    # gui
-    elif sys.argv[1] == "gui":
+    # root
+    root = tk.Tk()
+    root.title("IsThisWebsiteOnline?")
+    root.geometry("670x350")
+    if os_name == 'nt':
+        root.iconbitmap(".\\iwoSource\\favicon.ico")
+    elif os_name == 'posix':
+        root.iconbitmap("./iwoSource/favicon.ico")
+    root.resizable(False, False)
+    root.config(background="#26777f")
+
+    # reload gui
+    def reloadGUI():
         if os_name == 'nt':
             with open(".\\iwoSource\\options.json", "r") as f:
                 options = json.load(f)
         elif os_name == 'posix':
             with open("./iwoSource/options.json", "r") as f:
                 options = json.load(f)
-
-        # root
-        root = tk.Tk()
-        root.title("IsThisWebsiteOnline?")
-        root.geometry("670x350")
-        if os_name == 'nt':
-            root.iconbitmap(".\\iwoSource\\favicon.ico")
-        elif os_name == 'posix':
-            root.iconbitmap("./iwoSource/favicon.ico")
-        root.resizable(False, False)
-        root.config(background="#26777f")
-
-        # reload gui
-        def reloadGUI():
+        root.destroy()
+        if options['options']['reloadGUIwith'] == 1:
             if os_name == 'nt':
-                with open(".\\iwoSource\\options.json", "r") as f:
-                    options = json.load(f)
+                subprocess.call(
+                    ["python", "isThisWebsiteOnline.py", "gui"])
             elif os_name == 'posix':
-                with open("./iwoSource/options.json", "r") as f:
-                    options = json.load(f)
-            root.destroy()
-            if options['options']['reloadGUIwith'] == 1:
-                if os_name == 'nt':
-                    subprocess.call(["python", "isThisWebsiteOnline.py", "gui"])
-                elif os_name == 'posix':
-                    subprocess.call(["python3", "isThisWebsiteOnline.py", "gui"])
-            elif options['options']['reloadGUIwith'] == 0:
-                subprocess.call([".\isThisWebsiteOnline.exe"])
+                subprocess.call(
+                    ["python3", "isThisWebsiteOnline.py", "gui"])
+        elif options['options']['reloadGUIwith'] == 0:
+            subprocess.call([".\isThisWebsiteOnline.exe"])
 
-        # regenerate options.json
-        def regenerateOptions():
-            if os_name == 'nt':
-                with open(".\\iwoSource\\options.json", "w") as f:
-                    json.dump(
-                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
-            elif os_name == 'posix':
-                with open("./iwoSource/options.json", "w") as f:
-                    json.dump(
-                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
-
-            if lang2 == 'en':
-                statusLabel.config(text="options.json regenerated!")
-            elif lang2 == 'de':
-                statusLabel.config(text="options.json neu generiert!")
-
-        reloadGUIButton = ttk.Button(
-            root, text="Reload GUI", command=reloadGUI)
-        reloadGUIButton.place(x=10, y=300)
-        if options['options']['language'] == 'en':
-            reloadGUIButton.config(text="Reload GUI")
-        elif options['options']['language'] == 'de':
-            reloadGUIButton.config(text="GUI neu laden")
-
-        regenerateOptionsButton = ttk.Button(
-            root, text="Regenerate options.json", command=regenerateOptions)
-        regenerateOptionsButton.place(x=120, y=300)
-        if options['options']['language'] == 'en':
-            regenerateOptionsButton.config(text="Regenerate options.json")
-        elif options['options']['language'] == 'de':
-            regenerateOptionsButton.config(text="options.json neu generieren")
-
-        # image
+    # regenerate options.json
+    def regenerateOptions():
         if os_name == 'nt':
-            image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
+            with open(".\\iwoSource\\options.json", "w") as f:
+                json.dump(
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
         elif os_name == 'posix':
-            image = tk.PhotoImage(file="./iwoSource/favicon.png")
-        imageLabel = ttk.Label(root, image=image)
-        imageLabel.place(x=390, y=0)
-        imageLabel.config(background="#FFFFFF")
+            with open("./iwoSource/options.json", "w") as f:
+                json.dump(
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
 
-        # http or https label
-        httpOrHttpsLabel = ttk.Label(
-            root, text="Is the website using http or https? : ")
-        httpOrHttpsLabel.place(x=10, y=20)
-        httpOrHttpsLabel.config(background="#FFFFFF")
+        if lang2 == 'en':
+            statusLabel.config(text="options.json regenerated!")
+        elif lang2 == 'de':
+            statusLabel.config(text="options.json neu generiert!")
 
-        # http or https entry
-        httpOrHttpsEntry = ttk.Entry(root)
-        httpOrHttpsEntry.config(background="#FFFFFF")
-        httpOrHttpsEntry.place(x=220, y=20)
+    reloadGUIButton = ttk.Button(
+        root, text="Reload GUI", command=reloadGUI)
+    reloadGUIButton.place(x=10, y=300)
+    if options['options']['language'] == 'en':
+        reloadGUIButton.config(text="Reload GUI")
+    elif options['options']['language'] == 'de':
+        reloadGUIButton.config(text="GUI neu laden")
 
-        # url label
-        urlLabel = ttk.Label(root, text="Enter the url: ")
-        urlLabel.place(x=10, y=50)
-        urlLabel.config(background="#FFFFFF")
+    regenerateOptionsButton = ttk.Button(
+        root, text="Regenerate options.json", command=regenerateOptions)
+    regenerateOptionsButton.place(x=120, y=300)
+    if options['options']['language'] == 'en':
+        regenerateOptionsButton.config(text="Regenerate options.json")
+    elif options['options']['language'] == 'de':
+        regenerateOptionsButton.config(text="options.json neu generieren")
 
-        # url entry
-        urlEntry = ttk.Entry(root)
-        urlEntry.place(x=220, y=50)
+    # image
+    if os_name == 'nt':
+        image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
+    elif os_name == 'posix':
+        image = tk.PhotoImage(file="./iwoSource/favicon.png")
+    imageLabel = ttk.Label(root, image=image)
+    imageLabel.place(x=390, y=0)
+    imageLabel.config(background="#FFFFFF")
 
-        # Check Button
-        checkButton = ttk.Button(
-            root, text="Check", command=lambda: thread(checkWebsite))
-        checkButton.place(x=10, y=100)
+    # http or https label
+    httpOrHttpsLabel = ttk.Label(
+        root, text="Is the website using http or https? : ")
+    httpOrHttpsLabel.place(x=10, y=20)
+    httpOrHttpsLabel.config(background="#FFFFFF")
 
-        # Status Label
-        statusLabel = ttk.Label(root, text="Waiting...")
-        statusLabel.place(x=235, y=102)
-        statusLabel.config(background="#FFFFFF")
+    # http or https entry
+    httpOrHttpsEntry = ttk.Entry(root)
+    httpOrHttpsEntry.config(background="#FFFFFF")
+    httpOrHttpsEntry.place(x=220, y=20)
 
-        # Clear Button
-        clearButton = ttk.Button(root, text="Clear", command=clear)
-        clearButton.place(x=120, y=100)
+    # url label
+    urlLabel = ttk.Label(root, text="Enter the url: ")
+    urlLabel.place(x=10, y=50)
+    urlLabel.config(background="#FFFFFF")
 
-        # save to logs button
-        viewLogsButton = ttk.Button(
-            root, text="View logs", command=seeLogs)
-        viewLogsButton.place(x=10, y=150)
+    # url entry
+    urlEntry = ttk.Entry(root)
+    urlEntry.place(x=220, y=50)
 
-        # graph button
-        graphButton = ttk.Button(
-            root, text="Graph", command=lambda: thread(graph))
-        graphButton.place(x=120, y=150)
+    # Check Button
+    checkButton = ttk.Button(
+        root, text="Check", command=lambda: thread(checkWebsite))
+    checkButton.place(x=10, y=100)
 
-        # version
-        versionLabel = tk.Label(root, text=f"Version: {version}")
-        versionLabel.place(x=580, y=311)
-        versionLabel.config(background="#FFFFFF")
+    # Status Label
+    statusLabel = ttk.Label(root, text="Waiting...")
+    statusLabel.place(x=235, y=102)
+    statusLabel.config(background="#FFFFFF")
 
-        # Menu
-        menu = tk.Menu(root, tearoff=False)
-        root.config(menu=menu)
+    # Clear Button
+    clearButton = ttk.Button(root, text="Clear", command=clear)
+    clearButton.place(x=120, y=100)
 
-        style = Style(theme='pulse')
+    # save to logs button
+    viewLogsButton = ttk.Button(
+        root, text="View logs", command=seeLogs)
+    viewLogsButton.place(x=10, y=150)
 
-        # File Menu
-        file_menu = tk.Menu(menu, tearoff=False)
-        menu.add_cascade(label="File", menu=file_menu)
-        menu.config(background="#FFFFFF")
-        file_menu.config(background="#FFFFFF")
+    # graph button
+    graphButton = ttk.Button(
+        root, text="Graph", command=lambda: thread(graph))
+    graphButton.place(x=120, y=150)
 
-        # history sub menu
-        history_submenu = tk.Menu(file_menu, tearoff=False)
-        file_menu.add_cascade(label="History", menu=history_submenu)
-        history_submenu.add_command(label='Save History',
-                                   command=lambda: thread(history))
-        history_submenu.add_command(label='Load History',
-                                   command=lambda: thread(loadHistory))
-        history_submenu.add_command(label="See logs", command=seeLogs)
-        history_submenu.add_command(label="Clear logs", command=clearAllHistory)
+    # version
+    versionLabel = tk.Label(root, text=f"Version: {version}")
+    versionLabel.place(x=580, y=311)
+    versionLabel.config(background="#FFFFFF")
 
-        # misc sub menu
-        misc_submenu = tk.Menu(file_menu, tearoff=False)
-        file_menu.add_cascade(label="Misc", menu=misc_submenu)
-        misc_submenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
-            f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
+    # Menu
+    menu = tk.Menu(root, tearoff=False)
+    root.config(menu=menu)
 
-        file_menu.add_separator()
-        file_menu.add_command(label='Options', command=optionsWindow)
-        file_menu.add_separator()
-        file_menu.add_command(label="Exit", command=root.destroy)
+    style = Style(theme='pulse')
 
-        # Help Menu
-        help_menu = tk.Menu(menu, tearoff=False)
-        menu.add_cascade(label="Help", menu=help_menu)
-        help_menu.add_command(label='Check for update', command=checkUpdate)
-        help_menu.add_command(label="About", command=about)
-        help_menu.config(background="#FFFFFF")
+    # File Menu
+    file_menu = tk.Menu(menu, tearoff=False)
+    menu.add_cascade(label="File", menu=file_menu)
+    menu.config(background="#FFFFFF")
+    file_menu.config(background="#FFFFFF")
 
-        # Language Menu
-        language_menu = tk.Menu(menu, tearoff=False)
-        menu.add_cascade(label="Language", menu=language_menu)
-        language_menu.add_command(
-            label="English", command=lambda: changeLanguage('en'))
-        language_menu.add_command(
-            label="Deutsch", command=lambda: changeLanguage('de'))
-        language_menu.config(background="#FFFFFF")
+    # history sub menu
+    history_submenu = tk.Menu(file_menu, tearoff=False)
+    file_menu.add_cascade(label="History", menu=history_submenu)
+    history_submenu.add_command(label='Save History',
+                                command=lambda: thread(history))
+    history_submenu.add_command(label='Load History',
+                                command=lambda: thread(loadHistory))
+    history_submenu.add_command(label="See logs", command=seeLogs)
+    history_submenu.add_command(
+        label="Clear logs", command=clearAllHistory)
 
-        # MinSize and MaxSize
-        root.update()
-        root.minsize(root.winfo_width(), root.winfo_height())
-        root.maxsize(root.winfo_width(), root.winfo_height())
-        root.update()
+    # misc sub menu
+    misc_submenu = tk.Menu(file_menu, tearoff=False)
+    file_menu.add_cascade(label="Misc", menu=misc_submenu)
+    misc_submenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
+        f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
 
-        # Topmost
-        root.attributes("-topmost", True)
-        root.attributes("-topmost", False)
+    file_menu.add_separator()
+    file_menu.add_command(label='Options', command=optionsWindow)
+    file_menu.add_separator()
+    file_menu.add_command(label="Exit", command=root.destroy)
 
-        # change default language
-        if os_name == 'nt':
-            with open('.\\iwoSource\\options.json', 'r') as f:
-                options = json.load(f)
-                lang2 = options['options']['language']
-        elif os_name == 'posix':
-            with open('./iwoSource/options.json', 'r') as f:
-                options = json.load(f)
-                lang2 = options['options']['language']
-        changeLanguage(lang2)
+    # Help Menu
+    help_menu = tk.Menu(menu, tearoff=False)
+    menu.add_cascade(label="Help", menu=help_menu)
+    help_menu.add_command(label='Check for update', command=checkUpdate)
+    help_menu.add_command(label="About", command=about)
+    help_menu.config(background="#FFFFFF")
 
-        if options['options']['checkForUpdatesOnStartup'] == True:
-            checkUpdate()
+    # Language Menu
+    language_menu = tk.Menu(menu, tearoff=False)
+    menu.add_cascade(label="Language", menu=language_menu)
+    language_menu.add_command(
+        label="English", command=lambda: changeLanguage('en'))
+    language_menu.add_command(
+        label="Deutsch", command=lambda: changeLanguage('de'))
+    language_menu.config(background="#FFFFFF")
 
-        # Mainloop
-        root.mainloop()
+    # MinSize and MaxSize
+    root.update()
+    root.minsize(root.winfo_width(), root.winfo_height())
+    root.maxsize(root.winfo_width(), root.winfo_height())
+    root.update()
 
-    # neither cli nor gui
-    elif sys.argv[1] != "cli" and sys.argv[1] != "gui":
-        print('usage: python isThisWebsiteOnline.py <cli or gui> <url> <http or https>')
-        sys.exit(1)
+    # Topmost
+    root.attributes("-topmost", True)
+    root.attributes("-topmost", False)
 
-    # invalid http or https
-    elif sys.argv[3] != "http" and sys.argv[3] != "https":
-        print('usage: python isThisWebsiteOnline.py <cli or gui> <url> <http or https>')
-        sys.exit(1)
+    # change default language
+    if os_name == 'nt':
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options = json.load(f)
+            lang2 = options['options']['language']
+    elif os_name == 'posix':
+        with open('./iwoSource/options.json', 'r') as f:
+            options = json.load(f)
+            lang2 = options['options']['language']
+    changeLanguage(lang2)
 
-    sys.exit(0)
+    if options['options']['checkForUpdatesOnStartup'] == True:
+        checkUpdate()
+
+    # Mainloop
+    root.mainloop()
