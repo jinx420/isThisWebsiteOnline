@@ -27,7 +27,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 1. Download the following files: `compile.bat`, `convertme.py`, `move.py`, and `requirements.txt`. If you haven't already, install Python.
 2. Open the terminal or command prompt.
-3. Install the required dependencies by running the command: `pip install -r requirements.txt`.
+3. Install the required dependencies by running the command: `pip3 install -r requirements.txt`.
 4. Execute the batch file by entering the command: `.\compile.bat`.
 5. The compilation process will be completed, and you're ready to use the program.
 
@@ -37,7 +37,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 1. Download the following files: `convertme.py` and `requirements.txt`. If you haven't already, install Python.
 2. Open the terminal or command prompt.
-3. Install the required dependencies by running the command: `pip install -r requirements.txt`.
+3. Install the required dependencies by running the command: `pip3 install -r requirements.txt`.
 4. Compile the program by entering the following command: `pyinstaller -F -w --icon=iwoSource\favicon.ico -n isThisWebsiteOnline convertme.py`.
 
 ## Known Issues
