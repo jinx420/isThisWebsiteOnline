@@ -37,19 +37,26 @@ import ttkbootstrap
 # TODO add more languages (unlikely because its too much work)
 
 
-version = 'v0.3.2'
+version = 'v0.3.3'
+os_name = os.name
 
+# isntall dependencies
 if __name__ == "__main__":
-    if os.path.exists('.\\isThisWebsiteOnline.py') and os.name == 'nt':
+    if os.path.exists('.\\isThisWebsiteOnline.py') and os_name == 'nt':
         os.system('cmd /C pip3 install httpx matplotlib ttkbootstrap')
-    elif os.path.exists('./isThisWebsiteOnline.py'):
+    elif os.path.exists('./isThisWebsiteOnline.py') and os_name == 'posix':
         os.system('pip3 install httpx matplotlib ttkbootstrap')
     else:
         pass
 
 # check if critical files and folders exist
-critDirs = ['.\\iwoSource']
-critFiles = ['.\\iwoSource\\options.json', '.\\iwoSource\\History.json']
+if os_name == 'nt':
+    critDirs = ['.\\iwoSource']
+    critFiles = ['.\\iwoSource\\options.json', '.\\iwoSource\\History.json']
+elif os_name == 'posix':
+    critDirs = ['./iwoSource']
+    critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
+
 
 for dirs in critDirs:
     if os.path.exists(dirs):
@@ -63,18 +70,32 @@ for files in critFiles:
         # print(f'{files} File exists')
         pass
     else:
-        if files == '.\\iwoSource\\options.json':
+        # nt
+        if os_name == 'nt' and files == '.\\iwoSource\\options.json':
             with open(files, "w") as f:
                 json.dump(
                     {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
-        elif files == '.\\iwoSource\\History.json':
+        elif os_name == 'nt' and files == '.\\iwoSource\\History.json':
             with open(".\\iwoSource\\History.json", "w") as f:
+                json.dump([], f, indent=4)
+
+        # posix
+        if os_name == 'posix' and files == './iwoSource/options.json':
+            with open(files, "w") as f:
+                json.dump(
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
+        elif os_name == 'posix' and files == './iwoSource/History.json':
+            with open("./iwoSource/History.json", "w") as f:
                 json.dump([], f, indent=4)
 
 
 def checkUpdate():
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options = json.load(f)
+    if os_name == 'nt':
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options = json.load(f)
+    elif os_name == 'posix':
+        with open('./iwoSource/options.json', 'r') as f:
+            options = json.load(f)
     try:
         r = httpx.get(
             'https://api.github.com/repos/jinx420/isThisWebsiteOnline/releases/latest')
@@ -139,8 +160,12 @@ def isWebsiteOnline(url):
 
 # check website
 def checkWebsite():
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options = json.load(f)
+    if os_name == 'nt':
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options = json.load(f)
+    elif os_name == 'posix':
+        with open('./iwoSource/options.json', 'r') as f:
+            options = json.load(f)
     if options['options']['saveHistoryOnCheck'] == 1:
         historyWithDateAndTime()
     httpOrHttps = httpOrHttpsEntry.get().lower()
@@ -168,10 +193,16 @@ def history():
     history = []
     history.append(urlEntry.get())
     history.append(httpOrHttpsEntry.get())
-    with open(".\\iwoSource\\history.json", "w") as f:
-        json.dump(history, f)
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options = json.load(f)
+    if os_name == 'nt':
+        with open(".\\iwoSource\\history.json", "w") as f:
+            json.dump(history, f)
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options = json.load(f)
+    elif os_name == 'posix':
+        with open("./iwoSource/history.json", "w") as f:
+            json.dump(history, f)
+        with open('./iwoSource/options.json', 'r') as f:
+            options = json.load(f)
     if options['options']['language'] == 'en':
         statusLabel.config(text="History saved")
     elif options['options']['language'] == 'de':
@@ -180,14 +211,22 @@ def history():
 
 # load history
 def loadHistory():
-    with open(".\\iwoSource\\history.json", "r") as f:
-        history = json.load(f)
+    if os_name == 'nt':
+        with open(".\\iwoSource\\history.json", "r") as f:
+            history = json.load(f)
+    elif os_name == 'posix':
+        with open("./iwoSource/history.json", "r") as f:
+            history = json.load(f)
     urlEntry.delete(0, tk.END)
     httpOrHttpsEntry.delete(0, tk.END)
     urlEntry.insert(0, history[0])
     httpOrHttpsEntry.insert(0, history[1])
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options = json.load(f)
+    if os_name == 'nt':
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options = json.load(f)
+    elif os_name == 'posix':
+        with open('./iwoSource/options.json', 'r') as f:
+            options = json.load(f)
     if options['options']['language'] == 'en':
         statusLabel.config(text="History loaded")
     elif options['options']['language'] == 'de':
@@ -196,19 +235,30 @@ def loadHistory():
 
 # clear all history
 def clearAllHistory():
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options = json.load(f)
-
+    if os_name == 'nt':
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options = json.load(f)
+    elif os_name == 'posix':
+        with open('./iwoSource/options.json', 'r') as f:
+            options = json.load(f)
     saveHistoryOnCheck = options["options"]["saveHistoryOnCheck"]
     checkUpdateCM = options["options"]["checkForUpdatesOnStartup"]
     clearCM = options["options"]["clearLogsWithClearButton"]
 
-    with open(".\\iwoSource\\options.json", "w") as f:
-        json.dump({"options": {"language": lang2, "saveHistoryOnCheck": saveHistoryOnCheck,
-                  "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM}, "fullHistory": {}}, f, indent=4)
+    if os_name == 'nt':
+        with open(".\\iwoSource\\options.json", "w") as f:
+            json.dump({"options": {"language": lang2, "saveHistoryOnCheck": saveHistoryOnCheck,
+                                   "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM}, "fullHistory": {}}, f, indent=4)
 
-    with open(".\\iwoSource\\History.json", "w") as f:
-        json.dump([], f, indent=4)
+        with open(".\\iwoSource\\History.json", "w") as f:
+            json.dump([], f, indent=4)
+    elif os_name == 'posix':
+        with open("./iwoSource/options.json", "w") as f:
+            json.dump({"options": {"language": lang2, "saveHistoryOnCheck": saveHistoryOnCheck,
+                                   "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM}, "fullHistory": {}}, f, indent=4)
+
+        with open("./iwoSource/History.json", "w") as f:
+            json.dump([], f, indent=4)
 
     if options['options']['language'] == 'en':
         if options['options']['clearLogsWithClearButton'] == 0:
@@ -233,7 +283,10 @@ def status():
 
 # save history with date and time
 def historyWithDateAndTime():
-    json_file = '.\\iwoSource\\options.json'
+    if os_name == 'nt':
+        json_file = '.\\iwoSource\\options.json'
+    elif os_name == 'posix':
+        json_file = './iwoSource/options.json'
     with open(json_file, 'r+') as jfile:
         j = json.load(jfile)
         data = j
@@ -259,12 +312,18 @@ def historyWithDateAndTime():
 def changeLanguage(lang):
     global lang2
     if lang == "en":
-        with open('.\\iwoSource\\options.json', 'r+') as f:
-            data = json.load(f)
-            data["options"]['language'] = "en"
-            f.seek(0)
-            json.dump(data, f, indent=4)
-
+        if os_name == 'nt':
+            with open('.\\iwoSource\\options.json', 'r+') as f:
+                data = json.load(f)
+                data["options"]['language'] = "en"
+                f.seek(0)
+                json.dump(data, f, indent=4)
+        elif os_name == 'posix':
+            with open('./iwoSource/options.json', 'r+') as f:
+                data = json.load(f)
+                data["options"]['language'] = "en"
+                f.seek(0)
+                json.dump(data, f, indent=4)
         lang2 = lang
         httpOrHttpsLabel.config(text="Is the website using http or https? : ")
         urlLabel.config(text="Enter the url: ")
@@ -296,11 +355,18 @@ def changeLanguage(lang):
         helpMenu.entryconfig(1, label="About", command=about)
 
     elif lang == "de":
-        with open('.\\iwoSource\\options.json', 'r+') as f:
-            data = json.load(f)
-            data["options"]['language'] = "de"
-            f.seek(0)
-            json.dump(data, f, indent=4)
+        if os_name == 'nt':
+            with open('.\\iwoSource\\options.json', 'r+') as f:
+                data = json.load(f)
+                data["options"]['language'] = "de"
+                f.seek(0)
+                json.dump(data, f, indent=4)
+        elif os_name == 'posix':
+            with open('./iwoSource/options.json', 'r+') as f:
+                data = json.load(f)
+                data["options"]['language'] = "de"
+                f.seek(0)
+                json.dump(data, f, indent=4)
         lang2 = lang
         httpOrHttpsLabel.config(text="Nutzt die Webseite http oder https? :")
         urlLabel.config(text="Url der Webseite: ")
@@ -335,13 +401,20 @@ def changeLanguage(lang):
 
 # see logs
 def seeLogs():
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options = json.load(f)
+    if os_name == 'nt':
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options = json.load(f)
+    elif os_name == 'posix':
+        with open('./iwoSource/options.json', 'r') as f:
+            options = json.load(f)
     if options['options']['language'] == 'en':
         root = tk.Toplevel()
         root.title("Press right click on a row to copy the url and method")
         root.geometry("670x350")
-        root.iconbitmap(".\\iwoSource\\favicon.ico")
+        if os_name == 'nt':
+            root.iconbitmap(".\\iwoSource\\favicon.ico")
+        elif os_name == 'posix':   
+            root.iconbitmap("./iwoSource/favicon.ico") 
         root.resizable(False, False)
         tree = ttk.Treeview(root)
         tree.pack(fill=tk.BOTH, expand=True)
@@ -373,18 +446,28 @@ def seeLogs():
         tree.heading("three", text="http/https", anchor=tk.W)
         tree.heading("four", text="Status", anchor=tk.W)
         tree.heading("five", text="Date and Time", anchor=tk.W)
-        with open(".\\iwoSource\\options.json", "r") as f:
-            data = json.load(f)
-            for i in data["fullHistory"]:
-                tree.insert("", tk.END, text="", values=(
-                    i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
+        if os_name == 'nt':
+            with open(".\\iwoSource\\options.json", "r") as f:
+                data = json.load(f)
+                for i in data["fullHistory"]:
+                    tree.insert("", tk.END, text="", values=(
+                        i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
+        elif os_name == 'posix':
+            with open("./iwoSource/options.json", "r") as f:
+                data = json.load(f)
+                for i in data["fullHistory"]:
+                    tree.insert("", tk.END, text="", values=(
+                        i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
         tree.pack()
     elif options['options']['language'] == 'de':
         root = tk.Toplevel()
         root.title(
             "Rechtsklick auf eine Zeile um die Url und Methode zu kopieren")
         root.geometry("670x350")
-        root.iconbitmap(".\\iwoSource\\favicon.ico")
+        if os_name == 'nt':
+            root.iconbitmap(".\\iwoSource\\favicon.ico")
+        elif os_name == 'posix':
+            root.iconbitmap("./iwoSource/favicon.ico")
         root.resizable(False, False)
         tree = ttk.Treeview(root)
         tree.pack(fill=tk.BOTH, expand=True)
@@ -416,11 +499,18 @@ def seeLogs():
         tree.heading("three", text="http/https", anchor=tk.W)
         tree.heading("four", text="Status", anchor=tk.W)
         tree.heading("five", text="Datum und Uhrzeit", anchor=tk.W)
-        with open(".\\iwoSource\\options.json", "r") as f:
-            data = json.load(f)
-            for i in data["history"]:
-                tree.insert("", tk.END, text="", values=(
-                    i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
+        if os_name == 'nt':
+            with open(".\\iwoSource\\options.json", "r") as f:
+                data = json.load(f)
+                for i in data["history"]:
+                    tree.insert("", tk.END, text="", values=(
+                        i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
+        elif os_name == 'posix':
+            with open("./iwoSource/options.json", "r") as f:
+                data = json.load(f)
+                for i in data["history"]:
+                    tree.insert("", tk.END, text="", values=(
+                        i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
 
 
 def optionsWindow():
@@ -434,8 +524,12 @@ def optionsWindow():
             },
             "fullHistory": {}
         }
-        with open(".\\iwoSource\\options.json", "w") as f:
-            json.dump(options, f, indent=4)
+        if os_name == 'nt':
+            with open(".\\iwoSource\\options.json", "w") as f:
+                json.dump(options, f, indent=4)
+        elif os_name == 'posix':
+            with open("./iwoSource/options.json", "w") as f:
+                json.dump(options, f, indent=4)
 
         if lang2 == 'en':
             saveButton.config(
@@ -456,8 +550,12 @@ def optionsWindow():
             "fullHistory": {}
         }
 
-        with open(".\\iwoSource\\options.json", "w") as f:
-            json.dump(optionsReset, f, indent=4)
+        if os_name == 'nt':
+            with open(".\\iwoSource\\options.json", "w") as f:
+                json.dump(optionsReset, f, indent=4)
+        elif os_name == 'posix':
+            with open("./iwoSource/options.json", "w") as f:
+                json.dump(optionsReset, f, indent=4)
         saveHistoryOnCheck.set(1)
         checkUpdateCM.set(0)
         clearCM.set(0)
@@ -469,8 +567,12 @@ def optionsWindow():
     clearCM = tk.IntVar()  # 0 = off, 1 = on
 
     # get the options from the options.json file
-    with open(".\\iwoSource\\options.json", "r") as f:
-        data = json.load(f)
+    if os_name == 'nt':
+        with open(".\\iwoSource\\options.json", "r") as f:
+            data = json.load(f)
+    elif os_name == 'posix':
+        with open("./iwoSource/options.json", "r") as f:
+            data = json.load(f)
     saveHistoryOnCheck.set(data["options"]["saveHistoryOnCheck"])
     checkUpdateCM.set(data["options"]["checkForUpdatesOnStartup"])
     clearCM.set(data["options"]["clearLogsWithClearButton"])
@@ -479,7 +581,10 @@ def optionsWindow():
     optionsWindow = tk.Toplevel()
     optionsWindow.title("Options")
     optionsWindow.geometry("300x200")
-    optionsWindow.iconbitmap(".\\iwoSource\\favicon.ico")
+    if os_name == 'nt':
+        optionsWindow.iconbitmap(".\\iwoSource\\favicon.ico")
+    elif os_name == 'posix':
+        optionsWindow.iconbitmap("./iwoSource/favicon.ico")
     optionsWindow.resizable(False, False)
 
     # check mark boxes to enable or disable the options
@@ -523,8 +628,12 @@ def optionsWindow():
 
 
 def graph():
-    with open(".\\iwoSource\\options.json", "r") as f:
-        data = json.load(f)
+    if os_name == 'nt':
+        with open(".\\iwoSource\\options.json", "r") as f:
+            data = json.load(f)
+    elif os_name == 'posix':
+        with open("./iwoSource/options.json", "r") as f:
+            data = json.load(f)
     online = 0
     offline = 0
     for i in data["fullHistory"]:
@@ -543,7 +652,10 @@ def graph():
         graphWindow = tk.Toplevel()
         graphWindow.title("Graph")
         graphWindow.geometry("500x500")
-        graphWindow.iconbitmap(".\\iwoSource\\favicon.ico")
+        if os_name == 'nt':
+            graphWindow.iconbitmap(".\\iwoSource\\favicon.ico")
+        elif os_name == 'posix':
+            graphWindow.iconbitmap("./iwoSource/favicon.ico")
         graphWindow.resizable(False, False)
 
         colors = ["#32cd32", "#dc143c"]
@@ -558,8 +670,12 @@ def graph():
 
 
 def about():
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options2 = json.load(f)
+    if os_name == 'nt':
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options2 = json.load(f)
+    elif os_name == 'posix':
+        with open('./iwoSource/options.json', 'r') as f:
+            options2 = json.load(f)
     if options2['options']['language'] == 'en':
         messagebox.showinfo("About", "A simple program to check if a website is online or not.\n\nFeatures:\n1. Save and load history (only one item can be saved at a time)\n2. Open in browser\n3. CLI and GUI\n"
                             "4. Multiple languages\n5. Multithreading\n6. Table to show the history and status of past checks\n")
@@ -569,8 +685,12 @@ def about():
 
 
 def clear():
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options = json.load(f)
+    if os_name == 'nt':
+        with open('.\\iwoSource\\options.json', 'r') as f:
+            options = json.load(f)
+    elif os_name == 'posix':
+        with open('./iwoSource/options.json', 'r') as f:
+            options = json.load(f)
 
     if options['options']['clearLogsWithClearButton'] == 0:
         urlEntry.delete(0, tk.END)
@@ -610,11 +730,17 @@ if __name__ == "__main__":
         root = tk.Tk()
         root.title("IsThisWebsiteOnline?")
         root.geometry("670x350")
-        root.iconbitmap(".\\iwoSource\\favicon.ico")
+        if os_name == 'nt':
+            root.iconbitmap(".\\iwoSource\\favicon.ico")
+        elif os_name == 'posix':
+            root.iconbitmap("./iwoSource/favicon.ico")
         root.resizable(False, False)
 
         # image
-        image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
+        if os_name == 'nt':
+            image = tk.PhotoImage(file=".\\iwoSource\\favicon.png")
+        elif os_name == 'posix':
+            image = tk.PhotoImage(file="./iwoSource/favicon.png")
         imageLabel = ttk.Label(root, image=image)
         imageLabel.place(x=390, y=0)
         imageLabel.config(background="#FFFFFF")
@@ -728,9 +854,14 @@ if __name__ == "__main__":
         root.attributes("-topmost", False)
 
         # change default language
-        with open('.\\iwoSource\\options.json', 'r') as f:
-            options = json.load(f)
-            lang2 = options['options']['language']
+        if os_name == 'nt':
+            with open('.\\iwoSource\\options.json', 'r') as f:
+                options = json.load(f)
+                lang2 = options['options']['language']
+        elif os_name == 'posix':
+            with open('./iwoSource/options.json', 'r') as f:
+                options = json.load(f)
+                lang2 = options['options']['language']
         changeLanguage(lang2)
 
         if options['options']['checkForUpdatesOnStartup'] == True:
