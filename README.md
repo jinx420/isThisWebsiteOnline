@@ -12,8 +12,7 @@ This is a simple Python project designed to check the availability of websites. 
 4. Multithreading: Utilize multithreading to improve performance and check multiple websites simultaneously.
 5. Multiple Languages: Enjoy the flexibility of multiple language support to cater to a global user base.
 6. Automatic Updates: Stay up to date with the latest version of the program through automatic updates.
-7. Automatic Dependency Install: Simplify the installation process by automatically installing necessary dependencies.
-8. Online-Offline Ratio Graph: Visualize the online and offline ratio of websites with a graphical representation.
+7. Online-Offline Ratio Graph: Visualize the online and offline ratio of websites with a graphical representation.
 
 ## Planned Features
 
