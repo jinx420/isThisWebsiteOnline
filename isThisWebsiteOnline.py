@@ -39,7 +39,7 @@ import ttkbootstrap
 # TODO add more languages (unlikely because its too much work)
 
 
-version = 'v0.3.3'
+version = 'v0.3.4'
 os_name = os.name
 
 
