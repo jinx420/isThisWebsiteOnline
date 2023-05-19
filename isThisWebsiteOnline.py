@@ -42,6 +42,15 @@ import ttkbootstrap
 version = 'v0.3.4'
 os_name = os.name
 
+if os_name == 'nt':
+    with open('.\\iwoSource\\options.json', 'r') as f:
+        options = json.load(f)
+elif os_name == 'posix':
+    with open('./iwoSource/options.json', 'r') as f:
+        options = json.load(f)
+
+devPopUpVar = options['options']['devPopUp']
+
 
 def checkUpdate():
     if os_name == 'nt':
@@ -480,7 +489,9 @@ def optionsWindow():
                 "language": lang2,
                 "saveHistoryOnCheck": saveHistoryOnCheck.get(),
                 "checkForUpdatesOnStartup": checkUpdateCM.get(),
-                "clearLogsWithClearButton": clearCM.get()
+                "clearLogsWithClearButton": clearCM.get(),
+                "reloadGUIwith": reloadGUIwith.get(),
+                "devPopUp": devPopUpVar
             },
             "fullHistory": {}
         }
@@ -505,7 +516,9 @@ def optionsWindow():
                 "language": lang2,
                 "saveHistoryOnCheck": 1,
                 "checkForUpdatesOnStartup": 0,
-                "clearLogsWithClearButton": 0
+                "clearLogsWithClearButton": 0,
+                "reloadGUIwith": 0,
+                "devPopUp": 0
             },
             "fullHistory": {}
         }
@@ -519,12 +532,44 @@ def optionsWindow():
         saveHistoryOnCheck.set(1)
         checkUpdateCM.set(0)
         clearCM.set(0)
+        reloadGUIwith.set(0)
         # optionsWindow.destroy()
+    
+    def devPopUp():
+        if os_name == 'nt':
+            with open(".\\iwoSource\\options.json", "r") as f:
+                data = json.load(f)
+        elif os_name == 'posix':
+            with open("./iwoSource/options.json", "r") as f:
+                data = json.load(f)
+        if data['options']['devPopUp'] == 0:
+            messagebox.showinfo("Dev", "This feature is meant for developers. If you are not a developer, please do not use this feature.\nUsing this feature can cause the program to break, use with caution.")
+            options = {
+                "options": {
+                    "language": lang2,
+                    "saveHistoryOnCheck": saveHistoryOnCheck.get(),
+                    "checkForUpdatesOnStartup": checkUpdateCM.get(),
+                    "clearLogsWithClearButton": clearCM.get(),
+                    "reloadGUIwith": reloadGUIwith.get(),
+                    "devPopUp": 1
+                },
+                "fullHistory": {}
+            }
+            if os_name == 'nt':
+                with open(".\\iwoSource\\options.json", "w") as f:
+                    json.dump(options, f, indent=4)
+            elif os_name == 'posix':
+                with open("./iwoSource/options.json", "w") as f:
+                    json.dump(options, f, indent=4)
+        elif data['options']['devPopUp'] == 1:
+            pass
+
 
     # get the value of the check mark box
     saveHistoryOnCheck = tk.IntVar()  # 0 = off, 1 = on
     checkUpdateCM = tk.IntVar()  # 0 = off, 1 = on
     clearCM = tk.IntVar()  # 0 = off, 1 = on
+    reloadGUIwith = tk.IntVar()  # 0 = reload with .exe, 1 = reload with .py
 
     # get the options from the options.json file
     if os_name == 'nt':
@@ -536,6 +581,7 @@ def optionsWindow():
     saveHistoryOnCheck.set(data["options"]["saveHistoryOnCheck"])
     checkUpdateCM.set(data["options"]["checkForUpdatesOnStartup"])
     clearCM.set(data["options"]["clearLogsWithClearButton"])
+    reloadGUIwith.set(data["options"]["reloadGUIwith"])
 
     # options window
     optionsWindow = tk.Toplevel()
@@ -561,6 +607,10 @@ def optionsWindow():
     clearCMBox = tk.Checkbutton(
         optionsWindow, text="Clear the logs with the clear button", variable=clearCM, onvalue=1, offvalue=0)
     clearCMBox.place(x=10, y=70)
+
+    # reload gui with .py or .exe
+    reloadGUIBox = tk.Checkbutton(optionsWindow, text="Reload GUI with .exe or .py", variable=reloadGUIwith, onvalue=1, offvalue=0, command=lambda: devPopUp() or devPopUpVar==1)
+    reloadGUIBox.place(x=10, y=100)
 
     # save button
     saveButton = tk.Button(optionsWindow, text="Save", command=saveOptions)
@@ -708,7 +758,7 @@ if __name__ == "__main__":
             if os_name == 'nt' and files == '.\\iwoSource\\options.json':
                 with open(files, "w") as f:
                     json.dump(
-                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
+                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
             elif os_name == 'nt' and files == '.\\iwoSource\\History.json':
                 with open(".\\iwoSource\\History.json", "w") as f:
                     json.dump([], f, indent=4)
@@ -717,7 +767,7 @@ if __name__ == "__main__":
             if os_name == 'posix' and files == './iwoSource/options.json':
                 with open(files, "w") as f:
                     json.dump(
-                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
+                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
             elif os_name == 'posix' and files == './iwoSource/History.json':
                 with open("./iwoSource/History.json", "w") as f:
                     json.dump([], f, indent=4)
@@ -755,12 +805,19 @@ if __name__ == "__main__":
 
         # reload gui
         def reloadGUI():
+            if os_name == 'nt':
+                with open(".\\iwoSource\\options.json", "r") as f:
+                    options = json.load(f)
+            elif os_name == 'posix':
+                with open("./iwoSource/options.json", "r") as f:
+                    options = json.load(f)
             root.destroy()
-            if os.path.exists('.\\isThisWebsiteOnline.py') and os_name == 'nt':
+            if options['options']['reloadGUIwith'] == 1:
+                if os_name == 'nt':
                     subprocess.call(["python", "isThisWebsiteOnline.py", "gui"])
-            elif os.path.exists('./isThisWebsiteOnline.py') and os_name == 'posix':
-                subprocess.call(["python", "isThisWebsiteOnline.py", "gui"])
-            else:
+                elif os_name == 'posix':
+                    subprocess.call(["python3", "isThisWebsiteOnline.py", "gui"])
+            elif options['options']['reloadGUIwith'] == 0:
                 subprocess.call([".\isThisWebsiteOnline.exe"])
 
         # regenerate options.json
@@ -768,11 +825,11 @@ if __name__ == "__main__":
             if os_name == 'nt':
                 with open(".\\iwoSource\\options.json", "w") as f:
                     json.dump(
-                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
+                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
             elif os_name == 'posix':
                 with open("./iwoSource/options.json", "w") as f:
                     json.dump(
-                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
+                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
 
             if lang2 == 'en':
                 statusLabel.config(text="options.json regenerated!")
