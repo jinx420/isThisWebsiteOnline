@@ -6,7 +6,10 @@ This is a simple Python project designed to check the availability of websites. 
 
 ## Features
 
-1. CLI and GUI: Choose between the command-line interface or the graphical user interface to check the status of a website.
+1. CLI and GUI: Choose between the command-line interface or the graphical user interface to check the status of a website. 
+
+    *Note: The CLI is available at `isThisWebsiteOnlineCLI.py` and `isThisWebsiteOnlineCLI.exe`*
+
 2. Open in Browser: Quickly open the website in your default web browser directly from the program.
 3. Save and Load History: Keep a record of website status checks by saving and loading the history.
 4. Multithreading: Utilize multithreading to improve performance and check multiple websites simultaneously.
@@ -24,7 +27,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 *Note: Make sure you have the `iwoSource` folder along with the required `.ico` and `.png` files in the same directory. These files are necessary for displaying the program's icon and main window image.*
 
-1. Download the following files: `compile.bat`, `convertme.py`, `move.py`, and `requirements.txt`. If you haven't already, install Python.
+1. Download the following files: `compile.bat`, `isThisWebsiteOnline.py`, `move.py`, and `requirements.txt`. If you haven't already, install Python.
 2. Open the terminal or command prompt.
 3. Install the required dependencies by running the command: `pip3 install -r requirements.txt`.
 4. Execute the batch file by entering the command: `.\compile.bat`.
@@ -34,10 +37,10 @@ This is a simple Python project designed to check the availability of websites. 
 
 *Note: Make sure you have the `iwoSource` folder along with the required `.ico` and `.png` files in the same directory. These files are necessary for displaying the program's icon and main window image.*
 
-1. Download the following files: `convertme.py` and `requirements.txt`. If you haven't already, install Python.
+1. Download the following files: `isThisWebsiteOnline.py` and `requirements.txt`. If you haven't already, install Python.
 2. Open the terminal or command prompt.
 3. Install the required dependencies by running the command: `pip3 install -r requirements.txt`.
-4. Compile the program by entering the following command: `pyinstaller -F -w --icon=iwoSource\favicon.ico -n isThisWebsiteOnline convertme.py`.
+4. Compile the program by entering the following command: `pyinstaller -F -w --icon=iwoSource\favicon.ico -n isThisWebsiteOnline isThisWebsiteOnline.py`.
 
 ## Known Issues
 
@@ -63,4 +66,6 @@ We appreciate your understanding and cooperation in this transition. If you have
 
 ---
 
-Older commits and or tags might be tagged as unverified. This is due to a switch of GPG keys.
+- Older commits and or tags might be tagged as unverified. This is due to a switch of GPG keys.
+
+- Starting from v0.3.5, the `convertme.py` file has been removed.
