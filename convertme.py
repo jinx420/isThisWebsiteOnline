@@ -11,7 +11,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import tkinter as tk
 from tkinter import ttk
-import ttkbootstrap
+from ttkbootstrap import Style
 
 
 # highest priority:
@@ -41,15 +41,46 @@ import ttkbootstrap
 version = 'v0.3.4'
 os_name = os.name
 
+# check if critical files and folders exist
 if os_name == 'nt':
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options = json.load(f)
+    critDirs = ['.\\iwoSource']
+    critFiles = ['.\\iwoSource\\options.json',
+                    '.\\iwoSource\\History.json']
 elif os_name == 'posix':
-    with open('./iwoSource/options.json', 'r') as f:
-        options = json.load(f)
+    critDirs = ['./iwoSource']
+    critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
+else:
+    pass
 
-devPopUpVar = options['options']['devPopUp']
+for dirs in critDirs:
+    if os.path.exists(dirs):
+        # print(f'{dirs} Directory exists')
+        pass
+    else:
+        os.mkdir(dirs)
 
+for files in critFiles:
+    if os.path.exists(files):
+        # print(f'{files} File exists')
+        pass
+    else:
+        # nt
+        if os_name == 'nt' and files == '.\\iwoSource\\options.json':
+            with open(files, "w") as f:
+                json.dump(
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
+        elif os_name == 'nt' and files == '.\\iwoSource\\History.json':
+            with open(".\\iwoSource\\History.json", "w") as f:
+                json.dump([], f, indent=4)
+
+        # posix
+        if os_name == 'posix' and files == './iwoSource/options.json':
+            with open(files, "w") as f:
+                json.dump(
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
+        elif os_name == 'posix' and files == './iwoSource/History.json':
+            with open("./iwoSource/History.json", "w") as f:
+                json.dump([], f, indent=4)
 
 def checkUpdate():
     if os_name == 'nt':
@@ -299,25 +330,25 @@ def changeLanguage(lang):
             text="Regenerate options.json", command=regenerateOptions)
 
         # file menu
-        fileMenu.entryconfig(0, label="History")
-        fileMenu.entryconfig(1, label="Misc")
-        fileMenu.entryconfig(3, label="Options", command=optionsWindow)
-        fileMenu.entryconfig(5, label="Exit", command=root.destroy)
+        file_menu.entryconfig(0, label="History")
+        file_menu.entryconfig(1, label="Misc")
+        file_menu.entryconfig(3, label="Options", command=optionsWindow)
+        file_menu.entryconfig(5, label="Exit", command=root.destroy)
 
         # History sub menu
-        historysubMenu.entryconfig(0, label="Save History")
-        historysubMenu.entryconfig(1, label="Load History",
+        history_submenu.entryconfig(0, label="Save History")
+        history_submenu.entryconfig(1, label="Load History",
                                    command=lambda: thread(loadHistory))
-        historysubMenu.entryconfig(2, label="View Logs", command=seeLogs)
-        historysubMenu.entryconfig(3, label="Clear All History",
+        history_submenu.entryconfig(2, label="View Logs", command=seeLogs)
+        history_submenu.entryconfig(3, label="Clear All History",
                                    command=clearAllHistory)
 
         # misc sub menu
-        miscSubMenu.entryconfig(0, label="Open in Browser")
+        misc_submenu.entryconfig(0, label="Open in Browser")
 
         # help menu
-        helpMenu.entryconfig(0, label="Check for update", command=checkUpdate)
-        helpMenu.entryconfig(1, label="About", command=about)
+        help_menu.entryconfig(0, label="Check for update", command=checkUpdate)
+        help_menu.entryconfig(1, label="About", command=about)
 
     elif lang == "de":
         if os_name == 'nt':
@@ -345,26 +376,26 @@ def changeLanguage(lang):
             text="options.json neu generieren", command=regenerateOptions)
 
         # file menu
-        fileMenu.entryconfig(0, label="Verlauf")
-        fileMenu.entryconfig(1, label="Verschiedenes")
-        fileMenu.entryconfig(3, label="Optionen", command=optionsWindow)
-        fileMenu.entryconfig(5, label="Schließen", command=root.destroy)
+        file_menu.entryconfig(0, label="Verlauf")
+        file_menu.entryconfig(1, label="Verschiedenes")
+        file_menu.entryconfig(3, label="Optionen", command=optionsWindow)
+        file_menu.entryconfig(5, label="Schließen", command=root.destroy)
 
         # sub menu
-        historysubMenu.entryconfig(0, label="Verlauf speichern")
-        historysubMenu.entryconfig(1, label="Verlauf laden",
+        history_submenu.entryconfig(0, label="Verlauf speichern")
+        history_submenu.entryconfig(1, label="Verlauf laden",
                                    command=lambda: thread(loadHistory))
-        historysubMenu.entryconfig(2, label="Logs ansehen", command=seeLogs)
-        historysubMenu.entryconfig(3, label="Alle Verläufe löschen",
+        history_submenu.entryconfig(2, label="Logs ansehen", command=seeLogs)
+        history_submenu.entryconfig(3, label="Alle Verläufe löschen",
                                    command=clearAllHistory)
 
         # misc sub menu
-        miscSubMenu.entryconfig(0, label="Im Browser öffnen")
+        misc_submenu.entryconfig(0, label="Im Browser öffnen")
 
         # help menu
-        helpMenu.entryconfig(
+        help_menu.entryconfig(
             0, label="Nach Updates suchen", command=checkUpdate)
-        helpMenu.entryconfig(1, label="Über", command=about)
+        help_menu.entryconfig(1, label="Über", command=about)
 
 
 # see logs
@@ -483,6 +514,15 @@ def seeLogs():
 
 def optionsWindow():
     def saveOptions():
+        if os_name == 'nt':
+            with open('.\\iwoSource\\options.json', 'r') as f:
+                devVar = json.load(f)
+        elif os_name == 'posix':
+            with open('./iwoSource/options.json', 'r') as f:
+                devVar = json.load(f)
+
+        devPopUpVar = devVar['options']['devPopUp']
+
         options = {
             "options": {
                 "language": lang2,
@@ -608,7 +648,7 @@ def optionsWindow():
     clearCMBox.place(x=10, y=70)
 
     # reload gui with .py or .exe
-    reloadGUIBox = tk.Checkbutton(optionsWindow, text="Reload GUI with .exe or .py", variable=reloadGUIwith, onvalue=1, offvalue=0, command=lambda: devPopUp() or devPopUpVar==1)
+    reloadGUIBox = tk.Checkbutton(optionsWindow, text="Reload GUI with .exe or .py", variable=reloadGUIwith, onvalue=1, offvalue=0, command=lambda: devPopUp())
     reloadGUIBox.place(x=10, y=100)
 
     # save button
@@ -729,47 +769,6 @@ if __name__ == "__main__":
     #     with open(os.devnull, "w") as devnull:
     #         subprocess.call(
     #             ["pip3", "install", "-r", "./requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
-            
-    # check if critical files and folders exist
-    if os_name == 'nt':
-        critDirs = ['.\\iwoSource']
-        critFiles = ['.\\iwoSource\\options.json',
-                     '.\\iwoSource\\History.json']
-    elif os_name == 'posix':
-        critDirs = ['./iwoSource']
-        critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
-    else:
-        pass
-
-    for dirs in critDirs:
-        if os.path.exists(dirs):
-            # print(f'{dirs} Directory exists')
-            pass
-        else:
-            os.mkdir(dirs)
-
-    for files in critFiles:
-        if os.path.exists(files):
-            # print(f'{files} File exists')
-            pass
-        else:
-            # nt
-            if os_name == 'nt' and files == '.\\iwoSource\\options.json':
-                with open(files, "w") as f:
-                    json.dump(
-                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
-            elif os_name == 'nt' and files == '.\\iwoSource\\History.json':
-                with open(".\\iwoSource\\History.json", "w") as f:
-                    json.dump([], f, indent=4)
-
-            # posix
-            if os_name == 'posix' and files == './iwoSource/options.json':
-                with open(files, "w") as f:
-                    json.dump(
-                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
-            elif os_name == 'posix' and files == './iwoSource/History.json':
-                with open("./iwoSource/History.json", "w") as f:
-                    json.dump([], f, indent=4)
 
     if os_name == 'nt':
         with open(".\\iwoSource\\options.json", "r") as f:
@@ -900,48 +899,50 @@ if __name__ == "__main__":
     menu = tk.Menu(root, tearoff=False)
     root.config(menu=menu)
 
-    style = ttkbootstrap.Style(theme='pulse')
+    style = Style(theme='pulse')
 
     # File Menu
-    fileMenu = tk.Menu(menu, tearoff=False)
-    menu.add_cascade(label="File", menu=fileMenu)
+    file_menu = tk.Menu(menu, tearoff=False)
+    menu.add_cascade(label="File", menu=file_menu)
     menu.config(background="#FFFFFF")
-    fileMenu.config(background="#FFFFFF")
+    file_menu.config(background="#FFFFFF")
 
     # history sub menu
-    historysubMenu = tk.Menu(fileMenu, tearoff=False)
-    fileMenu.add_cascade(label="History", menu=historysubMenu)
-    historysubMenu.add_command(label='Save History',
+    history_submenu = tk.Menu(file_menu, tearoff=False)
+    file_menu.add_cascade(label="History", menu=history_submenu)
+    history_submenu.add_command(label='Save History',
                                 command=lambda: thread(history))
-    historysubMenu.add_command(label='Load History',
+    history_submenu.add_command(label='Load History',
                                 command=lambda: thread(loadHistory))
-    historysubMenu.add_command(label="See logs", command=seeLogs)
-    historysubMenu.add_command(label="Clear logs", command=clearAllHistory)
+    history_submenu.add_command(label="See logs", command=seeLogs)
+    history_submenu.add_command(label="Clear logs", command=clearAllHistory)
 
     # misc sub menu
-    miscSubMenu = tk.Menu(fileMenu, tearoff=False)
-    fileMenu.add_cascade(label="Misc", menu=miscSubMenu)
-    miscSubMenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
+    misc_submenu = tk.Menu(file_menu, tearoff=False)
+    file_menu.add_cascade(label="Misc", menu=misc_submenu)
+    misc_submenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
         f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
 
-    fileMenu.add_separator()
-    fileMenu.add_command(label='Options', command=optionsWindow)
-    fileMenu.add_separator()
-    fileMenu.add_command(label="Exit", command=root.destroy)
+    file_menu.add_separator()
+    file_menu.add_command(label='Options', command=optionsWindow)
+    file_menu.add_separator()
+    file_menu.add_command(label="Exit", command=root.destroy)
 
     # Help Menu
-    helpMenu = tk.Menu(menu, tearoff=False)
-    menu.add_cascade(label="Help", menu=helpMenu)
-    helpMenu.add_command(label='Check for update', command=checkUpdate)
-    helpMenu.add_command(label="About", command=about)
+    help_menu = tk.Menu(menu, tearoff=False)
+    menu.add_cascade(label="Help", menu=help_menu)
+    help_menu.add_command(label='Check for update', command=checkUpdate)
+    help_menu.add_command(label="About", command=about)
+    help_menu.config(background="#FFFFFF")
 
     # Language Menu
-    languageMenu = tk.Menu(menu, tearoff=False)
-    menu.add_cascade(label="Language", menu=languageMenu)
-    languageMenu.add_command(
+    language_menu = tk.Menu(menu, tearoff=False)
+    menu.add_cascade(label="Language", menu=language_menu)
+    language_menu.add_command(
         label="English", command=lambda: changeLanguage('en'))
-    languageMenu.add_command(
+    language_menu.add_command(
         label="Deutsch", command=lambda: changeLanguage('de'))
+    language_menu.config(background="#FFFFFF")
 
     # MinSize and MaxSize
     root.update()
