@@ -42,15 +42,46 @@ import ttkbootstrap
 version = 'v0.3.4'
 os_name = os.name
 
+# check if critical files and folders exist
 if os_name == 'nt':
-    with open('.\\iwoSource\\options.json', 'r') as f:
-        options = json.load(f)
+    critDirs = ['.\\iwoSource']
+    critFiles = ['.\\iwoSource\\options.json',
+                    '.\\iwoSource\\History.json']
 elif os_name == 'posix':
-    with open('./iwoSource/options.json', 'r') as f:
-        options = json.load(f)
+    critDirs = ['./iwoSource']
+    critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
+else:
+    pass
 
-devPopUpVar = options['options']['devPopUp']
+for dirs in critDirs:
+    if os.path.exists(dirs):
+        # print(f'{dirs} Directory exists')
+        pass
+    else:
+        os.mkdir(dirs)
 
+for files in critFiles:
+    if os.path.exists(files):
+        # print(f'{files} File exists')
+        pass
+    else:
+        # nt
+        if os_name == 'nt' and files == '.\\iwoSource\\options.json':
+            with open(files, "w") as f:
+                json.dump(
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
+        elif os_name == 'nt' and files == '.\\iwoSource\\History.json':
+            with open(".\\iwoSource\\History.json", "w") as f:
+                json.dump([], f, indent=4)
+
+        # posix
+        if os_name == 'posix' and files == './iwoSource/options.json':
+            with open(files, "w") as f:
+                json.dump(
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
+        elif os_name == 'posix' and files == './iwoSource/History.json':
+            with open("./iwoSource/History.json", "w") as f:
+                json.dump([], f, indent=4)
 
 def checkUpdate():
     if os_name == 'nt':
@@ -484,6 +515,15 @@ def seeLogs():
 
 def optionsWindow():
     def saveOptions():
+        if os_name == 'nt':
+            with open('.\\iwoSource\\options.json', 'r') as f:
+                devVar = json.load(f)
+        elif os_name == 'posix':
+            with open('./iwoSource/options.json', 'r') as f:
+                devVar = json.load(f)
+
+        devPopUpVar = devVar['options']['devPopUp']
+
         options = {
             "options": {
                 "language": lang2,
@@ -609,7 +649,7 @@ def optionsWindow():
     clearCMBox.place(x=10, y=70)
 
     # reload gui with .py or .exe
-    reloadGUIBox = tk.Checkbutton(optionsWindow, text="Reload GUI with .exe or .py", variable=reloadGUIwith, onvalue=1, offvalue=0, command=lambda: devPopUp() or devPopUpVar==1)
+    reloadGUIBox = tk.Checkbutton(optionsWindow, text="Reload GUI with .exe or .py", variable=reloadGUIwith, onvalue=1, offvalue=0, command=lambda: devPopUp())
     reloadGUIBox.place(x=10, y=100)
 
     # save button
@@ -730,47 +770,6 @@ if __name__ == "__main__":
     #     with open(os.devnull, "w") as devnull:
     #         subprocess.call(
     #             ["pip3", "install", "-r", "./requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
-            
-    # check if critical files and folders exist
-    if os_name == 'nt':
-        critDirs = ['.\\iwoSource']
-        critFiles = ['.\\iwoSource\\options.json',
-                     '.\\iwoSource\\History.json']
-    elif os_name == 'posix':
-        critDirs = ['./iwoSource']
-        critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
-    else:
-        pass
-
-    for dirs in critDirs:
-        if os.path.exists(dirs):
-            # print(f'{dirs} Directory exists')
-            pass
-        else:
-            os.mkdir(dirs)
-
-    for files in critFiles:
-        if os.path.exists(files):
-            # print(f'{files} File exists')
-            pass
-        else:
-            # nt
-            if os_name == 'nt' and files == '.\\iwoSource\\options.json':
-                with open(files, "w") as f:
-                    json.dump(
-                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
-            elif os_name == 'nt' and files == '.\\iwoSource\\History.json':
-                with open(".\\iwoSource\\History.json", "w") as f:
-                    json.dump([], f, indent=4)
-
-            # posix
-            if os_name == 'posix' and files == './iwoSource/options.json':
-                with open(files, "w") as f:
-                    json.dump(
-                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
-            elif os_name == 'posix' and files == './iwoSource/History.json':
-                with open("./iwoSource/History.json", "w") as f:
-                    json.dump([], f, indent=4)
 
     # cli
     if sys.argv[1] == "cli":
