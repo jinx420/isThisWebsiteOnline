@@ -639,11 +639,11 @@ def about():
             options2 = json.load(f)
     if options2['options']['language'] == 'en':
         messagebox.showinfo("About", "A simple program to check if a website is online or not.\n\nFeatures:\n1. Save and load history (only one item can be saved at a time)\n2. Open in browser\n3. CLI and GUI\n"
-                            "4. Multiple languages\n5. Multithreading\n6. Table to show the history and status of past checks\n7. Graph to show the percentage of online and offline results\n8. Automatic dependency installation\n"
+                            "4. Multiple languages\n5. Multithreading\n6. Table to show the history and status of past checks\n7. Graph to show the percentage of online and offline results\n"
                             "")
     elif options2['options']['language'] == 'de':
         messagebox.showinfo("Über uns", "Ein einfaches Programm um zu überprüfen ob eine Webseite online ist oder nicht.\n\nFunktionen:\n1. Verlauf speichern und laden (nur ein Eintrag kann gespeichert werden)\n2. In Browser öffnen\n3. CLI und GUI\n"
-                            "4. Mehrere Sprachen\n5. Multithreading\n6. Tabelle um den Verlauf und den Status von vergangenen Checks anzuzeigen\n7. Graph um den Prozentsatz von online und offline Ergebnissen anzuzeigen\n8. Automatische Abhängigkeitsinstallation\n"
+                            "4. Mehrere Sprachen\n5. Multithreading\n6. Tabelle um den Verlauf und den Status von vergangenen Checks anzuzeigen\n7. Graph um den Prozentsatz von online und offline Ergebnissen anzuzeigen\n"
                             "")
 
 
@@ -671,14 +671,15 @@ def clear():
 
 # main
 if __name__ == "__main__":
-    if os.path.exists('.\\isThisWebsiteOnline.py') and os_name == 'nt':
-        with open(os.devnull, "w") as devnull:
-            subprocess.call(
-                ["pip3", "install", "-r", ".\\requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
-    elif os.path.exists('./isThisWebsiteOnline.py') and os_name == 'posix':
-        with open(os.devnull, "w") as devnull:
-            subprocess.call(
-                ["pip3", "install", "-r", "./requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
+    # removed due to it causing problems if you use the python file instead of the exe and try to reload the gui
+    # if os.path.exists('.\\isThisWebsiteOnline.py') and os_name == 'nt':
+    #     with open(os.devnull, "w") as devnull:
+    #         subprocess.call(
+    #             ["pip3", "install", "-r", ".\\requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
+    # elif os.path.exists('./isThisWebsiteOnline.py') and os_name == 'posix':
+    #     with open(os.devnull, "w") as devnull:
+    #         subprocess.call(
+    #             ["pip3", "install", "-r", "./requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
             
     # check if critical files and folders exist
     if os_name == 'nt':
