@@ -1,4 +1,6 @@
 import os
+import subprocess
+from subprocess import DEVNULL, STDOUT
 from tkinter import messagebox
 import webbrowser
 import httpx
@@ -38,54 +40,6 @@ import ttkbootstrap
 
 version = 'v0.3.3'
 os_name = os.name
-
-# isntall dependencies
-if __name__ == "__main__":
-    if os.path.exists('.\\isThisWebsiteOnline.py') and os_name == 'nt':
-        os.system('cmd /C pip3 install httpx matplotlib ttkbootstrap')
-    elif os.path.exists('./isThisWebsiteOnline.py') and os_name == 'posix':
-        os.system('pip3 install httpx matplotlib ttkbootstrap')
-    else:
-        pass
-
-# check if critical files and folders exist
-if os_name == 'nt':
-    critDirs = ['.\\iwoSource']
-    critFiles = ['.\\iwoSource\\options.json', '.\\iwoSource\\History.json']
-elif os_name == 'posix':
-    critDirs = ['./iwoSource']
-    critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
-
-
-for dirs in critDirs:
-    if os.path.exists(dirs):
-        # print(f'{dirs} Directory exists')
-        pass
-    else:
-        os.mkdir(dirs)
-
-for files in critFiles:
-    if os.path.exists(files):
-        # print(f'{files} File exists')
-        pass
-    else:
-        # nt
-        if os_name == 'nt' and files == '.\\iwoSource\\options.json':
-            with open(files, "w") as f:
-                json.dump(
-                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
-        elif os_name == 'nt' and files == '.\\iwoSource\\History.json':
-            with open(".\\iwoSource\\History.json", "w") as f:
-                json.dump([], f, indent=4)
-
-        # posix
-        if os_name == 'posix' and files == './iwoSource/options.json':
-            with open(files, "w") as f:
-                json.dump(
-                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
-        elif os_name == 'posix' and files == './iwoSource/History.json':
-            with open("./iwoSource/History.json", "w") as f:
-                json.dump([], f, indent=4)
 
 
 def checkUpdate():
@@ -331,6 +285,9 @@ def changeLanguage(lang):
         clearButton.config(text="Clear", command=clear)
         viewLogsButton.config(
             text="View Logs", command=seeLogs)
+        reloadGUIButton.config(text="Reload GUI", command=reloadGUI)
+        regenerateOptionsButton.config(
+            text="Regenerate options.json", command=regenerateOptions)
 
         # file menu
         fileMenu.entryconfig(0, label="History")
@@ -374,6 +331,9 @@ def changeLanguage(lang):
         clearButton.config(text="Leeren", command=clear)
         viewLogsButton.config(text="Logs ansehen",
                               command=seeLogs)
+        reloadGUIButton.config(text="GUI neu laden", command=reloadGUI)
+        regenerateOptionsButton.config(
+            text="options.json neu generieren", command=regenerateOptions)
 
         # file menu
         fileMenu.entryconfig(0, label="Verlauf")
@@ -412,8 +372,8 @@ def seeLogs():
         root.geometry("670x350")
         if os_name == 'nt':
             root.iconbitmap(".\\iwoSource\\favicon.ico")
-        elif os_name == 'posix':   
-            root.iconbitmap("./iwoSource/favicon.ico") 
+        elif os_name == 'posix':
+            root.iconbitmap("./iwoSource/favicon.ico")
         root.resizable(False, False)
         tree = ttk.Treeview(root)
         tree.pack(fill=tk.BOTH, expand=True)
@@ -591,7 +551,7 @@ def optionsWindow():
                                    variable=saveHistoryOnCheck, onvalue=1, offvalue=0, command=saveHistoryOnCheck)
     checkMarkBox1.place(x=10, y=10)
 
-    # add a check update on startup check mark box
+    # check mark box to check for updates on startup
     checkUpdateCMBox = tk.Checkbutton(optionsWindow, text="Check for updates on startup",
                                       variable=checkUpdateCM, onvalue=1, offvalue=0, command=checkUpdateCM)
     checkUpdateCMBox.place(x=10, y=40)
@@ -601,14 +561,15 @@ def optionsWindow():
         optionsWindow, text="Clear the logs with the clear button", variable=clearCM, onvalue=1, offvalue=0)
     clearCMBox.place(x=10, y=70)
 
+    # save button
     saveButton = tk.Button(optionsWindow, text="Save", command=saveOptions)
     saveButton.place(x=10, y=170)
 
-    # add reset button to reset the options
+    # reset button
     resetButton = tk.Button(optionsWindow, text="Reset", command=resetOptions)
     resetButton.place(x=80, y=170)
 
-    # add a status text to show if the options are saved or not
+    # saved text
     savedText = tk.Label(optionsWindow, text="", padx=0, pady=0)
     savedText.place(x=175, y=175)
 
@@ -709,6 +670,62 @@ def clear():
 
 # main
 if __name__ == "__main__":
+    # check if critical files and folders exist
+    if os_name == 'nt':
+        critDirs = ['.\\iwoSource']
+        critFiles = ['.\\iwoSource\\options.json',
+                     '.\\iwoSource\\History.json']
+    elif os_name == 'posix':
+        critDirs = ['./iwoSource']
+        critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
+    if os.path.exists('.\\isThisWebsiteOnline.py') and os_name == 'nt':
+        with open(os.devnull, 'w') as devnull:
+            subprocess.run(["pip3", "install", "httpx",
+                           "matplotlib", "ttkbootstrap"], stdout=DEVNULL, stderr=STDOUT)
+    elif os.path.exists('./isThisWebsiteOnline.py') and os_name == 'posix':
+        with open(os.devnull, 'w') as devnull:
+            subprocess.run(["pip3", "install", "httpx",
+                           "matplotlib", "ttkbootstrap"], stdout=DEVNULL, stderr=STDOUT)
+    else:
+        pass
+
+    for dirs in critDirs:
+        if os.path.exists(dirs):
+            # print(f'{dirs} Directory exists')
+            pass
+        else:
+            os.mkdir(dirs)
+
+    for files in critFiles:
+        if os.path.exists(files):
+            # print(f'{files} File exists')
+            pass
+        else:
+            # nt
+            if os_name == 'nt' and files == '.\\iwoSource\\options.json':
+                with open(files, "w") as f:
+                    json.dump(
+                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
+            elif os_name == 'nt' and files == '.\\iwoSource\\History.json':
+                with open(".\\iwoSource\\History.json", "w") as f:
+                    json.dump([], f, indent=4)
+
+            # posix
+            if os_name == 'posix' and files == './iwoSource/options.json':
+                with open(files, "w") as f:
+                    json.dump(
+                        {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
+            elif os_name == 'posix' and files == './iwoSource/History.json':
+                with open("./iwoSource/History.json", "w") as f:
+                    json.dump([], f, indent=4)
+
+    if os_name == 'nt':
+        with open(".\\iwoSource\\options.json", "r") as f:
+            options = json.load(f)
+    elif os_name == 'posix':
+        with open("./iwoSource/options.json", "r") as f:
+            options = json.load(f)
+
     # root
     root = tk.Tk()
     root.title("IsThisWebsiteOnline?")
@@ -718,6 +735,44 @@ if __name__ == "__main__":
     elif os_name == 'posix':
         root.iconbitmap("./iwoSource/favicon.ico")
     root.resizable(False, False)
+    root.config(background="#26777f")
+
+    # reload gui
+    def reloadGUI():
+        root.destroy()
+        os.system("python isThisWebsiteOnline.py gui")
+
+    # regenerate options.json
+    def regenerateOptions():
+        if os_name == 'nt':
+            with open(".\\iwoSource\\options.json", "w") as f:
+                json.dump(
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
+        elif os_name == 'posix':
+            with open("./iwoSource/options.json", "w") as f:
+                json.dump(
+                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0}, "fullHistory": {}}, f, indent=4)
+
+        if lang2 == 'en':
+            statusLabel.config(text="options.json regenerated!")
+        elif lang2 == 'de':
+            statusLabel.config(text="options.json neu generiert!")
+
+    reloadGUIButton = ttk.Button(
+        root, text="Reload GUI", command=reloadGUI)
+    reloadGUIButton.place(x=10, y=300)
+    if options['options']['language'] == 'en':
+        reloadGUIButton.config(text="Reload GUI")
+    elif options['options']['language'] == 'de':
+        reloadGUIButton.config(text="GUI neu laden")
+
+    regenerateOptionsButton = ttk.Button(
+        root, text="Regenerate options.json", command=regenerateOptions)
+    regenerateOptionsButton.place(x=120, y=300)
+    if options['options']['language'] == 'en':
+        regenerateOptionsButton.config(text="Regenerate options.json")
+    elif options['options']['language'] == 'de':
+        regenerateOptionsButton.config(text="options.json neu generieren")
 
     # image
     if os_name == 'nt':
@@ -789,7 +844,7 @@ if __name__ == "__main__":
     menu.config(background="#FFFFFF")
     fileMenu.config(background="#FFFFFF")
 
-    # add History submenuS
+    # history sub menu
     historysubMenu = tk.Menu(fileMenu, tearoff=False)
     fileMenu.add_cascade(label="History", menu=historysubMenu)
     historysubMenu.add_command(label='Save History',
@@ -799,7 +854,7 @@ if __name__ == "__main__":
     historysubMenu.add_command(label="See logs", command=seeLogs)
     historysubMenu.add_command(label="Clear logs", command=clearAllHistory)
 
-    # add misc submenu
+    # misc sub menu
     miscSubMenu = tk.Menu(fileMenu, tearoff=False)
     fileMenu.add_cascade(label="Misc", menu=miscSubMenu)
     miscSubMenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
@@ -847,9 +902,6 @@ if __name__ == "__main__":
 
     if options['options']['checkForUpdatesOnStartup'] == True:
         checkUpdate()
-
-    # set background color to hex #FFFFFF
-    root.configure(background='#FFFFFF')
 
     # Mainloop
     root.mainloop()
