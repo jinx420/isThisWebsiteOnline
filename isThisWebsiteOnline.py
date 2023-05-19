@@ -1,6 +1,6 @@
 import os
 import subprocess
-from subprocess import DEVNULL, STDOUT
+from subprocess import DEVNULL, STDOUT  
 from tkinter import messagebox
 import webbrowser
 import httpx
@@ -671,14 +671,6 @@ def clear():
 
 # main
 if __name__ == "__main__":
-    # check if critical files and folders exist
-    if os_name == 'nt':
-        critDirs = ['.\\iwoSource']
-        critFiles = ['.\\iwoSource\\options.json',
-                     '.\\iwoSource\\History.json']
-    elif os_name == 'posix':
-        critDirs = ['./iwoSource']
-        critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
     if os.path.exists('.\\isThisWebsiteOnline.py') and os_name == 'nt':
         with open(os.devnull, "w") as devnull:
             subprocess.call(
@@ -687,6 +679,15 @@ if __name__ == "__main__":
         with open(os.devnull, "w") as devnull:
             subprocess.call(
                 ["pip3", "install", "-r", "./requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
+            
+    # check if critical files and folders exist
+    if os_name == 'nt':
+        critDirs = ['.\\iwoSource']
+        critFiles = ['.\\iwoSource\\options.json',
+                     '.\\iwoSource\\History.json']
+    elif os_name == 'posix':
+        critDirs = ['./iwoSource']
+        critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
     else:
         pass
 
@@ -754,7 +755,12 @@ if __name__ == "__main__":
         # reload gui
         def reloadGUI():
             root.destroy()
-            os.system("python isThisWebsiteOnline.py gui")
+            if os.path.exists('.\\isThisWebsiteOnline.py') and os_name == 'nt':
+                    subprocess.call(["python", "isThisWebsiteOnline.py", "gui"])
+            elif os.path.exists('./isThisWebsiteOnline.py') and os_name == 'posix':
+                subprocess.call(["python", "isThisWebsiteOnline.py", "gui"])
+            else:
+                subprocess.call([".\isThisWebsiteOnline.exe"])
 
         # regenerate options.json
         def regenerateOptions():
