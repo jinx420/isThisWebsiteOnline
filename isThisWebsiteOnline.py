@@ -682,7 +682,7 @@ if __name__ == "__main__":
     if os.path.exists('.\\isThisWebsiteOnline.py') and os_name == 'nt':
         with open(os.devnull, "w") as devnull:
             subprocess.call(
-                ["pip", "install", "-r", ".\\requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
+                ["pip3", "install", "-r", ".\\requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
     elif os.path.exists('./isThisWebsiteOnline.py') and os_name == 'posix':
         with open(os.devnull, "w") as devnull:
             subprocess.call(
