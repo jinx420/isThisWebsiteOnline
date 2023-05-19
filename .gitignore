@@ -133,6 +133,7 @@ dmypy.json
 *.zip
 compileToExe.bat
 isThisWebsiteOnline.exe
+isThisWebsiteOnlineCLI.exe
 /iwoDev/
 /iwoDev/move.py
 /iwoDev/move2.py
