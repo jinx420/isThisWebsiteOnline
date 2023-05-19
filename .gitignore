@@ -131,7 +131,6 @@ dmypy.json
 # custom
 *.7z
 *.zip
-compile.bat
 compileToExe.bat
 isThisWebsiteOnline.exe
 /iwoDev/move.exe
