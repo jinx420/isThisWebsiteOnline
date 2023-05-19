@@ -39,8 +39,13 @@ import ttkbootstrap
 
 version = 'v0.3.2'
 
-# install dependencies
-os.system('pip install httpx matplotlib ttkbootstrap')
+if __name__ == "__main__":
+    if os.path.exists('.\\isThisWebsiteOnline.py') and os.name == 'nt':
+        os.system('cmd /C pip3 install httpx matplotlib ttkbootstrap')
+    elif os.path.exists('./isThisWebsiteOnline.py'):
+        os.system('pip3 install httpx matplotlib ttkbootstrap')
+    else:
+        pass
 
 # check if critical files and folders exist
 critDirs = ['.\\iwoSource']
