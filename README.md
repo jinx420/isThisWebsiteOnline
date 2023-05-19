@@ -1,6 +1,6 @@
 # Website Status Checker
 
-![Website Status Checker](https://github.com/jinx420/isThisWebsiteOnline/blob/master/iwoSource/favicon.png?raw=true)
+![Interface](https://github.com/jinx420/isThisWebsiteOnline/blob/master/misc/test.png?raw=true)
 
 This is a simple Python project designed to check the availability of websites. It provides both a command-line interface (CLI) and a graphical user interface (GUI), making it easy to use for different preferences. The project offers the following features:
 
