@@ -680,13 +680,13 @@ if __name__ == "__main__":
         critDirs = ['./iwoSource']
         critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
     if os.path.exists('.\\isThisWebsiteOnline.py') and os_name == 'nt':
-        with open(os.devnull, "w") as f:
+        with open(os.devnull, "w") as devnull:
             subprocess.call(
-                ["pip", "install", "-r", ".\\requirements.txt"], stdout=f, stderr=f)
+                ["pip", "install", "-r", ".\\requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
     elif os.path.exists('./isThisWebsiteOnline.py') and os_name == 'posix':
-        with open(os.devnull, "w") as f:
+        with open(os.devnull, "w") as devnull:
             subprocess.call(
-                ["pip3", "install", "-r", "./requirements.txt"], stdout=f, stderr=f)
+                ["pip3", "install", "-r", "./requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
     else:
         pass
 
