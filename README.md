@@ -60,3 +60,7 @@ This is a simple Python project designed to check the availability of websites. 
 If you have been actively working on the `develop` branch, we recommend switching to the `master` branch and creating a new branch based on it for your ongoing development work. Please ensure that any bug fixes or new features are implemented on the `master` branch going forward.
 
 We appreciate your understanding and cooperation in this transition. If you have any questions or need further assistance, please don't hesitate to reach out to our team. Thank you for your continued support and dedication to this project!
+
+---
+
+Older commits and or tags might be tagged as unverified. This is due to a switch of GPG keys.
