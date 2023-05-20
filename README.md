@@ -24,7 +24,6 @@ This is a simple Python project designed to check the availability of websites. 
 - [x] Open in Browser: Quickly open the website in your default web browser directly from the program.
 - [x] Save and Load History: Keep a record of website status checks by saving and loading the history.
 - [x] Multithreading: Utilize multithreading to improve performance.
-- [x] Multiple Languages: Enjoy the flexibility of multiple language support to cater to a global user base.
 - [x] Automatic Updates: Stay up to date with the latest version of the program through automatic updates.
 - [x] Online-Offline Ratio Graph: Visualize the online and offline ratio of websites with a graphical representation.
 
@@ -33,6 +32,7 @@ This is a simple Python project designed to check the availability of websites. 
 *Note: The order of contents does not represent the order, in which they will be implemented.*
 
 - [ ] More Options
+- [ ] Import / Export options.json
 - [ ] Major UI overhaul
 - [ ] Favorites and minor UI change (**WIP**)
 - [ ] Fix some of the Spaghetti code
@@ -43,9 +43,10 @@ This is a simple Python project designed to check the availability of websites. 
 
 - [ ] Batch checking
 - [ ] Extensions 
-- [ ] HTTP Request sender (dont know the use for this yet but it seems cool)
-- [ ] Dark Mode (kind of a pain to do)
+- [ ] HTTP Request sender (Dont know the use for this yet but it seems cool)
+- [ ] Dark Mode (Kind of a pain to do)
 - [ ] Documentation
+- [ ] Multiple Languages (This is a pain in the ass to maintain / verify translation, it also adds like 300 lines many of which repeat itself due to how this code is structured and due to limitations of the way i chose to implement it)
 
 ## How to Compile It Yourself
 
