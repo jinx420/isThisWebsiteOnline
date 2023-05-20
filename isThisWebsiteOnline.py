@@ -54,7 +54,7 @@ for files in critFiles:
         if os_name == 'nt' and files == '.\\iwoSource\\options.json':
             with open(files, "w") as f:
                 json.dump(
-                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
+                    {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
         elif os_name == 'nt' and files == '.\\iwoSource\\History.json':
             with open(".\\iwoSource\\History.json", "w") as f:
                 json.dump([], f, indent=4)
@@ -63,19 +63,13 @@ for files in critFiles:
         if os_name == 'posix' and files == './iwoSource/options.json':
             with open(files, "w") as f:
                 json.dump(
-                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
+                    {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
         elif os_name == 'posix' and files == './iwoSource/History.json':
             with open("./iwoSource/History.json", "w") as f:
                 json.dump([], f, indent=4)
 
 
 def checkUpdate():
-    if os_name == 'nt':
-        with open('.\\iwoSource\\options.json', 'r') as f:
-            options = json.load(f)
-    elif os_name == 'posix':
-        with open('./iwoSource/options.json', 'r') as f:
-            options = json.load(f)
     try:
         r = httpx.get(
             'https://api.github.com/repos/jinx420/isThisWebsiteOnline/releases/latest')
@@ -83,35 +77,16 @@ def checkUpdate():
             latestVersion = r.json()['tag_name']
             if latestVersion != f'{version}':
                 if latestVersion > f'{version}':
-                    if options['options']['language'] == 'en':
-                        if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
-                            # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
-                            webbrowser.open(
-                                'https://github.com/jinx420/isThisWebsiteOnline/releases')
-                        else:
-                            pass
-                    elif options['options']['language'] == 'de':
-                        if messagebox.askyesno('Update', 'Es ist ein Update verfügbar. Möchten Sie es herunterladen?'):
-                            # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
-                            webbrowser.open(
-                                'https://github.com/jinx420/isThisWebsiteOnline/releases')
-                        else:
-                            pass
+                    if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
+                        # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
+                        webbrowser.open(
+                            'https://github.com/jinx420/isThisWebsiteOnline/releases')
                 elif latestVersion < f'{version}':
-                    if options['options']['language'] == 'en':
-                        messagebox.showinfo(
-                            'Update', 'You are using the latest version')
-                    elif options['options']['language'] == 'de':
-                        messagebox.showinfo(
-                            'Update', 'Sie verwenden die neueste Version')
-
-            else:
-                if options['options']['language'] == 'en':
                     messagebox.showinfo(
                         'Update', 'You are using the latest version')
-                elif options['options']['language'] == 'de':
-                    messagebox.showinfo(
-                        'Update', 'Sie verwenden die neueste Version')
+            else:
+                messagebox.showinfo(
+                    'Update', 'You are using the latest version')
         else:
             pass
     except ValueError:
@@ -152,20 +127,11 @@ def checkWebsite():
     url = urlEntry.get().lower()
     if httpOrHttps == "http" or httpOrHttps == 'https':
         if isWebsiteOnline(url):
-            if options['options']['language'] == 'en':
-                statusLabel.config(text="Website is online")
-            elif options['options']['language'] == 'de':
-                statusLabel.config(text="Webseite ist online")
+            statusLabel.config(text="Website is online")
         else:
-            if options['options']['language'] == 'en':
-                statusLabel.config(text="Website is offline")
-            elif options['options']['language'] == 'de':
-                statusLabel.config(text="Webseite ist offline")
+            statusLabel.config(text="Website is offline")
     else:
-        if options['options']['language'] == 'en':
-            statusLabel.config(text="Please enter http or https")
-        elif options['options']['language'] == 'de':
-            statusLabel.config(text="Bitte geben Sie http oder https ein")
+        statusLabel.config(text="Please enter http or https")
 
 
 # save history
@@ -176,17 +142,10 @@ def history():
     if os_name == 'nt':
         with open(".\\iwoSource\\history.json", "w") as f:
             json.dump(history, f)
-        with open('.\\iwoSource\\options.json', 'r') as f:
-            options = json.load(f)
     elif os_name == 'posix':
         with open("./iwoSource/history.json", "w") as f:
             json.dump(history, f)
-        with open('./iwoSource/options.json', 'r') as f:
-            options = json.load(f)
-    if options['options']['language'] == 'en':
-        statusLabel.config(text="History saved")
-    elif options['options']['language'] == 'de':
-        statusLabel.config(text="Verlauf gespeichert")
+    statusLabel.config(text="History saved")
 
 
 # load history
@@ -201,16 +160,7 @@ def loadHistory():
     httpOrHttpsEntry.delete(0, tk.END)
     urlEntry.insert(0, history[0])
     httpOrHttpsEntry.insert(0, history[1])
-    if os_name == 'nt':
-        with open('.\\iwoSource\\options.json', 'r') as f:
-            options = json.load(f)
-    elif os_name == 'posix':
-        with open('./iwoSource/options.json', 'r') as f:
-            options = json.load(f)
-    if options['options']['language'] == 'en':
-        statusLabel.config(text="History loaded")
-    elif options['options']['language'] == 'de':
-        statusLabel.config(text="Verlauf geladen")
+    statusLabel.config(text="History loaded")
 
 
 # clear all history
@@ -227,29 +177,23 @@ def clearAllHistory():
 
     if os_name == 'nt':
         with open(".\\iwoSource\\options.json", "w") as f:
-            json.dump({"options": {"language": lang2, "saveHistoryOnCheck": saveHistoryOnCheck,
+            json.dump({"options": {"saveHistoryOnCheck": saveHistoryOnCheck,
                                    "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM}, "fullHistory": {}}, f, indent=4)
 
         with open(".\\iwoSource\\History.json", "w") as f:
             json.dump([], f, indent=4)
     elif os_name == 'posix':
         with open("./iwoSource/options.json", "w") as f:
-            json.dump({"options": {"language": lang2, "saveHistoryOnCheck": saveHistoryOnCheck,
+            json.dump({"options": {"saveHistoryOnCheck": saveHistoryOnCheck,
                                    "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM}, "fullHistory": {}}, f, indent=4)
 
         with open("./iwoSource/History.json", "w") as f:
             json.dump([], f, indent=4)
 
-    if options['options']['language'] == 'en':
-        if options['options']['clearLogsWithClearButton'] == 0:
-            statusLabel.config(text="All logs deleted")
-        elif options['options']['clearLogsWithClearButton'] == 1:
-            statusLabel.config(text="Cleared everything")
-    elif options['options']['language'] == 'de':
-        if options['options']['clearLogsWithClearButton'] == 0:
-            statusLabel.config(text="Alle Logs gelöscht")
-        elif options['options']['clearLogsWithClearButton'] == 1:
-            statusLabel.config(text="Alles geleert")
+    if options['options']['clearLogsWithClearButton'] == 0:
+        statusLabel.config(text="All logs deleted")
+    elif options['options']['clearLogsWithClearButton'] == 1:
+        statusLabel.config(text="Cleared everything")
 
 
 # get status for logs
@@ -288,215 +232,59 @@ def historyWithDateAndTime():
         json.dump(j, jfile, indent=4)
 
 
-# change language
-def changeLanguage(lang):
-    global lang2
-    if lang == "en":
-        if os_name == 'nt':
-            with open('.\\iwoSource\\options.json', 'r+') as f:
-                data = json.load(f)
-                data["options"]['language'] = "en"
-                f.seek(0)
-                json.dump(data, f, indent=4)
-        elif os_name == 'posix':
-            with open('./iwoSource/options.json', 'r+') as f:
-                data = json.load(f)
-                data["options"]['language'] = "en"
-                f.seek(0)
-                json.dump(data, f, indent=4)
-        lang2 = lang
-        httpOrHttpsLabel.config(text="Is the website using http or https? : ")
-        urlLabel.config(text="Enter the url: ")
-        statusLabel.config(text="Waiting...")
-        checkButton.config(text="Check", command=lambda: thread(checkWebsite))
-        clearButton.config(text="Clear", command=clear)
-        viewLogsButton.config(
-            text="View Logs", command=seeLogs)
-        reloadGUIButton.config(text="Reload GUI", command=reloadGUI)
-        regenerateOptionsButton.config(
-            text="Regenerate options.json", command=regenerateOptions)
-
-        # file menu
-        file_menu.entryconfig(0, label="History")
-        file_menu.entryconfig(1, label="Misc")
-        file_menu.entryconfig(3, label="Options", command=optionsWindow)
-        file_menu.entryconfig(5, label="Exit", command=root.destroy)
-
-        # History sub menu
-        history_submenu.entryconfig(0, label="Save History")
-        history_submenu.entryconfig(1, label="Load History",
-                                    command=lambda: thread(loadHistory))
-        history_submenu.entryconfig(2, label="View Logs", command=seeLogs)
-        history_submenu.entryconfig(3, label="Clear All History",
-                                    command=clearAllHistory)
-
-        # misc sub menu
-        misc_submenu.entryconfig(0, label="Open in Browser")
-
-        # help menu
-        help_menu.entryconfig(0, label="Check for update", command=checkUpdate)
-        help_menu.entryconfig(1, label="About", command=about)
-
-    elif lang == "de":
-        if os_name == 'nt':
-            with open('.\\iwoSource\\options.json', 'r+') as f:
-                data = json.load(f)
-                data["options"]['language'] = "de"
-                f.seek(0)
-                json.dump(data, f, indent=4)
-        elif os_name == 'posix':
-            with open('./iwoSource/options.json', 'r+') as f:
-                data = json.load(f)
-                data["options"]['language'] = "de"
-                f.seek(0)
-                json.dump(data, f, indent=4)
-        lang2 = lang
-        httpOrHttpsLabel.config(text="Nutzt die Webseite http oder https? :")
-        urlLabel.config(text="Url der Webseite: ")
-        statusLabel.config(text="Warten...")
-        checkButton.config(text="Testen", command=lambda: thread(checkWebsite))
-        clearButton.config(text="Leeren", command=clear)
-        viewLogsButton.config(text="Logs ansehen",
-                              command=seeLogs)
-        reloadGUIButton.config(text="GUI neu laden", command=reloadGUI)
-        regenerateOptionsButton.config(
-            text="options.json neu generieren", command=regenerateOptions)
-
-        # file menu
-        file_menu.entryconfig(0, label="Verlauf")
-        file_menu.entryconfig(1, label="Verschiedenes")
-        file_menu.entryconfig(3, label="Optionen", command=optionsWindow)
-        file_menu.entryconfig(5, label="Schließen", command=root.destroy)
-
-        # sub menu
-        history_submenu.entryconfig(0, label="Verlauf speichern")
-        history_submenu.entryconfig(1, label="Verlauf laden",
-                                    command=lambda: thread(loadHistory))
-        history_submenu.entryconfig(2, label="Logs ansehen", command=seeLogs)
-        history_submenu.entryconfig(3, label="Alle Verläufe löschen",
-                                    command=clearAllHistory)
-
-        # misc sub menu
-        misc_submenu.entryconfig(0, label="Im Browser öffnen")
-
-        # help menu
-        help_menu.entryconfig(
-            0, label="Nach Updates suchen", command=checkUpdate)
-        help_menu.entryconfig(1, label="Über", command=about)
-
-
 # see logs
 def seeLogs():
+    root = tk.Toplevel()
+    root.title("Press right click on a row to copy the url and method")
+    root.geometry("670x350")
     if os_name == 'nt':
-        with open('.\\iwoSource\\options.json', 'r') as f:
-            options = json.load(f)
+        root.iconbitmap(".\\iwoSource\\favicon.ico")
     elif os_name == 'posix':
-        with open('./iwoSource/options.json', 'r') as f:
-            options = json.load(f)
-    if options['options']['language'] == 'en':
-        root = tk.Toplevel()
-        root.title("Press right click on a row to copy the url and method")
-        root.geometry("670x350")
-        if os_name == 'nt':
-            root.iconbitmap(".\\iwoSource\\favicon.ico")
-        elif os_name == 'posix':
-            root.iconbitmap("./iwoSource/favicon.ico")
-        root.resizable(False, False)
-        tree = ttk.Treeview(root)
-        tree.pack(fill=tk.BOTH, expand=True)
+        root.iconbitmap("./iwoSource/favicon.ico")
+    root.resizable(False, False)
+    tree = ttk.Treeview(root)
+    tree.pack(fill=tk.BOTH, expand=True)
 
-        def popup(event):
-            try:
-                item = tree.identify_row(event.y)
-                tree.selection_set(item)
-                url = tree.item(item, "values")[1]
-                httpOrHttps = tree.item(item, "values")[2]
-                urlEntry.delete(0, tk.END)
-                httpOrHttpsEntry.delete(0, tk.END)
-                urlEntry.insert(0, url)
-                httpOrHttpsEntry.insert(0, httpOrHttps)
-            except IndexError:
-                pass
+    def popup(event):
+        try:
+            item = tree.identify_row(event.y)
+            tree.selection_set(item)
+            url = tree.item(item, "values")[1]
+            httpOrHttps = tree.item(item, "values")[2]
+            urlEntry.delete(0, tk.END)
+            httpOrHttpsEntry.delete(0, tk.END)
+            urlEntry.insert(0, url)
+            httpOrHttpsEntry.insert(0, httpOrHttps)
+        except IndexError:
+            pass
 
-        tree.bind("<Button-3>", popup)
-        tree["columns"] = ("one", "two", "three", "four", "five")
-        tree.column("#0", width=0, stretch=tk.NO)
-        tree.column("one", anchor=tk.W, width=100)
-        tree.column("two", anchor=tk.W, width=100)
-        tree.column("three", anchor=tk.W, width=100)
-        tree.column("four", anchor=tk.W, width=100)
-        tree.column("five", anchor=tk.W, width=100)
-        tree.heading("#0", text="", anchor=tk.W)
-        tree.heading("one", text="Index", anchor=tk.W)
-        tree.heading("two", text="Url", anchor=tk.W)
-        tree.heading("three", text="http/https", anchor=tk.W)
-        tree.heading("four", text="Status", anchor=tk.W)
-        tree.heading("five", text="Date and Time", anchor=tk.W)
-        if os_name == 'nt':
-            with open(".\\iwoSource\\options.json", "r") as f:
-                data = json.load(f)
-                for i in data["fullHistory"]:
-                    tree.insert("", tk.END, text="", values=(
-                        i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
-        elif os_name == 'posix':
-            with open("./iwoSource/options.json", "r") as f:
-                data = json.load(f)
-                for i in data["fullHistory"]:
-                    tree.insert("", tk.END, text="", values=(
-                        i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
-        tree.pack()
-    elif options['options']['language'] == 'de':
-        root = tk.Toplevel()
-        root.title(
-            "Rechtsklick auf eine Zeile um die Url und Methode zu kopieren")
-        root.geometry("670x350")
-        if os_name == 'nt':
-            root.iconbitmap(".\\iwoSource\\favicon.ico")
-        elif os_name == 'posix':
-            root.iconbitmap("./iwoSource/favicon.ico")
-        root.resizable(False, False)
-        tree = ttk.Treeview(root)
-        tree.pack(fill=tk.BOTH, expand=True)
-
-        def popup(event):
-            try:
-                item = tree.identify_row(event.y)
-                tree.selection_set(item)
-                url = tree.item(item, "values")[1]
-                httpOrHttps = tree.item(item, "values")[2]
-                urlEntry.delete(0, tk.END)
-                httpOrHttpsEntry.delete(0, tk.END)
-                urlEntry.insert(0, url)
-                httpOrHttpsEntry.insert(0, httpOrHttps)
-            except IndexError:
-                pass
-
-        tree.bind("<Button-3>", popup)
-        tree["columns"] = ("one", "two", "three", "four", "five")
-        tree.column("#0", width=0, stretch=tk.NO)
-        tree.column("one", anchor=tk.W, width=100)
-        tree.column("two", anchor=tk.W, width=100)
-        tree.column("three", anchor=tk.W, width=100)
-        tree.column("four", anchor=tk.W, width=100)
-        tree.column("five", anchor=tk.W, width=100)
-        tree.heading("#0", text="", anchor=tk.W)
-        tree.heading("one", text="Index", anchor=tk.W)
-        tree.heading("two", text="Url", anchor=tk.W)
-        tree.heading("three", text="http/https", anchor=tk.W)
-        tree.heading("four", text="Status", anchor=tk.W)
-        tree.heading("five", text="Datum und Uhrzeit", anchor=tk.W)
-        if os_name == 'nt':
-            with open(".\\iwoSource\\options.json", "r") as f:
-                data = json.load(f)
-                for i in data["history"]:
-                    tree.insert("", tk.END, text="", values=(
-                        i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
-        elif os_name == 'posix':
-            with open("./iwoSource/options.json", "r") as f:
-                data = json.load(f)
-                for i in data["history"]:
-                    tree.insert("", tk.END, text="", values=(
-                        i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
+    tree.bind("<Button-3>", popup)
+    tree["columns"] = ("one", "two", "three", "four", "five")
+    tree.column("#0", width=0, stretch=tk.NO)
+    tree.column("one", anchor=tk.W, width=100)
+    tree.column("two", anchor=tk.W, width=100)
+    tree.column("three", anchor=tk.W, width=100)
+    tree.column("four", anchor=tk.W, width=100)
+    tree.column("five", anchor=tk.W, width=100)
+    tree.heading("#0", text="", anchor=tk.W)
+    tree.heading("one", text="Index", anchor=tk.W)
+    tree.heading("two", text="Url", anchor=tk.W)
+    tree.heading("three", text="http/https", anchor=tk.W)
+    tree.heading("four", text="Status", anchor=tk.W)
+    tree.heading("five", text="Date and Time", anchor=tk.W)
+    if os_name == 'nt':
+        with open(".\\iwoSource\\options.json", "r") as f:
+            data = json.load(f)
+            for i in data["fullHistory"]:
+                tree.insert("", tk.END, text="", values=(
+                    i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
+    elif os_name == 'posix':
+        with open("./iwoSource/options.json", "r") as f:
+            data = json.load(f)
+            for i in data["fullHistory"]:
+                tree.insert("", tk.END, text="", values=(
+                    i, data["fullHistory"][i]["url"], data["fullHistory"][i]["httpOrHttps"], data["fullHistory"][i]["status"], data["fullHistory"][i]["dateAndTime"]))
+    tree.pack()
 
 
 def optionsWindow():
@@ -512,7 +300,6 @@ def optionsWindow():
 
         options = {
             "options": {
-                "language": lang2,
                 "saveHistoryOnCheck": saveHistoryOnCheck.get(),
                 "checkForUpdatesOnStartup": checkUpdateCM.get(),
                 "clearLogsWithClearButton": clearCM.get(),
@@ -528,18 +315,12 @@ def optionsWindow():
             with open("./iwoSource/options.json", "w") as f:
                 json.dump(options, f, indent=4)
 
-        if lang2 == 'en':
-            saveButton.config(
-                text="Save", command=savedText.config(text="Options saved!"))
-        elif lang2 == 'de':
-            saveButton.config(
-                text="Speichern", command=savedText.config(text="Optionen gespeichert!"))
+        savedText.config(text="Options saved")
         # optionsWindow.destroy()
 
     def resetOptions():
         optionsReset = {
             "options": {
-                "language": lang2,
                 "saveHistoryOnCheck": 1,
                 "checkForUpdatesOnStartup": 0,
                 "clearLogsWithClearButton": 0,
@@ -559,7 +340,53 @@ def optionsWindow():
         checkUpdateCM.set(0)
         clearCM.set(0)
         reloadGUIwith.set(0)
+
+        savedText.config(text="Options reset")
         # optionsWindow.destroy()
+
+    def importOptions():
+        if os_name == 'nt':
+            optionsFile = tk.filedialog.askopenfilename(
+                initialdir=os.getcwd(), title="Select options.json file", filetypes=(("JSON files", "*.json"), ("All files", "*.*")))
+        elif os_name == 'posix':
+            optionsFile = tk.filedialog.askopenfilename(
+                initialdir=os.getcwd(), title="Select options.json file", filetypes=(("JSON files", "*.json"), ("All files", "*.*")))
+
+        with open(optionsFile, "r") as f:
+            options = json.load(f)
+
+        saveHistoryOnCheck.set(options["options"]["saveHistoryOnCheck"])
+        checkUpdateCM.set(options["options"]["checkForUpdatesOnStartup"])
+        clearCM.set(options["options"]["clearLogsWithClearButton"])
+        reloadGUIwith.set(options["options"]["reloadGUIwith"])
+
+        savedText.config(text="Options imported")
+
+        saveOptions()
+
+    def exportOptions():
+        if os_name == 'nt':
+            optionsFile = tk.filedialog.asksaveasfilename(
+                initialdir=os.getcwd(), title="Select options.json file", filetypes=(("JSON files", "*.json"), ("All files", "*.*")))
+        elif os_name == 'posix':
+            optionsFile = tk.filedialog.asksaveasfilename(
+                initialdir=os.getcwd(), title="Select options.json file", filetypes=(("JSON files", "*.json"), ("All files", "*.*")))
+
+        options = {
+            "options": {
+                "saveHistoryOnCheck": saveHistoryOnCheck.get(),
+                "checkForUpdatesOnStartup": checkUpdateCM.get(),
+                "clearLogsWithClearButton": clearCM.get(),
+                "reloadGUIwith": reloadGUIwith.get(),
+                "devPopUp": 0
+            },
+            "fullHistory": {}
+        }
+
+        with open(optionsFile, "w") as f:
+            json.dump(options, f, indent=4)
+
+        savedText.config(text="Options exported")
 
     def devPopUp():
         if os_name == 'nt':
@@ -573,7 +400,6 @@ def optionsWindow():
                 "Dev", "This feature is meant for developers. If you are not a developer, please do not use this feature.\nUsing this feature can cause the program to break, use with caution.")
             options = {
                 "options": {
-                    "language": lang2,
                     "saveHistoryOnCheck": saveHistoryOnCheck.get(),
                     "checkForUpdatesOnStartup": checkUpdateCM.get(),
                     "clearLogsWithClearButton": clearCM.get(),
@@ -612,7 +438,7 @@ def optionsWindow():
     # options window
     optionsWindow = tk.Toplevel()
     optionsWindow.title("Options")
-    optionsWindow.geometry("300x200")
+    optionsWindow.geometry("400x200")
     if os_name == 'nt':
         optionsWindow.iconbitmap(".\\iwoSource\\favicon.ico")
     elif os_name == 'posix':
@@ -647,22 +473,19 @@ def optionsWindow():
     resetButton = tk.Button(optionsWindow, text="Reset", command=resetOptions)
     resetButton.place(x=80, y=170)
 
+    # import button
+    importButton = tk.Button(
+        optionsWindow, text="Import", command=importOptions)
+    importButton.place(x=150, y=170)
+
+    # export button
+    exportButton = tk.Button(
+        optionsWindow, text="Export", command=exportOptions)
+    exportButton.place(x=220, y=170)
+
     # saved text
     savedText = tk.Label(optionsWindow, text="", padx=0, pady=0)
-    savedText.place(x=175, y=175)
-
-    if data['options']['language'] == 'en':
-        optionsWindow.title("Options")
-        checkMarkBox1.config(text="Save history on every check")
-        checkUpdateCMBox.config(text="Check for updates on startup")
-        clearCMBox.config(text="Clear the logs with the clear button")
-        resetButton.config(text="Reset")
-    elif data['options']['language'] == 'de':
-        optionsWindow.title("Optionen")
-        checkMarkBox1.config(text="Verlauf bei jedem Check speichern")
-        checkUpdateCMBox.config(text="Auf Updates beim Start prüfen")
-        clearCMBox.config(text="Logs beim leeren löschen")
-        resetButton.config(text="Zurücksetzen")
+    savedText.place(x=300, y=172)
 
 
 def graph():
@@ -680,12 +503,8 @@ def graph():
         elif data["fullHistory"][i]["status"] == "offline":
             offline += 1
     if online == 0 and offline == 0:
-        if data['options']['language'] == 'en':
-            messagebox.showerror(
-                "Error", "You need to check a website first to make a graph.")
-        elif data['options']['language'] == 'de':
-            messagebox.showerror(
-                "Fehler", "Du musst zuerst eine Webseite überprüfen, um einen Graphen zu erstellen.")
+        messagebox.showerror(
+            "Error", "You need to check a website first to make a graph.")
     else:
         graphWindow = tk.Toplevel()
         graphWindow.title("Graph")
@@ -708,20 +527,9 @@ def graph():
 
 
 def about():
-    if os_name == 'nt':
-        with open('.\\iwoSource\\options.json', 'r') as f:
-            options2 = json.load(f)
-    elif os_name == 'posix':
-        with open('./iwoSource/options.json', 'r') as f:
-            options2 = json.load(f)
-    if options2['options']['language'] == 'en':
-        messagebox.showinfo("About", "A simple program to check if a website is online or not.\n\nFeatures:\n1. Save and load history (only one item can be saved at a time)\n2. Open in browser\n3. CLI (in other file) and GUI\n"
-                            "4. Multiple languages\n5. Multithreading\n6. Table to show the history and status of past checks\n7. Graph to show the percentage of online and offline results\n"
-                            "")
-    elif options2['options']['language'] == 'de':
-        messagebox.showinfo("Über uns", "Ein einfaches Programm um zu überprüfen ob eine Webseite online ist oder nicht.\n\nFunktionen:\n1. Verlauf speichern und laden (nur ein Eintrag kann gespeichert werden)\n2. In Browser öffnen\n3. CLI (in anderer Datei) und GUI\n"
-                            "4. Mehrere Sprachen\n5. Multithreading\n6. Tabelle um den Verlauf und den Status von vergangenen Checks anzuzeigen\n7. Graph um den Prozentsatz von online und offline Ergebnissen anzuzeigen\n"
-                            "")
+    messagebox.showinfo("About", "A simple program to check if a website is online or not.\n\nFeatures:\n1. Save and load history (only one item can be saved at a time)\n2. Open in browser\n3. CLI (in other file) and GUI\n"
+                        "\n4. Multithreading\n5. Table to show the history and status of past checks\n6. Graph to show the percentage of online and offline results\n"
+                        "")
 
 
 def clear():
@@ -735,10 +543,7 @@ def clear():
     if options['options']['clearLogsWithClearButton'] == 0:
         urlEntry.delete(0, tk.END)
         httpOrHttpsEntry.delete(0, tk.END)
-        if options['options']['language'] == 'en':
-            statusLabel.config(text="Cleared")
-        elif options['options']['language'] == 'de':
-            statusLabel.config(text="Gelöscht")
+        statusLabel.config(text="Cleared")
 
     elif options['options']['clearLogsWithClearButton'] == 1:
         urlEntry.delete(0, tk.END)
@@ -804,32 +609,23 @@ if __name__ == "__main__":
         if os_name == 'nt':
             with open(".\\iwoSource\\options.json", "w") as f:
                 json.dump(
-                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
+                    {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
         elif os_name == 'posix':
             with open("./iwoSource/options.json", "w") as f:
                 json.dump(
-                    {"options": {"language": "en", "saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
+                    {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
 
-        if lang2 == 'en':
-            statusLabel.config(text="options.json regenerated!")
-        elif lang2 == 'de':
-            statusLabel.config(text="options.json neu generiert!")
+        statusLabel.config(text="options.json regenerated!")
 
+    # reload gui button
     reloadGUIButton = ttk.Button(
         root, text="Reload GUI", command=reloadGUI)
     reloadGUIButton.place(x=10, y=300)
-    if options['options']['language'] == 'en':
-        reloadGUIButton.config(text="Reload GUI")
-    elif options['options']['language'] == 'de':
-        reloadGUIButton.config(text="GUI neu laden")
 
+    # regenerate options.json button
     regenerateOptionsButton = ttk.Button(
         root, text="Regenerate options.json", command=regenerateOptions)
     regenerateOptionsButton.place(x=120, y=300)
-    if options['options']['language'] == 'en':
-        regenerateOptionsButton.config(text="Regenerate options.json")
-    elif options['options']['language'] == 'de':
-        regenerateOptionsButton.config(text="options.json neu generieren")
 
     # image
     if os_name == 'nt':
@@ -930,15 +726,6 @@ if __name__ == "__main__":
     help_menu.add_command(label="About", command=about)
     help_menu.config(background="#FFFFFF")
 
-    # Language Menu
-    language_menu = tk.Menu(menu, tearoff=False)
-    menu.add_cascade(label="Language", menu=language_menu)
-    language_menu.add_command(
-        label="English", command=lambda: changeLanguage('en'))
-    language_menu.add_command(
-        label="Deutsch", command=lambda: changeLanguage('de'))
-    language_menu.config(background="#FFFFFF")
-
     # MinSize and MaxSize
     root.update()
     root.minsize(root.winfo_width(), root.winfo_height())
@@ -948,17 +735,6 @@ if __name__ == "__main__":
     # Topmost
     root.attributes("-topmost", True)
     root.attributes("-topmost", False)
-
-    # change default language
-    if os_name == 'nt':
-        with open('.\\iwoSource\\options.json', 'r') as f:
-            options = json.load(f)
-            lang2 = options['options']['language']
-    elif os_name == 'posix':
-        with open('./iwoSource/options.json', 'r') as f:
-            options = json.load(f)
-            lang2 = options['options']['language']
-    changeLanguage(lang2)
 
     if options['options']['checkForUpdatesOnStartup'] == True:
         checkUpdate()
