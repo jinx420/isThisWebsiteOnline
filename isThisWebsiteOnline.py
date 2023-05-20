@@ -38,6 +38,16 @@ from ttkbootstrap import Style
 # TODO add more languages (unlikely because its too much work)
 
 
+#  ___  ___       __   ________  ________
+# |\  \|\  \     |\  \|\   __  \|\_____  \
+# \ \  \ \  \    \ \  \ \  \|\  \|____|\  \
+#  \ \  \ \  \  __\ \  \ \  \\\  \    \ \__\
+#   \ \  \ \  \|\__\_\  \ \  \\\  \    \|__|
+#    \ \__\ \____________\ \_______\       ___
+#     \|__|\|____________|\|_______|      |\__\
+#                                         \|__|
+
+
 version = 'v0.3.5'
 os_name = os.name
 
@@ -763,6 +773,10 @@ def clear():
 # main
 if __name__ == "__main__":
     # removed due to it causing problems if you use the python file instead of the exe and try to reload the gui
+    # this also caused a slow startup time and overall slower performance
+    # i figured that it would still be a good idea to keep this code here in case i want to add it back in the future
+    # or if someone else wants to improve it and add it back in :D
+
     # if os.path.exists('.\\isThisWebsiteOnline.py') and os_name == 'nt':
     #     with open(os.devnull, "w") as devnull:
     #         subprocess.call(
