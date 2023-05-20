@@ -32,7 +32,6 @@ This is a simple Python project designed to check the availability of websites. 
 
 *Note: The order of contents does not represent the order, in which they will be implemented.*
 
-- [ ] Documentation
 - [ ] More Options
 - [ ] UI overhaul
 - [ ] Favorites
@@ -40,6 +39,7 @@ This is a simple Python project designed to check the availability of websites. 
 ### Unsure Features
 
 - [ ] Dark Mode
+- [ ] Documentation
 - [ ] HTTP Request sender (dont know the use for this yet but it seems cool)
 - [ ] Batch checking
 - [ ] Extensions 
@@ -75,7 +75,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 4. **Empty History After Updating to v0.2.8 or Newer:** After updating to version v0.2.8 or newer, the history may appear empty. This is because the program now saves the full history in the `options.json` file instead of the previous `fullHistory.json` file. You can safely delete the old `fullHistory.json` file as it is no longer used.
 
-5. **Unable to Open Options Menu:** If you are unable to open the options menu, it is likely due to having an outdated `options.json` file. The program checks for enabled options when opening the menu, and if a new option does not exist in the old `options.json`, the program cannot proceed. Deleting the old `options.json` file is a fix for this, but the easiest fix for this is to use the new button to regenerate your `options.json`. But please note that it will reset all your options. Currently, there is only a small amount of options, so this is not a significant concern.
+5. **Unable to Open Options Menu:** If you are unable to open the options menu, it is likely due to having an outdated `options.json` file. The program checks for enabled options when opening the menu, and if a new option does not exist in the old `options.json`, the program cannot proceed. Deleting the old `options.json` file fixes the issue, but the easiest way to fix this is to use the new button to regenerate your `options.json`. But please note that it will reset all your options. Currently, there is only a small amount of options, so this is not a significant concern.
 
 6. **Settings Not Saved in v0.2.9:** In version v0.2.9 (and possibly older versions), a bug prevented settings from being saved due to an update in the status text. This issue has been resolved in version v0.3.0 or newer.
 
