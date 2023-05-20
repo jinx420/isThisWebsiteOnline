@@ -527,9 +527,32 @@ def graph():
 
 
 def about():
-    messagebox.showinfo("About", "A simple program to check if a website is online or not.\n\nFeatures:\n1. Save and load history (only one item can be saved at a time)\n2. Open in browser\n3. CLI (in other file) and GUI\n"
-                        "\n4. Multithreading\n5. Table to show the history and status of past checks\n6. Graph to show the percentage of online and offline results\n"
-                        "")
+    aboutWindow = tk.Toplevel()
+    aboutWindow.title("About")
+    aboutWindow.geometry("450x150")
+    if os_name == 'nt':
+        aboutWindow.iconbitmap(".\\iwoSource\\favicon.ico")
+    elif os_name == 'posix':
+        aboutWindow.iconbitmap("./iwoSource/favicon.ico")
+    aboutWindow.resizable(False, False)
+
+    aboutText = tk.Label(aboutWindow, text="A simple program to check if a website is online or not.\n"
+                         "\nIf you have any suggestions or find any bugs, please report them on the github page.\nhttps://github.com/jinx420/isThisWebsiteOnline/issues\n"
+                         "\nA list of all the features can be found in the README.md, and on the github page.\nhttps://github.com/jinx420/isThisWebsiteOnline/",
+                         padx=0, pady=0)
+    aboutText.place(x=0, y=0)
+
+    githubButton = tk.Button(aboutWindow, text="Github Issues", command=lambda: webbrowser.open(
+        "https://github.com/jinx420/isThisWebsiteOnline/issues"))
+    githubButton.place(x=5, y=125)
+
+    githubButton = tk.Button(aboutWindow, text="Github Page", command=lambda: webbrowser.open(
+        "https://github.com/jinx420/isThisWebsiteOnline"))
+    githubButton.place(x=100, y=125)
+
+    # messagebox.showinfo("About", f"A simple program to check if a website is online or not."
+    #                     "\n\nIf you have any suggestions or find any bugs, please report them on the github page.\nhttps://github.com/jinx420/isThisWebsiteOnline/issues"
+    #                     "\n\nA list of all teh features can be found in the README.md, and on the github page.\nhttps://github.com/jinx420/isThisWebsiteOnline/")
 
 
 def clear():
