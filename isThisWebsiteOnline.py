@@ -14,30 +14,6 @@ from tkinter import ttk
 from ttkbootstrap import Style
 
 
-# highest priority:
-# TODO optimization
-
-
-# high priority:
-# TODO make program more performant
-
-
-# medium priority:
-# TODO add dark mode
-# TODO add more buttons / functions
-
-
-# low priority:
-# TODO work on a fix for the options not opening if user is using the old options.json file
-
-
-# lowest priority:
-# TODO add more options (like: file path for logs, folder etc.) 1 done
-# TODO add link to documentation in the help tab (to github wiki)
-# TODO change changeLanguage()
-# TODO add more languages (unlikely because its too much work)
-
-
 #  ___  ___       __   ________  ________
 # |\  \|\  \     |\  \|\   __  \|\_____  \
 # \ \  \ \  \    \ \  \ \  \|\  \|____|\  \
