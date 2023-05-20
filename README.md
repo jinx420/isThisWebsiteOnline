@@ -5,7 +5,6 @@
 *Note: The Picture above, will be updated every major version or every major UI overhaul.*
 
 - [Features](#features)
-  - [Work in progress](#work-in-progress-wip)
   - [Planned Features](#planned-features)
   - [Unsure Features](#unsure-features)
 - [How to Compile It Yourself](#how-to-compile-it-yourself)
@@ -29,24 +28,18 @@ This is a simple Python project designed to check the availability of websites. 
 - [x] Automatic Updates: Stay up to date with the latest version of the program through automatic updates.
 - [x] Online-Offline Ratio Graph: Visualize the online and offline ratio of websites with a graphical representation.
 
-### Work in progress (WIP)
-
-*Note: The checkmark indicates what is currently in development.*
-
-- [ ] Favorites
-- [ ] Small UI overhaul
-
 ### Planned Features
 
 *Note: The order of contents does not represent the order, in which they will be implemented.*
 
 - [ ] More Options
 - [ ] Major UI overhaul
-- [ ] Favorites
+- [ ] Favorites (**WIP**)
+- [ ] Fix some of the Spaghetti code
 
 ### Unsure Features
 
-*Note: The order represents what is the most likely to be implemented.*
+*Note: The order represents the likelihood of it being implemented.*
 
 - [ ] Batch checking
 - [ ] Extensions 
