@@ -84,4 +84,4 @@ We appreciate your understanding and cooperation in this transition. If you have
 
 - Older commits and or tags might be tagged as unverified. This is due to a switch of GPG keys.
 
-- Starting from v0.3.5, the `convertme.py` file has been removed. 
+- Starting from v0.3.5, the `convertme.py` file has been removed, the CLI has been moved to `isThisWebsiteOnlineCLI.py and isThisWebsiteOnlineCLI.exe`. 
