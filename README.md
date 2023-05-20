@@ -50,7 +50,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 ### Scrapped Features
 
-*Note: Features listed here are gone for good, some will also have an explanation why I decided to remove them (see `Explanation:`). There is a very very slim chance they will get implemented again after some time.*
+*Note: Features listed here are gone for good, some will also have an explanation why I decided to remove them (see `Explanation:`). There is a very very slim chance they will get implemented again after some time. Farewell my friends*.  :sob:
 
 - Multiple Languages (*Explanation: This is a pain in the ass to maintain / verify translation, it also adds like **300** lines many of which repeat itself due to how this code is structured and due to limitations of the way I chose to implement it. The Multiple languages were kinda alright at the beginning but as soon as the code kept getting bigger so did the translations **for every line of code I had to add like 3 lines for translation**. This made the code very bloated, inefficient and it also implemented lots of bugs.*)
 
