@@ -853,7 +853,7 @@ if __name__ == "__main__":
     # http or https label
     httpOrHttpsLabel = ttk.Label(
         root, text="Is the website using http or https? : ")
-    httpOrHttpsLabel.place(x=10, y=20)
+    httpOrHttpsLabel.place(x=10, y=23)
     httpOrHttpsLabel.config(background="#FFFFFF")
 
     # http or https entry
@@ -863,7 +863,7 @@ if __name__ == "__main__":
 
     # url label
     urlLabel = ttk.Label(root, text="Enter the url: ")
-    urlLabel.place(x=10, y=50)
+    urlLabel.place(x=10, y=53)
     urlLabel.config(background="#FFFFFF")
 
     # url entry
