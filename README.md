@@ -5,8 +5,9 @@
 *Note: The Picture above, will be updated every major version or every major UI overhaul.*
 
 - [Features](#features)
-  - [Planned Features](#planned-features)
+  - [Planned Features and Enhancements](#planned-features)
   - [Unsure Features](#unsure-features)
+  - [Scrapped Features](#scrapped-features)
 - [How to Compile It Yourself](#how-to-compile-it-yourself)
   - [With the Batch File](#with-the-batch-file)
   - [Without the Batch File](#without-the-batch-file)
@@ -26,16 +27,16 @@ This is a simple Python project designed to check the availability of websites. 
 - [x] Multithreading: Utilize multithreading to improve performance.
 - [x] Automatic Updates: Stay up to date with the latest version of the program through automatic updates.
 - [x] Online-Offline Ratio Graph: Visualize the online and offline ratio of websites with a graphical representation.
+- [x] Easily import and export your options, to use them on another system or after a version upgrade.
 
-### Planned Features
+### Planned Features and Enhancements
 
-*Note: The order of contents does not represent the order, in which they will be implemented.*
+*Note: The order of contents does not represent the order, in which they will be implemented. Active development on a feature is marked by (**WIP**).*
 
 - [ ] More Options
-- [ ] Import / Export options.json
 - [ ] Major UI overhaul
-- [ ] Favorites and minor UI change (**WIP**)
-- [ ] Fix some of the Spaghetti code
+- [ ] Favorites and minor UI change
+- [ ] Fix some of the Spaghetti code (**WIP**)
 
 ### Unsure Features
 
@@ -46,7 +47,12 @@ This is a simple Python project designed to check the availability of websites. 
 - [ ] HTTP Request sender (Dont know the use for this yet but it seems cool)
 - [ ] Dark Mode (Kind of a pain to do)
 - [ ] Documentation
-- [ ] Multiple Languages (This is a pain in the ass to maintain / verify translation, it also adds like 300 lines many of which repeat itself due to how this code is structured and due to limitations of the way i chose to implement it)
+
+### Scrapped Features
+
+*Note: Features listed here are gone for good, some will also have an explanation why I decided to remove them (see `Explanation:`). There is a very very slim chance they will get implemented again after some time.*
+
+- Multiple Languages (*Explanation: This is a pain in the ass to maintain / verify translation, it also adds like **300** lines many of which repeat itself due to how this code is structured and due to limitations of the way I chose to implement it. The Multiple languages were kinda alright at the beginning but as soon as the code kept getting bigger so did the translations **for every line of code I had to add like 3 lines for translation**. This made the code very bloated, inefficient and it also implemented lots of bugs.*)
 
 ## How to Compile It Yourself
 
