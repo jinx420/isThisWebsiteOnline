@@ -2,7 +2,15 @@
 
 ![Interface](https://raw.githubusercontent.com/jinx420/isThisWebsiteOnline/master/misc/main-window2.png)
 
-*Note: The Picture above, will be updated every major version.*
+*Note: The Picture above, will be updated every major version or every major UI overhaul.*
+
+- [Features](#features)
+- [Planned Features](#planned-features)
+- [How to Compile It Yourself](#how-to-compile-it-yourself)
+  - [With the Batch File](#with-the-batch-file)
+  - [Without the Batch File](#without-the-batch-file)
+- [Known Issues](#known-issues)
+- [Notice for Developers](#notice-for-developers)
 
 This is a simple Python project designed to check the availability of websites. It provides both a command-line interface (CLI) and a graphical user interface (GUI), making it easy to use for different preferences. This project is currently a work in progress (WIP), and there is no estimated completion date at the moment. The project offers the following features:
 
@@ -21,7 +29,13 @@ This is a simple Python project designed to check the availability of websites. 
 
 ## Planned Features
 
-1. Option to Disable Automatic Dependency Installation: In an upcoming update, an option to disable automatic dependency installation will be added to allow advanced users more control over the installation process.
+*Note: The order of contents does not represent the order, in which they will be implemented.*
+
+- [ ] Documentation
+- [ ] Dark Mode
+- [ ] More Options
+- [ ] UI overhaul
+
 
 ## How to Compile It Yourself
 
@@ -70,4 +84,4 @@ We appreciate your understanding and cooperation in this transition. If you have
 
 - Older commits and or tags might be tagged as unverified. This is due to a switch of GPG keys.
 
-- Starting from v0.3.5, the `convertme.py` file has been removed.
+- Starting from v0.3.5, the `convertme.py` file has been removed. 
