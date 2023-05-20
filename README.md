@@ -5,7 +5,8 @@
 *Note: The Picture above, will be updated every major version or every major UI overhaul.*
 
 - [Features](#features)
-- [Planned Features](#planned-features)
+  - [Work in progress](#work-in-progress-wip)
+  - [Planned Features](#planned-features)
   - [Unsure Features](#unsure-features)
 - [How to Compile It Yourself](#how-to-compile-it-yourself)
   - [With the Batch File](#with-the-batch-file)
@@ -17,32 +18,41 @@ This is a simple Python project designed to check the availability of websites. 
 
 ## Features
 
-1. CLI and GUI: Choose between the command-line interface or the graphical user interface to check the status of a website. 
+- [x] CLI and GUI: Choose between the command-line interface or the graphical user interface to check the status of a website. 
 
     *Note: The CLI is available at `isThisWebsiteOnlineCLI.py` and `isThisWebsiteOnlineCLI.exe`*
 
-2. Open in Browser: Quickly open the website in your default web browser directly from the program.
-3. Save and Load History: Keep a record of website status checks by saving and loading the history.
-4. Multithreading: Utilize multithreading to improve performance.
-5. Multiple Languages: Enjoy the flexibility of multiple language support to cater to a global user base.
-6. Automatic Updates: Stay up to date with the latest version of the program through automatic updates.
-7. Online-Offline Ratio Graph: Visualize the online and offline ratio of websites with a graphical representation.
+- [x] Open in Browser: Quickly open the website in your default web browser directly from the program.
+- [x] Save and Load History: Keep a record of website status checks by saving and loading the history.
+- [x] Multithreading: Utilize multithreading to improve performance.
+- [x] Multiple Languages: Enjoy the flexibility of multiple language support to cater to a global user base.
+- [x] Automatic Updates: Stay up to date with the latest version of the program through automatic updates.
+- [x] Online-Offline Ratio Graph: Visualize the online and offline ratio of websites with a graphical representation.
 
-## Planned Features
+### Work in progress (WIP)
+
+*Note: The checkmark indicates what is currently in development.*
+
+- [ ] Favorites
+- [ ] Small UI overhaul
+
+### Planned Features
 
 *Note: The order of contents does not represent the order, in which they will be implemented.*
 
 - [ ] More Options
-- [ ] UI overhaul
+- [ ] Major UI overhaul
 - [ ] Favorites
 
 ### Unsure Features
 
-- [ ] Dark Mode
-- [ ] Documentation
-- [ ] HTTP Request sender (dont know the use for this yet but it seems cool)
+*Note: The order represents what is the most likely to be implemented.*
+
 - [ ] Batch checking
 - [ ] Extensions 
+- [ ] HTTP Request sender (dont know the use for this yet but it seems cool)
+- [ ] Dark Mode (kind of a pain to do)
+- [ ] Documentation
 
 ## How to Compile It Yourself
 
