@@ -34,7 +34,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 - [ ] More Options
 - [ ] Major UI overhaul
-- [ ] Favorites (**WIP**)
+- [ ] Favorites and minor UI change (**WIP**)
 - [ ] Fix some of the Spaghetti code
 
 ### Unsure Features
