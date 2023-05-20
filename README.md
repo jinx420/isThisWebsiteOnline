@@ -42,6 +42,7 @@ This is a simple Python project designed to check the availability of websites. 
 - [ ] Dark Mode
 - [ ] HTTP Request sender (dont know the use for this yet but it seems cool)
 - [ ] Batch checking
+- [ ] Extensions 
 
 ## How to Compile It Yourself
 
