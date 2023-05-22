@@ -2,7 +2,7 @@
 
 ![Interface](https://raw.githubusercontent.com/jinx420/isThisWebsiteOnline/master/misc/main-window2.png)
 
-*Note: The Picture above, will be updated every major version or every major UI overhaul.*
+*Note: The Picture above will be updated every major version or every major UI overhaul.*
 
 - [Features](#features)
   - [Planned Features and Enhancements](#planned-features)
@@ -20,18 +20,18 @@ This is a simple Python project designed to check the availability of websites. 
 
 - [x] CLI and GUI: Choose between the command-line interface or the graphical user interface to check the status of a website. 
 
-    *Note: The CLI is available at `isThisWebsiteOnlineCLI.py` and `isThisWebsiteOnlineCLI.exe`*
+    *Note: The CLI is available at `isThisWebsiteOnlineCLI.py` and `isThisWebsiteOnlineCLI.exe`.*
 
 - [x] Open in Browser: Quickly open the website in your default web browser directly from the program.
 - [x] Save and Load History: Keep a record of website status checks by saving and loading the history.
 - [x] Multithreading: Utilize multithreading to improve performance.
 - [x] Automatic Updates: Stay up to date with the latest version of the program through automatic updates.
 - [x] Online-Offline Ratio Graph: Visualize the online and offline ratio of websites with a graphical representation.
-- [x] Easily import and export your options, to use them on another system or after a version upgrade.
+- [x] Easily import and export your options to use them on another system or after a version upgrade.
 
 ### Planned Features and Enhancements
 
-*Note: The order of contents does not represent the order, in which they will be implemented. Active development on a feature is marked by (**WIP**).*
+*Note: The order of contents does not represent the order in which they will be implemented. Active development on a feature is marked by (**WIP**).*
 
 - [ ] More Options
 - [ ] Major UI overhaul
@@ -40,19 +40,19 @@ This is a simple Python project designed to check the availability of websites. 
 
 ### Unsure Features
 
-*Note: The order represents the likelihood of it being implemented.*
+*Note: The order represents the likelihood of them being implemented.*
 
 - [ ] Batch checking
-- [ ] Extensions 
-- [ ] HTTP Request sender (Dont know the use for this yet but it seems cool)
+- [ ] Extensions
+- [ ] HTTP Request sender (Don't know the use for this yet, but it seems cool)
 - [ ] Dark Mode (Kind of a pain to do)
 - [ ] Documentation
 
 ### Scrapped Features
 
-*Note: Features listed here are gone for good, some will also have an explanation why I decided to remove them (see `Explanation:`). There is a very very slim chance they will get implemented again after some time. Farewell my friends*.  :sob:
+*Note: Features listed here are gone for good, some will also have an explanation why I decided to remove them (see `Explanation:`). There is a very slim chance they will get implemented again after some time. Farewell, my friends.*  :sob:
 
-- Multiple Languages (*Explanation: This is a pain in the ass to maintain / verify translation, it also adds like **300** lines many of which repeat itself due to how this code is structured and due to limitations of the way I chose to implement it. The Multiple languages were kinda alright at the beginning but as soon as the code kept getting bigger so did the translations **for every line of code I had to add like 3 lines for translation**. This made the code very bloated, inefficient and it also implemented lots of bugs.*)
+- Multiple Languages (*Explanation: This is a pain in the ass to maintain/verify translation, it also adds like **300** lines, many of which repeat themselves due to how this code is structured and due to limitations of the way I chose to implement it. The multiple languages were kinda alright at the beginning, but as soon as the code kept getting bigger, so did the translations. For every line of code, I had to add like 3 lines for translation. This made the code very bloated, inefficient, and it also introduced lots of bugs.*)
 
 ## How to Compile It Yourself
 
@@ -85,7 +85,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 4. **Empty History After Updating to v0.2.8 or Newer:** After updating to version v0.2.8 or newer, the history may appear empty. This is because the program now saves the full history in the `options.json` file instead of the previous `fullHistory.json` file. You can safely delete the old `fullHistory.json` file as it is no longer used.
 
-5. **Unable to Open Options Menu:** If you are unable to open the options menu, it is likely due to having an outdated `options.json` file. The program checks for enabled options when opening the menu, and if a new option does not exist in the old `options.json`, the program cannot proceed. Deleting the old `options.json` file fixes the issue, but the easiest way to fix this is to use the new button to regenerate your `options.json`. But please note that it will reset all your options. Currently, there is only a small amount of options, so this is not a significant concern.
+5. **Unable to Open Options Menu:** If you are unable to open the options menu, it is likely due to having an outdated `options.json` file. The program checks for enabled options when opening the menu, and if a new option does not exist in the old `options.json`, the program cannot proceed. Deleting the old `options.json` file fixes the issue, but the easiest way to fix this is to use the new button to regenerate your `options.json`. Please note that it will reset all your options. Currently, there is only a small number of options, so this is not a significant concern.
 
 6. **Settings Not Saved in v0.2.9:** In version v0.2.9 (and possibly older versions), a bug prevented settings from being saved due to an update in the status text. This issue has been resolved in version v0.3.0 or newer.
 
@@ -101,4 +101,4 @@ We appreciate your understanding and cooperation in this transition. If you have
 
 - Older commits and or tags might be tagged as unverified. This is due to a switch of GPG keys.
 
-- Starting from v0.3.5, the `convertme.py` file has been removed, the CLI has been moved to `isThisWebsiteOnlineCLI.py and isThisWebsiteOnlineCLI.exe`. 
+- Starting from v0.3.5, the `convertme.py` file has been removed, and the CLI has been moved to `isThisWebsiteOnlineCLI.py` and `isThisWebsiteOnlineCLI.exe`.
