@@ -36,7 +36,7 @@ This is a simple Python project designed to check the availability of websites. 
 - [ ] More Options
 - [ ] Major UI overhaul
 - [ ] Favorites and minor UI change
-- [ ] Fix some of the Spaghetti code (**WIP**)
+- [ ] Add check for options.json of prior install (**WIP**)
 
 ### Unsure Features
 
@@ -101,4 +101,4 @@ We appreciate your understanding and cooperation in this transition. If you have
 
 - Older commits and or tags might be tagged as unverified. This is due to a switch of GPG keys.
 
-- Starting from v0.3.5, the `convertme.py` file has been removed, and the CLI has been moved to `isThisWebsiteOnlineCLI.py` and `isThisWebsiteOnlineCLI.exe`.
+- Starting from v0.3.5, the `convertme.py` file has been removed, and the CLI has been moved to `isThisWebsiteOnlineCLI.py` and `isThisWebsiteOnlineCLI.exe`. 
