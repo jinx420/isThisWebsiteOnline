@@ -24,7 +24,7 @@ from ttkbootstrap import Style
 #                                         \|__|
 
 
-version = 'v0.3.5'
+version = 'v0.3.6'
 os_name = os.name
 
 # check if critical files and folders exist
@@ -232,8 +232,8 @@ def historyWithDateAndTime():
         json.dump(j, jfile, indent=4)
 
 
-# see logs
-def seeLogs():
+# view Logs
+def viewLogs():
     root = tk.Toplevel()
     root.title("Press right click on a row to copy the url and method")
     root.geometry("670x350")
@@ -397,7 +397,8 @@ def optionsWindow():
                 data = json.load(f)
         if data['options']['devPopUp'] == 0:
             messagebox.showinfo(
-                "Dev", "This feature is meant for developers. If you are not a developer, please do not use this feature.\nUsing this feature can cause the program to break, use with caution.")
+                "Dev", "This feature is meant for developers. If you are not a developer, please do not use this feature."
+                "\nUsing this feature can cause the program to break, use with caution.")
             options = {
                 "options": {
                     "saveHistoryOnCheck": saveHistoryOnCheck.get(),
@@ -464,6 +465,9 @@ def optionsWindow():
     reloadGUIBox = tk.Checkbutton(optionsWindow, text="Reload GUI with .exe or .py",
                                   variable=reloadGUIwith, onvalue=1, offvalue=0, command=lambda: devPopUp())
     reloadGUIBox.place(x=10, y=100)
+    reloadExplanation = tk.Label(optionsWindow, text='(no checkmark = .exe | checkmark = .py)',
+                                 padx=0, pady=0)
+    reloadExplanation.place(x=30, y=120)
 
     # save button
     saveButton = tk.Button(optionsWindow, text="Save", command=saveOptions)
@@ -599,7 +603,8 @@ if __name__ == "__main__":
 
     # root
     root = tk.Tk()
-    root.title("IsThisWebsiteOnline?")
+    root.title(
+        "IsThisWebsiteOnline?                                                                                  Made with 💜 by jinx")
     root.geometry("670x350")
     if os_name == 'nt':
         root.iconbitmap(".\\iwoSource\\favicon.ico")
@@ -695,7 +700,7 @@ if __name__ == "__main__":
 
     # save to logs button
     viewLogsButton = ttk.Button(
-        root, text="View logs", command=seeLogs)
+        root, text="View logs", command=viewLogs)
     viewLogsButton.place(x=10, y=150)
 
     # graph button
@@ -727,7 +732,7 @@ if __name__ == "__main__":
                                 command=lambda: thread(history))
     history_submenu.add_command(label='Load History',
                                 command=lambda: thread(loadHistory))
-    history_submenu.add_command(label="See logs", command=seeLogs)
+    history_submenu.add_command(label="View logs", command=viewLogs)
     history_submenu.add_command(
         label="Clear logs", command=clearAllHistory)
 
