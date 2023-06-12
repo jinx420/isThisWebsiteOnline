@@ -83,9 +83,15 @@ def checkUpdate():
                         # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
                         webbrowser.open(
                             'https://github.com/jinx420/isThisWebsiteOnline/releases')
-                elif latestVersion < f'{version}':
+                elif latestVersion == f'{version}':
                     messagebox.showinfo(
                         'Update', 'You are using the latest version')
+                elif latestVersion < f'{version}':
+                    if messagebox.askyesno(
+                            'Update', 'You are using an unstable Developer version. Do you want to download the latest stable version?'):
+                        webbrowser.open(
+                            'https://github.com/jinx420/isThisWebsiteOnline/releases')
+
             else:
                 messagebox.showinfo(
                     'Update', 'You are using the latest version')
