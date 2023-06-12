@@ -28,6 +28,7 @@ This is a simple Python project designed to check the availability of websites. 
 - [x] Automatic Updates: Stay up to date with the latest version of the program through automatic updates.
 - [x] Online-Offline Ratio Graph: Visualize the online and offline ratio of websites with a graphical representation.
 - [x] Easily import and export your options to use them on another system or after a version upgrade.
+- [x] Support for the GNU/Linux Operating System.
 
 ### Planned Features and Enhancements
 
@@ -35,7 +36,8 @@ This is a simple Python project designed to check the availability of websites. 
 
 - [ ] More Options
 - [ ] Major UI overhaul
-- [ ] Favorites and minor UI change
+- [ ] Favorites
+- [ ] Minor UI change (**WIP** *Note: This is about 50% done.*)
 
 ### Unsure Features
 
