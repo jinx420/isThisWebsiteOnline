@@ -96,9 +96,9 @@ This is a simple Python project designed to check the availability of websites. 
 
 ⚠️ **Important Notice:** Starting from version v0.3.2, the branch `develop` has been renamed to `old-develop` and is no longer actively maintained. To streamline our development process and focus efforts on the `master` branch, which contains the latest stable version, we have made this change.
 
-If you have been actively working on the `develop` branch, we recommend switching to the `master` branch and creating a new branch based on it for your ongoing development work. Please ensure that any bug fixes or new features are implemented on the `master` branch going forward.
+If you have been actively working on the `develop` branch, I recommend switching to the `master` branch and creating a new branch based on it for your ongoing development work. Please ensure that any bug fixes or new features are implemented on the `master` branch going forward.
 
-We appreciate your understanding and cooperation in this transition. If you have any questions or need further assistance, please don't hesitate to reach out to our team. Thank you for your continued support and dedication to this project!
+I appreciate your understanding and cooperation in this transition. If you have any questions or need further assistance, please don't hesitate to reach out to me. Thank you for your continued support and dedication to this project!
 
 ---
 
