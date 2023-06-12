@@ -1,6 +1,6 @@
 # Website Status Checker
 
-![Interface](https://raw.githubusercontent.com/jinx420/isThisWebsiteOnline/master/misc/main-window2.png)
+![Interface](https://raw.githubusercontent.com/jinx420/isThisWebsiteOnline/master/misc/v0.3.6.png)
 
 *Note: The picture above will be updated every major version or every major UI overhaul.*
 
