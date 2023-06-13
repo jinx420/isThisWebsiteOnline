@@ -374,7 +374,7 @@ def optionsWindow():
     # options window
     optionsWindow = tk.Toplevel()
     optionsWindow.title("Options")
-    optionsWindow.geometry("400x200")
+    optionsWindow.geometry("290x200")
     optionsWindow.iconbitmap("./iwoSource/favicon.ico")
     optionsWindow.resizable(False, False)
 
@@ -425,7 +425,8 @@ def optionsWindow():
 
 
 def graph():
-    data = load_options()
+    with open("./iwoSource/options.json", "r") as f:
+        data = json.load(f)
     online = 0
     offline = 0
     for i in data["fullHistory"]:
