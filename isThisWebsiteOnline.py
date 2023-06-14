@@ -507,6 +507,7 @@ def about():
         "https://github.com/jinx420/isThisWebsiteOnline"))
     githubButton.place(x=150, y=125)
 
+    # idk why this is still here, but it is
     # messagebox.showinfo("About", f"A simple program to check if a website is online or not."
     #                     "\n\nIf you have any suggestions or find any bugs, please report them on the github page.\nhttps://github.com/jinx420/isThisWebsiteOnline/issues"
     #                     "\n\nA list of all teh features can be found in the README.md, and on the github page.\nhttps://github.com/jinx420/isThisWebsiteOnline/")
