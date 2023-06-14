@@ -139,5 +139,6 @@ isThisWebsiteOnlineCLI.exe
 /iwoDev/move2.py
 /iwoSource/history.json
 /iwoSource/options.json
-/iwoSource/fullHistory.json
+/source/history.json
+/source/options.json
 build.md
