@@ -554,7 +554,6 @@ if __name__ == "__main__":
     root.geometry("670x350")
     root.iconbitmap("./source/favicon.ico")
     root.resizable(False, False)
-    root.config(background="#26777f")
 
     # reload gui
     def reloadGUI():
