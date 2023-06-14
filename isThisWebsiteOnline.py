@@ -99,7 +99,8 @@ def checkUpdate():
         else:
             pass
     except ValueError:
-        print('Error: Could not check for updates')
+        messagebox.showerror(
+            'Error', 'Error: Could not check for updates.\n\nPlease check your internet connection and try again.')
 
 
 def thread(func):
@@ -108,22 +109,42 @@ def thread(func):
 
 # check if website is online
 def isWebsiteOnline(url):
-    if httpOrHttpsEntry.get().lower() == "http":
-        try:
-            httpx.get(f'http://{url}')
+    try:
+        if httpOrHttpsEntry.get().lower() == "http":
+            httpx.get(f'http://{url}', timeout=5)
             return True
-        except:
-            return False
-    elif httpOrHttpsEntry.get().lower() == "https":
-        try:
-            httpx.get(f'https://{url}')
+        elif httpOrHttpsEntry.get().lower() == "https":
+            httpx.get(f'https://{url}', timeout=5)
             return True
-        except:
-            return False
+    except httpx.TimeoutException:
+        return False
+    except:
+        return False
 
 
 # check website
 def checkWebsite():
+    if urlEntry.get() == "" or httpOrHttpsEntry.get() == "":
+        statusLabel.config(text="Please enter an url\nand http or https")
+        return
+
+    # check if user put in http or https
+    if httpOrHttpsEntry.get().lower() == "http" or httpOrHttpsEntry.get().lower() == "https":
+        pass
+    elif httpOrHttpsEntry.get().lower() == "http":
+        statusLabel.config(text="Please enter https")
+        return
+    else:
+        statusLabel.config(text="Please enter http or https")
+        return
+
+    # check if user put in a url with a dot
+    if "." in urlEntry.get():
+        pass
+    else:
+        statusLabel.config(text="Please enter a valid url")
+        return
+
     options = load_options()
     if options['saveHistoryOnCheck'] == 1:
         historyWithDateAndTime()
@@ -133,7 +154,8 @@ def checkWebsite():
         if isWebsiteOnline(url):
             statusLabel.config(text="Website is online")
         else:
-            statusLabel.config(text="Website is offline")
+            statusLabel.config(
+                text="Website is offline\nor took too long to respond")
     else:
         statusLabel.config(text="Please enter http or https")
 
@@ -464,18 +486,18 @@ def about():
     aboutWindow.resizable(False, False)
 
     aboutText = tk.Label(aboutWindow, text="A simple program to check if a website is online or not.\n"
-                         "\nIf you have any suggestions or find any bugs, please report them on the github page.\nhttps://github.com/jinx420/isThisWebsiteOnline/issues\n"
-                         "\nA list of all the features can be found in the README.md, and on the github page.\nhttps://github.com/jinx420/isThisWebsiteOnline/",
+                         "\n   A list of all the features can be found in the README.md, and on the github page."
+                         "\n\nIf you have any suggestions or find any bugs,\nplease report them via the issues tab on the github page.",
                          padx=0, pady=0)
     aboutText.place(x=0, y=0)
 
     githubButton = tk.Button(aboutWindow, text="Github Issues", command=lambda: webbrowser.open(
         "https://github.com/jinx420/isThisWebsiteOnline/issues"))
-    githubButton.place(x=5, y=125)
+    githubButton.place(x=230, y=125)
 
     githubButton = tk.Button(aboutWindow, text="Github Page", command=lambda: webbrowser.open(
         "https://github.com/jinx420/isThisWebsiteOnline"))
-    githubButton.place(x=100, y=125)
+    githubButton.place(x=150, y=125)
 
     # messagebox.showinfo("About", f"A simple program to check if a website is online or not."
     #                     "\n\nIf you have any suggestions or find any bugs, please report them on the github page.\nhttps://github.com/jinx420/isThisWebsiteOnline/issues"
