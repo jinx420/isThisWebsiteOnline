@@ -42,7 +42,7 @@ for dirs in critDirs:
 
 for files in critFiles:
     if os.path.exists(files):
-        print(f'{files} File exists')
+        # print(f'{files} File exists')
         pass
     else:
         # nt
