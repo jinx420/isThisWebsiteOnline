@@ -49,7 +49,7 @@ for files in critFiles:
         if files == './source/options.json':
             with open(files, "w") as f:
                 json.dump(
-                    {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
+                    {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0, "darkMode": "False"}, "fullHistory": {}}, f, indent=4)
         elif files == './source/history.json':
             with open('./source/history.json', "w") as f:
                 json.dump([], f, indent=4)
@@ -297,7 +297,8 @@ def optionsWindow():
                 "checkForUpdatesOnStartup": checkUpdateCM.get(),
                 "clearLogsWithClearButton": clearCM.get(),
                 "reloadGUIwith": reloadGUIwith.get(),
-                "devPopUp": devPopUpVar
+                "devPopUp": devPopUpVar,
+                "darkMode": str(switch_value)
             },
             "fullHistory": {}
         }
@@ -314,7 +315,8 @@ def optionsWindow():
                 "checkForUpdatesOnStartup": 0,
                 "clearLogsWithClearButton": 0,
                 "reloadGUIwith": 0,
-                "devPopUp": 0
+                "devPopUp": 0,
+                "darkMode": "False"
             },
             "fullHistory": {}
         }
@@ -355,7 +357,8 @@ def optionsWindow():
                 "checkForUpdatesOnStartup": checkUpdateCM.get(),
                 "clearLogsWithClearButton": clearCM.get(),
                 "reloadGUIwith": reloadGUIwith.get(),
-                "devPopUp": 0
+                "devPopUp": 0,
+                "darkMode": str(switch_value)
             },
             "fullHistory": {}
         }
@@ -377,7 +380,8 @@ def optionsWindow():
                     "checkForUpdatesOnStartup": checkUpdateCM.get(),
                     "clearLogsWithClearButton": clearCM.get(),
                     "reloadGUIwith": reloadGUIwith.get(),
-                    "devPopUp": 1
+                    "devPopUp": 1,
+                    "darkMode": str(switch_value)
                 },
                 "fullHistory": {}
             }
@@ -584,27 +588,23 @@ if __name__ == "__main__":
     image = tk.PhotoImage(file="./source/favicon.png")
     imageLabel = ttk.Label(root, image=image)
     imageLabel.place(x=390, y=0)
-    imageLabel.config(background="#FFFFFF")
 
     # http or https label
     httpOrHttpsLabel = ttk.Label(
         root, text="Is the website using http or https? : ")
     httpOrHttpsLabel.place(x=10, y=23)
-    httpOrHttpsLabel.config(background="#FFFFFF")
 
     # http or https entry
     httpOrHttpsEntry = ttk.Entry(root)
-    httpOrHttpsEntry.config(background="#FFFFFF")
     httpOrHttpsEntry.place(x=220, y=20)
 
     # url label
     urlLabel = ttk.Label(root, text="Enter the url: ")
-    urlLabel.place(x=10, y=53)
-    urlLabel.config(background="#FFFFFF")
+    urlLabel.place(x=10, y=57)
 
     # url entry
     urlEntry = ttk.Entry(root)
-    urlEntry.place(x=220, y=50)
+    urlEntry.place(x=220, y=54)
 
     # Check Button
     checkButton = ttk.Button(
@@ -614,7 +614,6 @@ if __name__ == "__main__":
     # Status Label
     statusLabel = ttk.Label(root, text="Waiting...")
     statusLabel.place(x=235, y=102)
-    statusLabel.config(background="#FFFFFF")
 
     # Clear Button
     clearButton = ttk.Button(root, text="Clear", command=clear)
@@ -632,23 +631,47 @@ if __name__ == "__main__":
 
     # version
     versionLabel = tk.Label(root, text=f"Version: {version}")
-    versionLabel.place(x=570, y=311)
-    versionLabel.config(background="#FFFFFF")
+    versionLabel.place(x=575, y=311)
 
     # Menu
     menu = tk.Menu(root, tearoff=False)
     root.config(menu=menu)
 
-    style = Style(theme='pulse')
+    style = Style(theme='darkly')
+
+    def toggle():
+        global switch_value
+        if switch_value:
+            switch.config(text='Light Mode')
+            style.theme_use('darkly')
+            switch_value = False
+        else:
+            switch.config(text='Dark Mode')
+            style.theme_use('pulse')
+            switch_value = True
+
+    # dark mode and flashbang mode button
+    switch = ttk.Button(root, text="Light Mode", command=lambda: toggle())
+    switch.place(x=230, y=150)
+
+    if load_options()['darkMode'] == "True":
+        switch_value = True
+        style.theme_use('pulse')
+        switch.config(text='Dark Mode')
+    elif load_options()['darkMode'] == "False":
+        switch_value = False
+        style.theme_use('darkly')
+        switch.config(text='Light Mode')
 
     # File Menu
     file_menu = tk.Menu(menu, tearoff=False)
     menu.add_cascade(label="File", menu=file_menu)
-    menu.config(background="#FFFFFF")
-    file_menu.config(background="#FFFFFF")
+    menu.config(background="#222222", foreground="#FFFFFF")
+    file_menu.config(background="#222222", foreground="#FFFFFF")
 
     # history sub menu
     history_submenu = tk.Menu(file_menu, tearoff=False)
+    history_submenu.config(background="#222222", foreground="#FFFFFF")
     file_menu.add_cascade(label="History", menu=history_submenu)
     history_submenu.add_command(label='Save History',
                                 command=lambda: thread(history))
@@ -660,6 +683,7 @@ if __name__ == "__main__":
 
     # misc sub menu
     misc_submenu = tk.Menu(file_menu, tearoff=False)
+    misc_submenu.config(background="#222222", foreground="#FFFFFF")
     file_menu.add_cascade(label="Misc", menu=misc_submenu)
     misc_submenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
         f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
@@ -674,7 +698,7 @@ if __name__ == "__main__":
     menu.add_cascade(label="Help", menu=help_menu)
     help_menu.add_command(label='Check for update', command=checkUpdate)
     help_menu.add_command(label="About", command=about)
-    help_menu.config(background="#FFFFFF")
+    help_menu.config(background="#222222", foreground="#FFFFFF")
 
     # MinSize and MaxSize
     root.update()
