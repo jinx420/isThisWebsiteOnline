@@ -37,7 +37,7 @@ This is a simple Python project designed to check the availability of websites. 
 - [ ] More Options
 - [ ] Major UI overhaul
 - [ ] Favorites
-- [ ] Minor UI change (**WIP** *Note: This is about 50% done.*)
+- [x] Minor UI change (added in `v0.3.6`, if you want to compare `v0.3.5` and `0.3.6` click [this](https://github.com/jinx420/isThisWebsiteOnline/compare/v0.3.5...v0.3.6).)
 
 ### Unsure Features
 
@@ -46,8 +46,8 @@ This is a simple Python project designed to check the availability of websites. 
 - [ ] Batch checking
 - [ ] Extensions
 - [ ] HTTP Request sender (Don't know the use for this yet, but it seems cool)
-- [ ] Dark Mode (Kind of a pain to do)
 - [ ] Documentation
+- [ ] Dark Mode (Kind of a pain to do)
 
 ### Scrapped Features
 
@@ -92,6 +92,10 @@ This is a simple Python project designed to check the availability of websites. 
 
 7. **My Settings wont get carried over to never Versions:** Every time you upgrade to a newer version of this program, you can either export your settings and put them in the `iwoSource` folder, or you just use the newer `.exe` or `.py` and copy that to the old directory where you had it installed.
 
+8. **The application's functionality is not fully operational, and I cannot update it via the automated update check:** If you have been provided with a Preview version prior to `v0.3.6`, you will essentially be stuck on that version until a new release is available, unless you manually update it. The reason for this limitation is the way the automated update check functions, which only verifies the version number within the code and the GitHub release page. To differentiate between preview versions and production-ready samples, I have started using the suffix `rc` (release candidate) at the end of the version number, such as `v0.3.7rc`.
+
+   *Note: This also applies if you utilize the application's source code directly, as I have removed the development branch. For further Information read more [here](#notice-for-developers).*
+
 ## Notice for Developers
 
 ⚠️ **Important Notice:** Starting from version v0.3.2, the branch `develop` has been renamed to `old-develop` and is no longer actively maintained. To streamline our development process and focus efforts on the `master` branch, which contains the latest stable version, we have made this change.
@@ -102,6 +106,8 @@ I appreciate your understanding and cooperation in this transition. If you have 
 
 ---
 
-- Older commits and or tags might be tagged as unverified. This is due to a switch of GPG keys.
+### General Notices:
 
-- Starting from v0.3.5, the `convertme.py` file has been removed, and the CLI has been moved to `isThisWebsiteOnlineCLI.py` and `isThisWebsiteOnlineCLI.exe`.
+- Older commits and tags might be tagged as unverified. This is due to a switch of GPG keys.
+
+- Starting from v0.3.5, the `convertme.py` file has been removed, and the CLI is now located in `isThisWebsiteOnlineCLI.py` and `isThisWebsiteOnlineCLI.exe`.
