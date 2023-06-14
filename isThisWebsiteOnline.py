@@ -528,7 +528,7 @@ def clear():
 
 # main
 if __name__ == "__main__":
-    # removed due to it causing problems if you use the python file instead of the exe and try to reload the gui
+    # removed due to it causing problems if you use a venv for this project
     # this also caused a slow startup time and overall slower performance
     # i figured that it would still be a good idea to keep this code here in case i want to add it back in the future
     # or if someone else wants to improve it and add it back in :D
