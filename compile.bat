@@ -11,7 +11,7 @@ echo or contact me on Discord: majoad#0001
 echo.
 TIMEOUT /T 5 /NOBREAK
 
-pyinstaller -F -w --icon=iwoSource\favicon.ico -n isThisWebsiteOnline isThisWebsiteOnline.py
+pyinstaller -F -w --icon=source\favicon.ico -n isThisWebsiteOnline isThisWebsiteOnline.py
 python .\\move.py
 
 echo.
