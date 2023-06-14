@@ -77,7 +77,7 @@ def checkIfOld():
     if os.path.exists("./iwoSource"):
         if os.path.exists("./source"):
             # im aware that this will delete any source folder that is presen in the cwd
-            # which is bad because it will delete it without user consent and im working on a fix
+            # which is bad because it will delete it without user consent and im working on a fix asap
             shutil.rmtree("./source")
         os.rename("./iwoSource", "./source")
 
