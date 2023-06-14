@@ -116,14 +116,10 @@ def thread(func):
 
 
 # check if website is online
-def isWebsiteOnline(url):
+def isWebsiteOnline(url, method):
     try:
-        if httpOrHttpsEntry.get().lower() == "http":
-            httpx.get(f'http://{url}', timeout=5)
-            return True
-        elif httpOrHttpsEntry.get().lower() == "https":
-            httpx.get(f'https://{url}', timeout=5)
-            return True
+        httpx.get(f'{method}://{url}', timeout=5)
+        return True
     except httpx.TimeoutException:
         return False
     except:
@@ -156,10 +152,10 @@ def checkWebsite():
     options = load_options()
     if options['saveHistoryOnCheck'] == 1:
         historyWithDateAndTime()
-    httpOrHttps = httpOrHttpsEntry.get().lower()
+    method = httpOrHttpsEntry.get().lower()
     url = urlEntry.get().lower()
-    if httpOrHttps == "http" or httpOrHttps == 'https':
-        if isWebsiteOnline(url):
+    if method == "http" or method == 'https':
+        if isWebsiteOnline(url, method):
             statusLabel.config(text="Website is online")
         else:
             statusLabel.config(
@@ -212,7 +208,8 @@ def clearAllHistory():
 # get status for logs
 def status():
     url = urlEntry.get().lower()
-    if isWebsiteOnline(url):
+    method = httpOrHttpsEntry.get().lower()
+    if isWebsiteOnline(url, method):
         return 'online'
     else:
         return 'offline'
