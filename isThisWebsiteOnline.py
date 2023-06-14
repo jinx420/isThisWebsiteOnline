@@ -97,7 +97,7 @@ def checkUpdate():
                         'Update', 'You are using the latest version')
                 elif latestVersion < f'{version}':
                     if messagebox.askyesno(
-                            'Update', 'You are using an unstable Developer version. Do you want to download the latest stable version?'):
+                            'Update', "You are using an unstable Developer version, designated by the 'rc' at the end of the version number.\n\nDo you want to download the latest stable version?"):
                         webbrowser.open(
                             'https://github.com/jinx420/isThisWebsiteOnline/releases')
 
