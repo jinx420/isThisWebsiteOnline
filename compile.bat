@@ -7,7 +7,7 @@ echo +  Compiling...   +
 echo +++++++++++++++++++
 echo.
 echo If you encounter any errors, please report them at https://github.com/jinx420/isThisWebsiteOnline/issues 
-echo or contact me on Discord: majoad#0001
+echo or contact me on Discord: majoad
 echo.
 TIMEOUT /T 5 /NOBREAK
 
