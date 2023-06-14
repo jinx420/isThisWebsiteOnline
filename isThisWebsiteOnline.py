@@ -72,6 +72,14 @@ def load_options():
     return global_options
 
 
+def checkIfOld():
+    # check if old iwoSource folder is present and if it is ask to move all contents to the new ./source folder
+    if os.path.exists("./iwoSource"):
+        if os.path.exists("./source"):
+            shutil.rmtree("./source")
+        os.rename("./iwoSource", "./source")
+
+
 def checkUpdate():
     try:
         r = httpx.get(
@@ -534,6 +542,7 @@ if __name__ == "__main__":
     #         subprocess.call(
     #             ["pip3", "install", "-r", "./requirements.txt"], stdout=DEVNULL, stderr=STDOUT)
 
+    checkIfOld()
     options = load_options()
 
     # root
@@ -562,19 +571,6 @@ if __name__ == "__main__":
                 {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
 
         statusLabel.config(text="options.json regenerated!")
-
-    def checkIfOld():
-        # check if old iwoSource folder is present and if it is ask to move all contents to the new ./source folder
-        if os.path.exists("./iwoSource"):
-            if messagebox.askyesno("Old iwoSource folder detected", "An old iwoSource folder was detected, would you like to move all the contents to the new ./source folder?"):
-                if os.path.exists("./source"):
-                    shutil.rmtree("./source")
-                os.rename("./iwoSource", "./source")
-                statusLabel.config(
-                    text="Old iwoSource folder\n"
-                    "moved to ./source")
-            else:
-                statusLabel.config(text="Old iwoSource folder not moved")
 
     # reload gui button
     reloadGUIButton = ttk.Button(
@@ -694,8 +690,6 @@ if __name__ == "__main__":
 
     if options['checkForUpdatesOnStartup'] == True:
         checkUpdate()
-
-    checkIfOld()
 
     # Mainloop
     root.mainloop()
