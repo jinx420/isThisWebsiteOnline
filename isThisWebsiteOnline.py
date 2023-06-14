@@ -25,7 +25,7 @@ import shutil
 #         (t)                             \|__|
 
 
-version = 'v0.3.6'
+version = 'v0.3.7rc'
 os_name = os.name
 
 # check if critical files and folders exist
@@ -634,7 +634,7 @@ if __name__ == "__main__":
 
     # version
     versionLabel = tk.Label(root, text=f"Version: {version}")
-    versionLabel.place(x=580, y=311)
+    versionLabel.place(x=570, y=311)
     versionLabel.config(background="#FFFFFF")
 
     # Menu
