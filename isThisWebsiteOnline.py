@@ -405,7 +405,7 @@ def optionsWindow():
     # options window
     optionsWindow = tk.Toplevel()
     optionsWindow.title("Options")
-    optionsWindow.geometry("290x200")
+    optionsWindow.geometry("400x200")
     optionsWindow.iconbitmap("./source/favicon.ico")
     optionsWindow.resizable(False, False)
 
