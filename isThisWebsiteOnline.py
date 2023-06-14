@@ -12,6 +12,7 @@ from matplotlib.figure import Figure
 import tkinter as tk
 from tkinter import ttk
 from ttkbootstrap import Style
+import shutil
 
 
 #  ___  ___       __   ________  ________
@@ -28,8 +29,8 @@ version = 'v0.3.6'
 os_name = os.name
 
 # check if critical files and folders exist
-critDirs = ['./iwoSource']
-critFiles = ['./iwoSource/options.json', './iwoSource/History.json']
+critDirs = ['./source']
+critFiles = ['./source/options.json', './source/history.json']
 
 
 for dirs in critDirs:
@@ -41,20 +42,20 @@ for dirs in critDirs:
 
 for files in critFiles:
     if os.path.exists(files):
-        # print(f'{files} File exists')
+        print(f'{files} File exists')
         pass
     else:
         # nt
-        if files == './iwoSource/options.json':
+        if files == './source/options.json':
             with open(files, "w") as f:
                 json.dump(
                     {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
-        elif files == './iwoSource/History.json':
-            with open("./iwoSource/History.json", "w") as f:
+        elif files == './source/history.json':
+            with open('./source/history.json', "w") as f:
                 json.dump([], f, indent=4)
 
 
-options_file = './iwoSource/options.json'
+options_file = './source/options.json'
 last_modified_time = 0
 global_options = {}
 
@@ -142,14 +143,14 @@ def history():
     history = []
     history.append(urlEntry.get())
     history.append(httpOrHttpsEntry.get())
-    with open("./iwoSource/history.json", "w") as f:
+    with open("./source/history.json", "w") as f:
         json.dump(history, f)
     statusLabel.config(text="History saved")
 
 
 # load history
 def loadHistory():
-    with open("./iwoSource/history.json", "r") as f:
+    with open("./source/history.json", "r") as f:
         history = json.load(f)
     urlEntry.delete(0, tk.END)
     httpOrHttpsEntry.delete(0, tk.END)
@@ -165,11 +166,11 @@ def clearAllHistory():
     checkUpdateCM = options["checkForUpdatesOnStartup"]
     clearCM = options["clearLogsWithClearButton"]
 
-    with open("./iwoSource/options.json", "w") as f:
+    with open("./source/options.json", "w") as f:
         json.dump({"options": {"saveHistoryOnCheck": saveHistoryOnCheck,
                                "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM}, "fullHistory": {}}, f, indent=4)
 
-    with open("./iwoSource/History.json", "w") as f:
+    with open("./source/History.json", "w") as f:
         json.dump([], f, indent=4)
 
     if options['clearLogsWithClearButton'] == 0:
@@ -189,7 +190,7 @@ def status():
 
 # save history with date and time
 def historyWithDateAndTime():
-    json_file = './iwoSource/options.json'
+    json_file = './source/options.json'
     with open(json_file, 'r+') as jfile:
         j = json.load(jfile)
         data = j
@@ -216,7 +217,7 @@ def viewLogs():
     root = tk.Toplevel()
     root.title("Press right click on a row to copy the url and method")
     root.geometry("670x350")
-    root.iconbitmap("./iwoSource/favicon.ico")
+    root.iconbitmap("./source/favicon.ico")
     root.resizable(False, False)
     tree = ttk.Treeview(root)
     tree.pack(fill=tk.BOTH, expand=True)
@@ -248,7 +249,7 @@ def viewLogs():
     tree.heading("three", text="http/https", anchor=tk.W)
     tree.heading("four", text="Status", anchor=tk.W)
     tree.heading("five", text="Date and Time", anchor=tk.W)
-    with open("./iwoSource/options.json", "r") as f:
+    with open("./source/options.json", "r") as f:
         data = json.load(f)
         for i in data["fullHistory"]:
             tree.insert("", tk.END, text="", values=(
@@ -258,7 +259,7 @@ def viewLogs():
 
 def optionsWindow():
     def saveOptions():
-        with open('./iwoSource/options.json', 'r') as f:
+        with open('./source/options.json', 'r') as f:
             devVar = json.load(f)
 
         devPopUpVar = devVar['options']['devPopUp']
@@ -273,7 +274,7 @@ def optionsWindow():
             },
             "fullHistory": {}
         }
-        with open("./iwoSource/options.json", "w") as f:
+        with open("./source/options.json", "w") as f:
             json.dump(options, f, indent=4)
 
         savedText.config(text="Options saved")
@@ -291,7 +292,7 @@ def optionsWindow():
             "fullHistory": {}
         }
 
-        with open("./iwoSource/options.json", "w") as f:
+        with open("./source/options.json", "w") as f:
             json.dump(optionsReset, f, indent=4)
         saveHistoryOnCheck.set(1)
         checkUpdateCM.set(0)
@@ -353,7 +354,7 @@ def optionsWindow():
                 },
                 "fullHistory": {}
             }
-            with open("./iwoSource/options.json", "w") as f:
+            with open("./source/options.json", "w") as f:
                 json.dump(options, f, indent=4)
         elif data['devPopUp'] == 1:
             pass
@@ -375,7 +376,7 @@ def optionsWindow():
     optionsWindow = tk.Toplevel()
     optionsWindow.title("Options")
     optionsWindow.geometry("290x200")
-    optionsWindow.iconbitmap("./iwoSource/favicon.ico")
+    optionsWindow.iconbitmap("./source/favicon.ico")
     optionsWindow.resizable(False, False)
 
     # check mark boxes to enable or disable the options
@@ -425,7 +426,7 @@ def optionsWindow():
 
 
 def graph():
-    with open("./iwoSource/options.json", "r") as f:
+    with open("./source/options.json", "r") as f:
         data = json.load(f)
     online = 0
     offline = 0
@@ -441,7 +442,7 @@ def graph():
         graphWindow = tk.Toplevel()
         graphWindow.title("Graph")
         graphWindow.geometry("500x500")
-        graphWindow.iconbitmap("./iwoSource/favicon.ico")
+        graphWindow.iconbitmap("./source/favicon.ico")
         graphWindow.resizable(False, False)
 
         colors = ["#32cd32", "#dc143c"]
@@ -459,7 +460,7 @@ def about():
     aboutWindow = tk.Toplevel()
     aboutWindow.title("About")
     aboutWindow.geometry("450x150")
-    aboutWindow.iconbitmap("./iwoSource/favicon.ico")
+    aboutWindow.iconbitmap("./source/favicon.ico")
     aboutWindow.resizable(False, False)
 
     aboutText = tk.Label(aboutWindow, text="A simple program to check if a website is online or not.\n"
@@ -518,7 +519,7 @@ if __name__ == "__main__":
     root.title(
         "IsThisWebsiteOnline?                                                                                  Made with 💜 by jinx")
     root.geometry("670x350")
-    root.iconbitmap("./iwoSource/favicon.ico")
+    root.iconbitmap("./source/favicon.ico")
     root.resizable(False, False)
     root.config(background="#26777f")
 
@@ -534,11 +535,24 @@ if __name__ == "__main__":
 
     # regenerate options.json
     def regenerateOptions():
-        with open("./iwoSource/options.json", "w") as f:
+        with open("./source/options.json", "w") as f:
             json.dump(
                 {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
 
         statusLabel.config(text="options.json regenerated!")
+
+    def checkIfOld():
+        # check if old iwoSource folder is present and if it is ask to move all contents to the new ./source folder
+        if os.path.exists("./iwoSource"):
+            if messagebox.askyesno("Old iwoSource folder detected", "An old iwoSource folder was detected, would you like to move all the contents to the new ./source folder?"):
+                if os.path.exists("./source"):
+                    shutil.rmtree("./source")
+                os.rename("./iwoSource", "./source")
+                statusLabel.config(
+                    text="Old iwoSource folder\n"
+                    "moved to ./source")
+            else:
+                statusLabel.config(text="Old iwoSource folder not moved")
 
     # reload gui button
     reloadGUIButton = ttk.Button(
@@ -551,7 +565,7 @@ if __name__ == "__main__":
     regenerateOptionsButton.place(x=120, y=300)
 
     # image
-    image = tk.PhotoImage(file="./iwoSource/favicon.png")
+    image = tk.PhotoImage(file="./source/favicon.png")
     imageLabel = ttk.Label(root, image=image)
     imageLabel.place(x=390, y=0)
     imageLabel.config(background="#FFFFFF")
@@ -658,6 +672,8 @@ if __name__ == "__main__":
 
     if options['checkForUpdatesOnStartup'] == True:
         checkUpdate()
+
+    checkIfOld()
 
     # Mainloop
     root.mainloop()
