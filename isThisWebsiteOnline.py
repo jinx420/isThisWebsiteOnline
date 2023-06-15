@@ -643,19 +643,61 @@ if __name__ == "__main__":
     eastereggLabel.place(x=50, y=5)
 
     eastereggLabel.bind(
-        "<Button-1>", lambda e: eastereggLabel.config(text="You found me!"))
+        "<Button-1>", lambda e: eastereggLabel.config(text="You found me!") or easteregg2Label.place(x=95, y=57))
 
     easteregg2Label = tk.Label(root, text=" ")
-    easteregg2Label.place(x=95, y=57)
 
     easteregg2Label.bind(
-        "<Button-1>", lambda e: easteregg2Label.config(text="You found me again!"))
+        "<Button-1>", lambda e: easteregg2Label.config(text="You found me again!") or easteregg3Label.place(x=400, y=3))
 
     easteregg3Label = tk.Label(root, text=" ")
-    easteregg3Label.place(x=400, y=3)
 
     easteregg3Label.bind(
-        "<Button-1>", lambda e: easteregg3Label.config(text="This is the last one, I promise!"))
+        "<Button-1>", lambda e: easteregg3Label.config(text="This is the last one, I promise!") or disappearEastereggsButton.place(x=74, y=100))
+
+    easteregg4Label = tk.Label(root, text=" ")
+
+    easteregg4Label.bind(
+        "<Button-1>", lambda e: easteregg4Label.config(text="Or is it?") or b64_window())
+
+    # disappear eastereggs
+    def disappearEastereggs():
+        eastereggLabel.place_forget()
+        easteregg2Label.place_forget()
+        easteregg3Label.place_forget()
+        disappearEastereggsButton.place_forget()
+
+        easteregg4Label.place(x=130, y=129)
+
+    def b64_window():
+        window = tk.Toplevel(root)
+        window.title("???")
+        window.geometry("200x200")
+        window.resizable(False, False)
+        window.iconbitmap("./source/favicon.ico")
+
+        text = tk.Text(window, width=200, height=150)
+        text.pack()
+
+        text.insert(
+            tk.END, "d2hhdCBkb2VzIHRoaXMgbWVhbj8=\n\n\n\n Copy this text")
+
+        text.config(state=tk.DISABLED)
+
+        def on_closing():
+            # insert cursed text into url entry
+            urlEntry.insert(tk.END, "??!!?!?!???!?!?")
+            httpOrHttpsEntry.insert(tk.END, "Привет, мой друг!")
+
+            window.destroy()
+
+        window.protocol("WM_DELETE_WINDOW", on_closing)
+
+    # disappear eastereggs button
+    disappearEastereggsButton = ttk.Button(
+        root, text="???", command=disappearEastereggs)
+
+    # reactivate eastereggs after button is pressed
 
     # Menu
     menu = tk.Menu(root, tearoff=False)
