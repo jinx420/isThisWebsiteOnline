@@ -688,6 +688,10 @@ if __name__ == "__main__":
             # insert cursed text into url entry
             urlEntry.insert(tk.END, "??!!?!?!???!?!?")
             httpOrHttpsEntry.insert(tk.END, "Привет, мой друг!")
+            easteregg4Label.place_forget()
+
+            root.title("What is happening?")
+            style.theme_use('simplex')
 
             window.destroy()
 
