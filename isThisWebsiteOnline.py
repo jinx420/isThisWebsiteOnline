@@ -657,7 +657,7 @@ if __name__ == "__main__":
     easteregg3Label.bind(
         "<Button-1>", lambda e: easteregg3Label.config(text="This is the last one, I promise!") or disappearEastereggsButton.place(x=74, y=100))
 
-    easteregg4Label = tk.Label(root, text=" ")
+    easteregg4Label = tk.Label(root, text="Click me!")
 
     easteregg4Label.bind(
         "<Button-1>", lambda e: easteregg4Label.config(text="Or is it?") or b64_window())
@@ -669,7 +669,7 @@ if __name__ == "__main__":
         easteregg3Label.place_forget()
         disappearEastereggsButton.place_forget()
 
-        easteregg4Label.place(x=130, y=129)
+        easteregg4Label.place(x=119, y=129)
 
     def b64_window():
         window = tk.Toplevel(root)
@@ -677,6 +677,7 @@ if __name__ == "__main__":
         window.geometry("200x200")
         window.resizable(False, False)
         window.iconbitmap("./source/favicon.ico")
+        easteregg4Label.place_forget()
 
         text = tk.Text(window, width=200, height=150)
         text.pack()
@@ -690,9 +691,9 @@ if __name__ == "__main__":
             # insert cursed text into url entry
             urlEntry.insert(tk.END, "Help I don't speak spanish")
             httpOrHttpsEntry.insert(tk.END, "Привет, мой друг!")
-            easteregg4Label.place_forget()
+            root.title(
+                "What is happening?                                                                                     Made with 💔 by jinx")
 
-            root.title("What is happening?")
             style.theme_use('simplex')
 
             window.destroy()
