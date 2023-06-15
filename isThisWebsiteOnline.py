@@ -76,10 +76,13 @@ def checkIfOld():
     # check if old iwoSource folder is present and if it is ask to move all contents to the new ./source folder
     if os.path.exists("./iwoSource"):
         if os.path.exists("./source"):
-            # im aware that this will delete any source folder that is presen in the cwd
-            # which is bad because it will delete it without user consent and im working on a fix asap
-            shutil.rmtree("./source")
-        os.rename("./iwoSource", "./source")
+            # this should be a better way to do this but the old one will still be left here as a comment
+            # shutil.rmtree("./source")
+            for file in os.listdir("./iwoSource"):
+                shutil.move(f"./iwoSource/{file}", "./source")
+            shutil.rmtree("./iwoSource")
+        else:
+            os.rename("./iwoSource", "./source")
 
 
 def checkUpdate():
