@@ -48,7 +48,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 - [ ] Batch checking
 - [ ] Extensions
-- [ ] HTTP Request sender (Don't know the use for this yet, but it seems cool. Just like this project 😅)
+- [ ] HTTP Request sender (Don't know the use for this yet, but it seems cool. Basically just like this project 😅)
 - [ ] Documentation
 
 ### Scrapped Features
