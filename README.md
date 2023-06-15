@@ -35,7 +35,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 *Note: The order of contents does not represent the order in which they will be implemented. Active development on a feature is marked by (**WIP**).*
 
-- [ ] ⚠️ Fix the issue of having an outdated `options.json`, 
+- [ ] ⚠️ Fix the issue of having an outdated `options.json`
 - [ ] More Options
 - [ ] Major UI overhaul
 - [ ] Favorites
