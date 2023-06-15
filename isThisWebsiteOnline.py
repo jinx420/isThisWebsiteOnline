@@ -571,7 +571,7 @@ if __name__ == "__main__":
     def regenerateOptions():
         with open("./source/options.json", "w") as f:
             json.dump(
-                {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0}, "fullHistory": {}}, f, indent=4)
+                {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0, "darkMode": "False"}, "fullHistory": {}}, f, indent=4)
 
         statusLabel.config(text="options.json regenerated!")
 
@@ -688,6 +688,20 @@ if __name__ == "__main__":
     file_menu.add_cascade(label="Misc", menu=misc_submenu)
     misc_submenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
         f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
+
+    # themes sub menu
+    themes_menu = tk.Menu(file_menu, tearoff=False)
+    file_menu.add_cascade(label='Themes', menu=themes_menu)
+    themes_menu.add_command(
+        label='Darkly', command=lambda: style.theme_use('darkly'))
+    themes_menu.add_command(
+        label='Pulse', command=lambda: style.theme_use('pulse'))
+    themes_menu.add_command(
+        label='Vapor', command=lambda: style.theme_use('vapor'))
+    themes_menu.add_command(
+        label='Solar', command=lambda: style.theme_use('solar'))
+    themes_menu.add_command(
+        label='Simplex', command=lambda: style.theme_use('simplex'))
 
     file_menu.add_separator()
     file_menu.add_command(label='Options', command=optionsWindow)
