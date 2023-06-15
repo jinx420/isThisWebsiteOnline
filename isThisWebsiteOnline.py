@@ -602,6 +602,7 @@ if __name__ == "__main__":
     # http or https entry
     httpOrHttpsEntry = ttk.Entry(root)
     httpOrHttpsEntry.place(x=220, y=20)
+    httpOrHttpsEntry.config(width=23)
 
     # url label
     urlLabel = ttk.Label(root, text="Enter the url: ")
@@ -610,6 +611,7 @@ if __name__ == "__main__":
     # url entry
     urlEntry = ttk.Entry(root)
     urlEntry.place(x=220, y=54)
+    urlEntry.config(width=23)
 
     # Check Button
     checkButton = ttk.Button(
@@ -686,7 +688,7 @@ if __name__ == "__main__":
 
         def on_closing():
             # insert cursed text into url entry
-            urlEntry.insert(tk.END, "??!!?!?!???!?!?")
+            urlEntry.insert(tk.END, "Help I don't speak spanish")
             httpOrHttpsEntry.insert(tk.END, "Привет, мой друг!")
             easteregg4Label.place_forget()
 
