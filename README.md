@@ -35,13 +35,11 @@ This is a simple Python project designed to check the availability of websites. 
 
 *Note: The order of contents does not represent the order in which they will be implemented. Active development on a feature is marked by (**WIP**).*
 
-- [ ] ⚠️ Fix the issue of having an outdated `options.json`, Fix the issue of deleting `./source` for migrating to new folder structure (**WIP**)
-   
-   (*Note: This is an issue because imagine having a source folder in the same place as the application, it will just get deleted without hesitation.*)
-
+- [ ] ⚠️ Fix the issue of having an outdated `options.json`, 
 - [ ] More Options
 - [ ] Major UI overhaul
 - [ ] Favorites
+- [x] Fix the issue of deleting existing `./source` folder in cwd
 - [x] Minor UI change (added in `v0.3.6`, if you want to compare `v0.3.5` and `0.3.6` click [this](https://github.com/jinx420/isThisWebsiteOnline/compare/v0.3.5...v0.3.6).)
 
 ### Unsure Features
