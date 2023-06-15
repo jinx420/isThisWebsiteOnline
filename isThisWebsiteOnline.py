@@ -78,9 +78,17 @@ def checkIfOld():
         if os.path.exists("./source"):
             # this should be a better way to do this but the old one will still be left here as a comment
             # shutil.rmtree("./source")
-            for file in os.listdir("./iwoSource"):
-                shutil.move(f"./iwoSource/{file}", "./source")
-            shutil.rmtree("./iwoSource")
+            try:
+                for file in os.listdir("./iwoSource"):
+                    shutil.move(f"./iwoSource/{file}", "./source")
+                shutil.rmtree("./iwoSource")
+            except:
+                if messagebox.askyesno(
+                        'Error', f'Error: Could not move "{file}" from old folder to new folder.\n\nPlease check your permissions, and try again or hit yes to delete the file in question.'):
+                    os.remove(f"./iwoSource/{file}")
+                    shutil.rmtree("./iwoSource")
+                else:
+                    pass
         else:
             os.rename("./iwoSource", "./source")
 
