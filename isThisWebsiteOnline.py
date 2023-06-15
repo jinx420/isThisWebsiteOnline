@@ -761,13 +761,6 @@ if __name__ == "__main__":
     history_submenu.add_command(
         label="Clear logs", command=clearAllHistory)
 
-    # misc sub menu
-    misc_submenu = tk.Menu(file_menu, tearoff=False)
-    misc_submenu.config(background="#222222", foreground="#FFFFFF")
-    file_menu.add_cascade(label="Misc", menu=misc_submenu)
-    misc_submenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
-        f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
-
     # themes sub menu
     themes_menu = tk.Menu(file_menu, tearoff=False)
     file_menu.add_cascade(label='Themes', menu=themes_menu)
@@ -781,6 +774,13 @@ if __name__ == "__main__":
         label='Solar', command=lambda: style.theme_use('solar'))
     themes_menu.add_command(
         label='Simplex', command=lambda: style.theme_use('simplex'))
+
+    # misc sub menu
+    misc_submenu = tk.Menu(file_menu, tearoff=False)
+    misc_submenu.config(background="#222222", foreground="#FFFFFF")
+    file_menu.add_cascade(label="Misc", menu=misc_submenu)
+    misc_submenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
+        f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
 
     file_menu.add_separator()
     file_menu.add_command(label='Options', command=optionsWindow)
