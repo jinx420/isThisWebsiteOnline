@@ -1,3 +1,4 @@
+import base64
 import os
 import subprocess
 from subprocess import DEVNULL, STDOUT
@@ -636,6 +637,25 @@ if __name__ == "__main__":
     # version
     versionLabel = tk.Label(root, text=f"Version: {version}")
     versionLabel.place(x=575, y=311)
+
+    # smol easteregg, dont cheat and look at the source code >:(
+    eastereggLabel = tk.Label(root, text=" ")
+    eastereggLabel.place(x=50, y=5)
+
+    eastereggLabel.bind(
+        "<Button-1>", lambda e: eastereggLabel.config(text="You found me!"))
+
+    easteregg2Label = tk.Label(root, text=" ")
+    easteregg2Label.place(x=95, y=57)
+
+    easteregg2Label.bind(
+        "<Button-1>", lambda e: easteregg2Label.config(text="You found me again!"))
+
+    easteregg3Label = tk.Label(root, text=" ")
+    easteregg3Label.place(x=400, y=3)
+
+    easteregg3Label.bind(
+        "<Button-1>", lambda e: easteregg3Label.config(text="This is the last one, I promise!"))
 
     # Menu
     menu = tk.Menu(root, tearoff=False)
