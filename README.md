@@ -2,7 +2,7 @@
 
 ![Interface](https://raw.githubusercontent.com/jinx420/isThisWebsiteOnline/master/misc/v0.3.6.png)
 
-*Note: The picture above will be updated every major version or every major UI overhaul.*
+*Note: The picture above will be updated every major / minor UI overhaul, depends on the change.*
 
 - [Features](#features)
   - [Planned Features and Enhancements](#planned-features)
