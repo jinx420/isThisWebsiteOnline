@@ -21,4 +21,7 @@ if os.path.exists(f"{cwd}\\dist\\isThisWebsiteOnline.exe"):
         sys.exit(0)
 else:
     print("No .\\dist\\isThisWebsiteOnline.exe found")
+    shutil.rmtree(f"{cwd}\\dist")
+    shutil.rmtree(f"{cwd}\\build")
+    os.remove(f"{cwd}\\isThisWebsiteOnline.spec")
     sys.exit(0)
