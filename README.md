@@ -62,7 +62,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 ### With the Batch File
 
-*Note: Make sure you have the `iwoSource` folder along with the required `.ico` and `.png` files in the same directory. These files are necessary for displaying the program's icon and main window image.*
+*Note: Make sure you have the `source` folder along with the required `.ico` file in the same directory. This file is necessary for displaying the program's icon*
 
 1. Download the following files: `compile.bat`, `isThisWebsiteOnline.py`, `move.py`, and `requirements.txt`. If you haven't already, install Python.
 2. Open the terminal or command prompt.
@@ -72,12 +72,12 @@ This is a simple Python project designed to check the availability of websites. 
 
 ### Without the Batch File
 
-*Note: Make sure you have the `iwoSource` folder along with the required `.ico` and `.png` files in the same directory. These files are necessary for displaying the program's icon and main window image.*
+*Note: Make sure you have the `source` folder along with the required `.ico` file in the same directory. This file is necessary for displaying the program's icon*
 
 1. Download the following files: `isThisWebsiteOnline.py` and `requirements.txt`. If you haven't already, install Python.
 2. Open the terminal or command prompt.
 3. Install the required dependencies by running the command: `pip3 install -r requirements.txt`.
-4. Compile the program by entering the following command: `pyinstaller -F -w --icon=iwoSource\favicon.ico -n isThisWebsiteOnline isThisWebsiteOnline.py`.
+4. Compile the program by entering the following command: `pyinstaller -F -w --icon=source\favicon.ico -n isThisWebsiteOnline isThisWebsiteOnline.py`.
 
 ## Known Issues
 
