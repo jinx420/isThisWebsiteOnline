@@ -41,7 +41,7 @@ This is a simple Python project designed to check the availability of websites. 
 - [ ] Favorites
 - [x] Fix the issue of deleting existing `./source` folder in current working directory
 - [x] Minor UI change
-- [x] Fix for missing `.png` and or `.ico` file.
+- [x] Remove need for `.png` and or `.ico` file.
 
 ### Unsure Features
 
