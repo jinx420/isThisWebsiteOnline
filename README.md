@@ -38,7 +38,6 @@ This is a simple Python project designed to check the availability of websites. 
 - [ ] ⚠️ Fix the issue of having an outdated `options.json`
 - [ ] More Options
 - [ ] Major UI overhaul
-- [ ] Favorites
 - [x] Fix the issue of deleting existing `./source` folder in current working directory
 - [x] Minor UI change
 - [x] Remove need for `.png` and or `.ico` file.
@@ -47,6 +46,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 *Note: The order represents the likelihood of them being implemented.*
 
+- [ ] Favorites
 - [ ] Batch checking
 - [ ] Extensions
 - [ ] HTTP Request sender (Don't know the use for this yet, but it seems cool. Basically just like this project 😅)
