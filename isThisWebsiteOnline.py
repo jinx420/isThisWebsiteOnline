@@ -648,6 +648,7 @@ if __name__ == "__main__":
     versionLabel.place(x=575, y=311)
 
     # smol easteregg, dont cheat and look at the source code >:(
+    # if you do, I will eat your cookies :D
     eastereggLabel = tk.Label(root, text=" ")
     eastereggLabel.place(x=50, y=5)
 
@@ -669,7 +670,6 @@ if __name__ == "__main__":
     easteregg4Label.bind(
         "<Button-1>", lambda e: easteregg4Label.config(text="Or is it?") or b64_window())
 
-    # disappear eastereggs
     def disappearEastereggs():
         eastereggLabel.place_forget()
         easteregg2Label.place_forget()
@@ -695,7 +695,6 @@ if __name__ == "__main__":
         text.config(state=tk.DISABLED)
 
         def on_closing():
-            # insert cursed text into url entry
             urlEntry.insert(tk.END, "Help I don't speak spanish")
             httpOrHttpsEntry.insert(tk.END, "Привет, мой друг!")
             root.title(
@@ -707,11 +706,8 @@ if __name__ == "__main__":
 
         window.protocol("WM_DELETE_WINDOW", on_closing)
 
-    # disappear eastereggs button
     disappearEastereggsButton = ttk.Button(
         root, text="???", command=disappearEastereggs)
-
-    # reactivate eastereggs after button is pressed
 
     # Menu
     menu = tk.Menu(root, tearoff=False)
