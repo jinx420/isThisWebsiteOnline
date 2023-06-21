@@ -863,6 +863,27 @@ if __name__ == "__main__":
     disappearEastereggsButton = ttk.Button(
         root, text="???", command=disappearEastereggs)
 
+    nerdEggLabel = tk.Label(root, text=" ")
+    nerdEggLabel.place(x=105, y=318)
+
+    nerdEggLabel.bind(
+        "<Button-1>", lambda e: nerdEggLabel.place(x=310, y=150) or nerdEggLabel.config(text="🤓") or changeButName())
+
+    def changeButName():
+        checkButton.config(text="ChEcK")
+        clearButton.config(text="ClEaR")
+        viewLogsButton.config(text="ViEw LoGs")
+        graphButton.config(text="GrApH")
+        root.title(
+            "WhAt Is HaPpEnInG?                                                                                     MaDe WiTh 🤓 By JiNx")
+        versionLabel.config(text="VeRsIoN: v69.420")
+        statusLabel.config(text="WaItInG...")
+        urlLabel.config(text="UrL:")
+        httpOrHttpsLabel.config(text="hTtPs:")
+
+        regenerateOptionsButton.config(text="ReGeNeRaTe OpTiOnS")
+        reloadGUIButton.config(text="ReLoAd GuI")
+
     # Menu
     menu = tk.Menu(root, tearoff=False)
     root.config(menu=menu)
