@@ -699,6 +699,9 @@ if __name__ == "__main__":
     root.title(
         "IsThisWebsiteOnline?                                                                                  Made with 💜 by jinx")
     root.geometry("670x335")
+    if os.name != "nt":
+        root.geometry("710x340")
+
     root.resizable(False, False)
     icon = base64.b64decode(icon_data)
     img = ImageTk.PhotoImage(Image.open(io.BytesIO(icon)))
@@ -737,6 +740,8 @@ if __name__ == "__main__":
     image = ImageTk.PhotoImage(Image.open(io.BytesIO(img_decoded)))
     imageLabel = ttk.Label(root, image=image)
     imageLabel.place(x=390, y=0)
+    if os.name != "nt":
+        imageLabel.place(x=440, y=0)
 
     # http or https label
     httpOrHttpsLabel = ttk.Label(
@@ -747,6 +752,8 @@ if __name__ == "__main__":
     httpOrHttpsEntry = ttk.Entry(root)
     httpOrHttpsEntry.place(x=220, y=20)
     httpOrHttpsEntry.config(width=23)
+    if os.name != "nt":
+        httpOrHttpsEntry.config(width=19)
 
     # url label
     urlLabel = ttk.Label(root, text="Enter the url: ")
@@ -756,6 +763,8 @@ if __name__ == "__main__":
     urlEntry = ttk.Entry(root)
     urlEntry.place(x=220, y=54)
     urlEntry.config(width=23)
+    if os.name != "nt":
+        urlEntry.config(width=19)
 
     # Check Button
     checkButton = ttk.Button(
@@ -783,6 +792,8 @@ if __name__ == "__main__":
     # version
     versionLabel = tk.Label(root, text=f"Version: {version}")
     versionLabel.place(x=575, y=311)
+    if os.name != "nt":
+        versionLabel.place(x=586, y=311)
 
     # smol easteregg, dont cheat and look at the source code >:(
     # if you do, I will eat your cookies :D
@@ -793,7 +804,7 @@ if __name__ == "__main__":
         "<Button-1>", lambda e: eastereggLabel.config(text="You found me!") or easteregg2Label.place(x=95, y=57))
 
     easteregg2Label = tk.Label(root, text=" ")
-
+    
     easteregg2Label.bind(
         "<Button-1>", lambda e: easteregg2Label.config(text="You found me again!") or easteregg3Label.place(x=400, y=3))
 
