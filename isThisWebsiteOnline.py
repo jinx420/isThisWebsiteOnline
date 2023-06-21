@@ -28,6 +28,7 @@ from PIL import Image, ImageTk
 #     \|__|\|____________|\|_______|      |\__\
 #         (t)                             \|__|
 
+# added this to suppress the warning about the image not being the expected size, it's not a problem
 warnings.filterwarnings('ignore', message='Image was not the expected size')
 
 version = 'v0.3.7rc'
@@ -804,7 +805,7 @@ if __name__ == "__main__":
         "<Button-1>", lambda e: eastereggLabel.config(text="You found me!") or easteregg2Label.place(x=95, y=57))
 
     easteregg2Label = tk.Label(root, text=" ")
-    
+
     easteregg2Label.bind(
         "<Button-1>", lambda e: easteregg2Label.config(text="You found me again!") or easteregg3Label.place(x=400, y=3))
 
