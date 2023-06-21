@@ -142,3 +142,4 @@ isThisWebsiteOnlineCLI.exe
 /source/history.json
 /source/options.json
 build.md
+/.vscode/
