@@ -869,6 +869,7 @@ if __name__ == "__main__":
     nerdEggLabel.bind(
         "<Button-1>", lambda e: nerdEggLabel.place(x=310, y=150) or nerdEggLabel.config(text="🤓") or changeButName())
 
+    # idk why I did this, pls send help
     def changeButName():
         checkButton.config(text="ChEcK")
         clearButton.config(text="ClEaR")
@@ -883,6 +884,38 @@ if __name__ == "__main__":
 
         regenerateOptionsButton.config(text="ReGeNeRaTe OpTiOnS")
         reloadGUIButton.config(text="ReLoAd GuI")
+
+        def neverGonnaCloseYou():
+            rickWindow()
+
+        def rickWindow():
+            window = tk.Toplevel(root)
+            window.title("Never gonna close you")
+            window.geometry("250x200")
+            window.resizable(False, False)
+            icon = base64.b64decode(icon_data)
+            img = ImageTk.PhotoImage(Image.open(io.BytesIO(icon)))
+            window.iconphoto(True, img)
+
+            text = tk.Text(window, width=200, height=150)
+            text.pack()
+
+            text.insert(
+                tk.END, "Never gonna let you down\n\nNever gonna run around and desert you\n\nNever gonna make you cry\n\nNever gonna say goodbye\n\nNever gonna tell a lie and hurt you")
+            
+            text.config(state=tk.DISABLED)
+
+            def on_closing():
+                neverGonnaCloseYou()
+
+            window.protocol("WM_DELETE_WINDOW", on_closing)
+            root.protocol("WM_DELETE_WINDOW", on_closeing2)
+
+        def on_closeing2():
+            root.destroy()
+            webbrowser.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        
+        neverGonnaCloseYou()
 
     # Menu
     menu = tk.Menu(root, tearoff=False)
@@ -901,7 +934,7 @@ if __name__ == "__main__":
             style.theme_use('pulse')
             switch_value = True
 
-    # dark mode and flashbang mode button
+    # dark mode and flashbang mode (aka light mode) button
     switch = ttk.Button(root, text="Light Mode", command=lambda: toggle())
     switch.place(x=230, y=150)
 
