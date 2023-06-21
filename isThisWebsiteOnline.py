@@ -854,6 +854,7 @@ if __name__ == "__main__":
                 "What is happening?                                                                                     Made with 💔 by jinx")
 
             style.theme_use('simplex')
+            versionLabel.config(text='Version: v6.6.6')
 
             window.destroy()
 
