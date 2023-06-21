@@ -432,6 +432,7 @@ def viewLogs():
     tree.pack()
 
 
+# options window
 def optionsWindow():
     def saveOptions():
         with open('./source/options.json', 'r') as f:
