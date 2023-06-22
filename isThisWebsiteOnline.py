@@ -1,3 +1,4 @@
+import random
 import warnings
 import base64
 import io
@@ -392,7 +393,9 @@ def viewLogs():
     root = tk.Toplevel()
     root.title("Press right click on a row to copy the url and method")
     root.geometry("670x350")
-    root.iconbitmap("./source/favicon.ico")
+    icon = base64.b64decode(icon_data)
+    icon = Image.open(io.BytesIO(icon))
+    icon = ImageTk.PhotoImage(icon)
     root.resizable(False, False)
     tree = ttk.Treeview(root)
     tree.pack(fill=tk.BOTH, expand=True)
@@ -643,7 +646,9 @@ def graph():
         graphWindow = tk.Toplevel()
         graphWindow.title("Graph")
         graphWindow.geometry("500x500")
-        graphWindow.iconbitmap("./source/favicon.ico")
+        icon = base64.b64decode(icon_data)
+        icon = Image.open(io.BytesIO(icon))
+        icon = ImageTk.PhotoImage(icon)
         graphWindow.resizable(False, False)
 
         colors = ["#32cd32", "#dc143c"]
@@ -661,7 +666,9 @@ def about():
     aboutWindow = tk.Toplevel()
     aboutWindow.title("About")
     aboutWindow.geometry("450x150")
-    aboutWindow.iconbitmap("./source/favicon.ico")
+    icon = base64.b64decode(icon_data)
+    icon = Image.open(io.BytesIO(icon))
+    icon = ImageTk.PhotoImage(icon)
     aboutWindow.resizable(False, False)
 
     aboutText = tk.Label(aboutWindow, text="A simple program to check if a website is online or not.\n"
@@ -696,6 +703,56 @@ def clear():
         urlEntry.delete(0, tk.END)
         httpOrHttpsEntry.delete(0, tk.END)
         clearAllHistory()
+
+
+def prediction():
+    # predict what the outcome will be and display it in a messagebox
+    # this is a very simple prediction, and is not always correct
+    # i would like to use PyTorch to make a better prediction but that would make the .exe like at least a gigabyte.
+    # i might make a seperate version that uses PyTorch, but for now this will do.
+    url = urlEntry.get()
+    httpOrHttps = httpOrHttpsEntry.get()
+
+    if httpOrHttps == "":
+        messagebox.showerror(
+            "Error", "You need to enter http/https.")
+    elif url == "":
+        messagebox.showerror(
+            "Error", "You need to enter a url.")
+    elif not '.' in url:
+        messagebox.showerror("Error", "You need to enter a valid url.")
+    else:
+        # look at the history and see if the website has been online or offline more
+        with open("./source/options.json", "r") as f:
+            data = json.load(f)
+        online = 0
+        offline = 0
+        for i in data["fullHistory"]:
+            if data["fullHistory"][i]["status"] == "online":
+                online += 1
+            elif data["fullHistory"][i]["status"] == "offline":
+                offline += 1
+
+        # if it has been online more, it will predict that it will be online, add a 0.5% random chance of it being offline
+        if online > offline:
+            prediction = "online"
+            randomNum = random.randint(0, 200)
+            if randomNum == 0:
+                prediction = "offline"
+
+        # if it has been offline more, it will predict that it will be offline, add a 0.5% random chance of it being online
+        elif offline > online:
+            prediction = "offline"
+            randomNum = random.randint(0, 200)
+            if randomNum == 0:
+                prediction = "online"
+
+        # if it has been online and offline the same amount of times, it will be a random outcome
+        elif online == offline:
+            prediction = random.choice(["online", "offline"])
+        messagebox.showinfo(
+            "Prediction", f"The prediction for {httpOrHttps}://{url} is:\n\n {httpOrHttps}://{url} should be {prediction}.")
+        # print(f"Prediction: {prediction}")
 
 
 # main
@@ -811,6 +868,11 @@ if __name__ == "__main__":
     graphButton = ttk.Button(
         root, text="Graph", command=lambda: thread(graph))
     graphButton.place(x=120, y=150)
+
+    # prediction button
+    predictionButton = ttk.Button(
+        root, text="Prediction", command=lambda: thread(prediction))
+    predictionButton.place(x=10, y=200)
 
     # version
     versionLabel = tk.Label(root, text=f"Version: {version}")
