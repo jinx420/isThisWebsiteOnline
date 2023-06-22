@@ -890,7 +890,7 @@ if __name__ == "__main__":
         viewLogsButton.config(text="ViEw LoGs")
         graphButton.config(text="GrApH")
         root.title(
-            "WhAt Is HaPpEnInG?                                                                                     MaDe WiTh 🤓 By JiNx")
+            "WhAt Is HaPpEnInG?                                                                                 MaDe WiTh 🤓 By JiNx")
         versionLabel.config(text="VeRsIoN: v69.420")
         statusLabel.config(text="WaItInG...")
         urlLabel.config(text="UrL:")
