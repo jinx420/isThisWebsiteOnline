@@ -103,6 +103,8 @@ This is a simple Python project designed to check the availability of websites. 
 
    *Note: This also applies if you utilize the application's source code directly, as I have removed the development branch. For further Information read more [here](#notice-for-developers).*
 
+9. **On MacOS the Buttons in the Options Window dont get rendered correctly**: I have tried every fix I could think of, but this seems to be an issue with tkinter and the 'new' `Apple Silicone`, due to their switch from `AMD64` to `ARM`.
+
 ## Notice for Developers
 
 ⚠️ **Important Notice:** Starting from version v0.3.2, the branch `develop` has been renamed to `old-develop` and is no longer actively maintained. To streamline our development process and focus efforts on the `master` branch, which contains the latest stable version, we have made this change.
