@@ -973,6 +973,7 @@ if __name__ == "__main__":
 
         regenerateOptionsButton.config(text="ReGeNeRaTe OpTiOnS")
         reloadGUIButton.config(text="ReLoAd GuI")
+        predictionButton.config(text="PrEdIcTiOn")
 
         def neverGonnaCloseYou():
             rickWindow()
