@@ -14,7 +14,7 @@
     - [Without the Batch File](#without-the-batch-file)
   - [Known Issues](#known-issues)
   - [Notice for Developers](#notice-for-developers)
-    - [General Notices:](#general-notices)
+    - [General Notices](#general-notices)
 
 This is a simple Python project designed to check the availability of websites. It provides both a command-line interface (CLI) and a graphical user interface (GUI), making it easy to use for different preferences. This project is currently a work in progress (WIP), and there is no estimated completion date at the moment. The project offers the following features:
 
@@ -117,7 +117,7 @@ I appreciate your understanding and cooperation in this transition. If you have 
 
 ---
 
-### General Notices:
+### General Notices
 
 - Older commits and tags might be tagged as unverified. This is due to a switch of GPG keys, and due to me using my Mac and being too lazy to set up gpg.
 
