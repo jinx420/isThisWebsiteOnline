@@ -346,8 +346,8 @@ def clearAllHistory():
     temporaryMode = options["temporaryMode"]
 
     with open("./source/options.json", "w") as f:
-        json.dump({"options": {"options": {"saveHistoryOnCheck": saveHistoryOnCheck, "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM,
-                  "reloadGUIwith": reloadCM, "devPopUp": devPopUp, "darkMode": darkMode, "temporaryMode": temporaryMode}, "fullHistory": {}}}, f, indent=4)
+        json.dump({"options": {"saveHistoryOnCheck": saveHistoryOnCheck, "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM,
+                  "reloadGUIwith": reloadCM, "devPopUp": devPopUp, "darkMode": darkMode, "temporaryMode": temporaryMode}, "fullHistory": {}}, f, indent=4)
 
     with open("./source/pasteHistory.json", "w") as f:
         json.dump([], f, indent=4)
