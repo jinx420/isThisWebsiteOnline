@@ -618,6 +618,13 @@ def optionsWindow():
     savedText = tk.Label(optionsWindow, text="", padx=0, pady=0)
     savedText.place(x=300, y=172)
 
+    optionsWindow.protocol("WM_DELETE_WINDOW", lambda: exit_options())
+
+    def exit_options():
+        saveOptions()
+        optionsWindow.destroy()
+        root.deiconify()
+
 
 def graph():
     with open("./source/options.json", "r") as f:
