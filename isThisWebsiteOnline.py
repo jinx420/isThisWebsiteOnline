@@ -722,16 +722,16 @@ def prediction():
     elif not '.' in url:
         messagebox.showerror("Error", "You need to enter a valid url.")
     else:
-        # look at the history and see if the website has been online or offline more
-        with open("./source/options.json", "r") as f:
-            data = json.load(f)
         online = 0
         offline = 0
+        with open("./source/options.json", "r") as f:
+            data = json.load(f)
         for i in data["fullHistory"]:
-            if data["fullHistory"][i]["status"] == "online":
-                online += 1
-            elif data["fullHistory"][i]["status"] == "offline":
-                offline += 1
+            if data["fullHistory"][i]["url"] == url and data["fullHistory"][i]["httpOrHttps"] == httpOrHttps:
+                if data["fullHistory"][i]["status"] == "online":
+                    online += 1
+                elif data["fullHistory"][i]["status"] == "offline":
+                    offline += 1
 
         # if it has been online more, it will predict that it will be online, add a 0.5% random chance of it being offline
         if online > offline:
