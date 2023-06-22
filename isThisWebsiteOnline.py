@@ -34,10 +34,6 @@ warnings.filterwarnings('ignore', message='Image was not the expected size')
 version = 'v0.3.7rc'
 os_name = os.name
 
-# check if critical files and folders exist
-critDirs = ['./source']
-critFiles = ['./source/options.json', './source/history.json']
-
 icon_data = b'''AAABAAEAAAAAAAEAIACBGAAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAEAAAABBQgGAAAADL851QAAGEhJREFUeJztnUtsXVlWhj+/42s7cd5VSaUeXXRVURIgaHpAqyWaUqth0mrBA
             BUSorqZMWECAgESagYIiQEjGCNgUuMWIPESEoIJEkgt0VFVQ1cnqYoTx44dv5+xGayztPc9udexY5+zz7n7/6Stc+3Yvufe3PWvtdfee60hqmOoGCPRGC197WO4xxiKruURPwfA4RHjILr6eArsR9d4PI
             1+ToiBZuj5P9L3d8oGGT92Ix4BxoDxaIxFVx+jHF8cys8F/Q09Nngfe8XYBXaiqw//9/3ob/YaQrSe0Rf4HffMsZHH12GCQY8Dk8XoRI/PRWOiGGVRcGHwyKEcHfhwg3x6xHDv7sa+DWxGY6MYm8BWMVw
@@ -168,6 +164,10 @@ img_data = b'''iVBORw0KGgoAAAANSUhEUgAAAQAAAAFACAYAAABTKqIKAAAC8XpUWHRSYXcgcHJvZ
             auuMr/n/s/qT6rerT89gDOurl1Y3Vi+qts1gkR11eHiX+0j1rmrXjMbxjdXN1eXVzmZ3U/nIcAr+D8P6+KsZXaKcNcTnFcNZ0oYZX/Pvru6qPlA9caIBOGprdcqMf5jD1f7q0WZ/F3rzc
             PBvmuEYjlQHhne7WV+Lr69OG+ZlaYbjODhE4MCM52Op2j68gc7yt2zLwzX/PNzABgAAAAAAAAAAAAAAAP4//wNHW/lI2njGLgAAAABJRU5ErkJggg=='''
 
+# check if critical files and folders exist
+critDirs = ['./source']
+critFiles = ['./source/options.json', './source/history.json']
+
 for dirs in critDirs:
     if os.path.exists(dirs):
         # print(f'{dirs} Directory exists')
@@ -184,7 +184,7 @@ for files in critFiles:
         if files == './source/options.json':
             with open(files, "w") as f:
                 json.dump(
-                    {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0, "darkMode": "False"}, "fullHistory": {}}, f, indent=4)
+                    {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0, "darkMode": "False", "temporaryMode": 1}, "fullHistory": {}}, f, indent=4)
         elif files == './source/history.json':
             with open('./source/history.json', "w") as f:
                 json.dump([], f, indent=4)
@@ -447,7 +447,8 @@ def optionsWindow():
                 "clearLogsWithClearButton": clearCM.get(),
                 "reloadGUIwith": reloadGUIwith.get(),
                 "devPopUp": devPopUpVar,
-                "darkMode": str(switch_value)
+                "darkMode": str(switch_value),
+                "temporaryMode": temporaryMode.get()
             },
             "fullHistory": {}
         }
@@ -465,7 +466,8 @@ def optionsWindow():
                 "clearLogsWithClearButton": 0,
                 "reloadGUIwith": 0,
                 "devPopUp": 0,
-                "darkMode": "False"
+                "darkMode": "False",
+                "temporaryMode": 0
             },
             "fullHistory": {}
         }
@@ -491,6 +493,7 @@ def optionsWindow():
         checkUpdateCM.set(options["checkForUpdatesOnStartup"])
         clearCM.set(options["clearLogsWithClearButton"])
         reloadGUIwith.set(options["reloadGUIwith"])
+        temporaryMode.set(options["temporaryMode"])
 
         savedText.config(text="Options imported")
 
@@ -507,7 +510,8 @@ def optionsWindow():
                 "clearLogsWithClearButton": clearCM.get(),
                 "reloadGUIwith": reloadGUIwith.get(),
                 "devPopUp": 0,
-                "darkMode": str(switch_value)
+                "darkMode": str(switch_value),
+                "temporaryMode": temporaryMode.get()
             },
             "fullHistory": {}
         }
@@ -530,7 +534,8 @@ def optionsWindow():
                     "clearLogsWithClearButton": clearCM.get(),
                     "reloadGUIwith": reloadGUIwith.get(),
                     "devPopUp": 1,
-                    "darkMode": str(switch_value)
+                    "darkMode": str(switch_value),
+                    "temporaryMode": temporaryMode.get()
                 },
                 "fullHistory": {}
             }
@@ -544,6 +549,7 @@ def optionsWindow():
     checkUpdateCM = tk.IntVar()  # 0 = off, 1 = on
     clearCM = tk.IntVar()  # 0 = off, 1 = on
     reloadGUIwith = tk.IntVar()  # 0 = reload with .exe, 1 = reload with .py
+    temporaryMode = tk.IntVar()  # 0 = off, 1 = on
 
     # get the options from the options.json file
     data = load_options()
@@ -551,12 +557,15 @@ def optionsWindow():
     checkUpdateCM.set(data["checkForUpdatesOnStartup"])
     clearCM.set(data["clearLogsWithClearButton"])
     reloadGUIwith.set(data["reloadGUIwith"])
+    temporaryMode.set(data["temporaryMode"])
 
     # options window
     optionsWindow = tk.Toplevel()
     optionsWindow.title("Options")
     optionsWindow.geometry("400x200")
-    optionsWindow.iconbitmap("./source/favicon.ico")
+    icon = base64.b64decode(icon_data)
+    icon = Image.open(io.BytesIO(icon))
+    icon = ImageTk.PhotoImage(icon)
     optionsWindow.resizable(False, False)
 
     # check mark boxes to enable or disable the options
@@ -582,6 +591,11 @@ def optionsWindow():
                                  padx=0, pady=0)
     reloadExplanation.place(x=30, y=120)
 
+    # temporary mode
+    temporaryModeBox = tk.Checkbutton(optionsWindow, text="Don't save Files",
+                                      variable=temporaryMode, onvalue=1, offvalue=0)
+    temporaryModeBox.place(x=10, y=140)
+
     # save button
     saveButton = tk.Button(optionsWindow, text="Save", command=saveOptions)
     saveButton.place(x=10, y=170)
@@ -597,7 +611,7 @@ def optionsWindow():
 
     # export button
     exportButton = tk.Button(
-        optionsWindow, text="Export", command=exportOptions)
+        optionsWindow, text="Export", command=exportOptions, fg="black")
     exportButton.place(x=220, y=170)
 
     # saved text
@@ -723,7 +737,7 @@ if __name__ == "__main__":
     def regenerateOptions():
         with open("./source/options.json", "w") as f:
             json.dump(
-                {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0, "darkMode": "False"}, "fullHistory": {}}, f, indent=4)
+                {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0, "darkMode": "False", "temporaryMode": 1}, "fullHistory": {}}, f, indent=4)
 
         statusLabel.config(text="options.json regenerated!")
 
@@ -902,7 +916,7 @@ if __name__ == "__main__":
 
             text.insert(
                 tk.END, "Never gonna let you down\n\nNever gonna run around and desert you\n\nNever gonna make you cry\n\nNever gonna say goodbye\n\nNever gonna tell a lie and hurt you")
-            
+
             text.config(state=tk.DISABLED)
 
             def on_closing():
@@ -914,7 +928,7 @@ if __name__ == "__main__":
         def on_closeing2():
             root.destroy()
             webbrowser.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-        
+
         neverGonnaCloseYou()
 
     # Menu
@@ -1010,6 +1024,19 @@ if __name__ == "__main__":
 
     if options['checkForUpdatesOnStartup'] == True:
         checkUpdate()
+
+    def temp():
+        shutil.rmtree("source")
+        root.destroy()
+
+    def on_closing():
+        options = load_options()
+        if options['temporaryMode'] == True:
+            temp()
+        else:
+            root.destroy()
+
+    root.protocol("WM_DELETE_WINDOW", on_closing)
 
     # Mainloop
     root.mainloop()
