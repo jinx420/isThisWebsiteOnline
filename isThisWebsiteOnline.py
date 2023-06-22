@@ -750,6 +750,8 @@ def prediction():
         # if it has been online and offline the same amount of times, it will be a random outcome
         elif online == offline:
             prediction = random.choice(["online", "offline"])
+
+        # display prediction
         messagebox.showinfo(
             "Prediction", f"The prediction for {httpOrHttps}://{url} is:\n\n {httpOrHttps}://{url} should be {prediction}.")
         # print(f"Prediction: {prediction}")
@@ -848,7 +850,7 @@ if __name__ == "__main__":
 
     # Check Button
     checkButton = ttk.Button(
-        root, text="Check", command=lambda: thread(checkWebsite))
+        root, text="Check", command=lambda: statusLabel.config(text='Checking...') or thread(checkWebsite))
     checkButton.place(x=10, y=100)
 
     # Status Label
