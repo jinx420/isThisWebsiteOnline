@@ -44,7 +44,7 @@ This is a simple Python project designed to check the availability of websites. 
 - [x] Minor UI change
 - [x] Remove need for `.png` and or `.ico` file.
 - [x] Predictions
-- [ ] Add statusLabel update when hitting check button (**WIP**)
+- [x] Add statusLabel update when hitting check button
 
 ### Unsure Features
 
