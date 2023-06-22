@@ -167,7 +167,7 @@ img_data = b'''iVBORw0KGgoAAAANSUhEUgAAAQAAAAFACAYAAABTKqIKAAAC8XpUWHRSYXcgcHJvZ
 
 # check if critical files and folders exist
 critDirs = ['./source']
-critFiles = ['./source/options.json', './source/history.json']
+critFiles = ['./source/options.json', './source/pasteHistory.json']
 
 for dirs in critDirs:
     if os.path.exists(dirs):
@@ -186,8 +186,8 @@ for files in critFiles:
             with open(files, "w") as f:
                 json.dump(
                     {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0, "darkMode": "False", "temporaryMode": 1}, "fullHistory": {}}, f, indent=4)
-        elif files == './source/history.json':
-            with open('./source/history.json', "w") as f:
+        elif files == './source/pasteHistory.json':
+            with open('./source/pasteHistory.json', "w") as f:
                 json.dump([], f, indent=4)
 
 
@@ -318,14 +318,14 @@ def history():
     history = []
     history.append(urlEntry.get())
     history.append(httpOrHttpsEntry.get())
-    with open("./source/history.json", "w") as f:
+    with open("./source/pasteHistory.json", "w") as f:
         json.dump(history, f)
     statusLabel.config(text="History saved")
 
 
 # load history
 def loadHistory():
-    with open("./source/history.json", "r") as f:
+    with open("./source/pasteHistory.json", "r") as f:
         history = json.load(f)
     urlEntry.delete(0, tk.END)
     httpOrHttpsEntry.delete(0, tk.END)
@@ -340,12 +340,16 @@ def clearAllHistory():
     saveHistoryOnCheck = options["saveHistoryOnCheck"]
     checkUpdateCM = options["checkForUpdatesOnStartup"]
     clearCM = options["clearLogsWithClearButton"]
+    reloadCM = options["reloadGUIwith"]
+    devPopUp = options["devPopUp"]
+    darkMode = options["darkMode"]
+    temporaryMode = options["temporaryMode"]
 
     with open("./source/options.json", "w") as f:
-        json.dump({"options": {"saveHistoryOnCheck": saveHistoryOnCheck,
-                               "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM}, "fullHistory": {}}, f, indent=4)
+        json.dump({"options": {"options": {"saveHistoryOnCheck": saveHistoryOnCheck, "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM,
+                  "reloadGUIwith": reloadCM, "devPopUp": devPopUp, "darkMode": darkMode, "temporaryMode": temporaryMode}, "fullHistory": {}}}, f, indent=4)
 
-    with open("./source/History.json", "w") as f:
+    with open("./source/pasteHistory.json", "w") as f:
         json.dump([], f, indent=4)
 
     if options['clearLogsWithClearButton'] == 0:
