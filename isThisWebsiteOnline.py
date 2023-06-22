@@ -975,6 +975,30 @@ if __name__ == "__main__":
         reloadGUIButton.config(text="ReLoAd GuI")
         predictionButton.config(text="PrEdIcTiOn")
 
+        menu.entryconfigure("File", label="FiLe")
+        menu.entryconfigure('Help', label='HeLp')
+        file_menu.entryconfigure("Exit", label="ExIt")
+        file_menu.entryconfigure('Options', label='OpTiOnS')
+        file_menu.entryconfigure('Themes', label='ThEmEs')
+        file_menu.entryconfigure('Misc', label='MiSc')
+        file_menu.entryconfigure('History', label='HiStOrY')
+        help_menu.entryconfigure('About', label='AbOuT')
+        help_menu.entryconfigure(
+            'Check for update', label='ChEcK fOr UpDaTe')
+
+        # history_submenu.entryconfigure('Save history', label='SaVe hIsToRy')
+        # history_submenu.entryconfigure('View history', label='ViEw HiStOrY')
+        # history_submenu.entryconfigure('View Logs', label='ViEw LoGs')
+        # history_submenu.entryconfigure('Clear Logs', label='ClEaR lOgS')
+
+        themes_menu.entryconfigure('Darkly', label='DaRkLy')
+        themes_menu.entryconfigure('Pulse', label='PuLsE')
+        themes_menu.entryconfigure('Vapor', label='VaPoR')
+        themes_menu.entryconfigure('Solar', label='SoLaR')
+        themes_menu.entryconfigure('Simplex', label='SiMpLeX')
+
+        # misc_submenu.entryconfigure('Open in browser', label='OpEn In BrOwSeR')
+
         def neverGonnaCloseYou():
             rickWindow()
 
@@ -1000,6 +1024,8 @@ if __name__ == "__main__":
 
             window.protocol("WM_DELETE_WINDOW", on_closing)
             root.protocol("WM_DELETE_WINDOW", on_closeing2)
+            file_menu.entryconfigure(
+                "ExIt", label="ExIt", command=lambda: on_closeing2())
 
         def on_closeing2():
             root.destroy()
