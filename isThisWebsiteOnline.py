@@ -727,7 +727,7 @@ def prediction():
             "Error", "You need to enter http/https.")
     elif url == "":
         messagebox.showerror(
-            "Error", "You need to enter a url.")
+            "Error", "You need to enter an url.")
     elif not '.' in url:
         messagebox.showerror("Error", "You need to enter a valid url.")
     else:
