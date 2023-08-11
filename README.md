@@ -60,13 +60,13 @@ This is a simple Python project designed to check the availability of websites. 
 
 *Note: Features listed here are gone for good, some will also have an explanation why I decided to remove them (see `Explanation:`). There is a very slim chance they will get implemented again after some time. Farewell, my friends.* 😢
 
-- Multiple Languages (*Explanation: This is a pain in the ass to maintain/verify translation, it also adds like **300** lines, many of which repeat themselves due to how this code is structured and due to limitations of the way I chose to implement it. The multiple languages were kinda alright at the beginning, but as soon as the code kept getting bigger, so did the translations. For every line of code, I had to add like 3 lines for translation. This made the code very bloated, inefficient, and it also introduced lots of bugs.*)
+- Multiple Languages (*Explanation: This is a pain in the ass to maintain/verify translation, it also adds like **300** lines, many of which repeat themselves due to how this code is structured and due to limitations of the way I chose to implement it. The multiple languages were kind of alright at the beginning, but as soon as the code kept getting bigger, so did the translations. For every line of code, I had to add like 3 lines for translation. This made the code very bloated, inefficient, and it also introduced lots of bugs.*)
 
 ## How to Compile It Yourself
 
 ### With the Batch File
 
-*Note: Make sure you have the `source` folder along with the required `.ico` file in the same directory. This file is necessary for displaying the program's icon*
+*Note: Make sure you have the `source` folder along with the required `.ico` file in the same directory. This file is necessary for displaying the program's icon.*
 
 1. Download the following files: `compile.bat`, `isThisWebsiteOnline.py`, `move.py`, and `requirements.txt`. If you haven't already, install Python.
 2. Open the terminal or command prompt.
@@ -76,7 +76,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 ### Without the Batch File
 
-*Note: Make sure you have the `source` folder along with the required `.ico` file in the same directory. This file is necessary for displaying the program's icon*
+*Note: Make sure you have the `source` folder along with the required `.ico` file in the same directory. This file is necessary for displaying the program's icon.*
 
 1. Download the following files: `isThisWebsiteOnline.py` and `requirements.txt`. If you haven't already, install Python.
 2. Open the terminal or command prompt.
@@ -103,9 +103,9 @@ This is a simple Python project designed to check the availability of websites. 
 
 8. **The application's functionality is not fully operational, and I cannot update it via the automated update check:** If you have been provided with a Preview version prior to `v0.3.6`, you will essentially be stuck on that version until a new release is available, unless you manually update it. The reason for this limitation is the way the automated update check functions, which only verifies the version number within the code and the GitHub release page. To differentiate between preview versions and production-ready samples, I have started using the suffix `rc` (release candidate) at the end of the version number, such as `v0.3.7rc`.
 
-   *Note: This also applies if you utilize the application's source code directly, as I have removed the development branch. For further Information read more [here](#notice-for-developers).*
+	  *Note: This also applies if you utilize the application's source code directly, as I have removed the development branch. For further Information read more [here](#notice-for-developers).*
 
-9. **On MacOS the Buttons in the Options Window dont get rendered correctly**: I have tried every fix I could think of, but this seems to be an issue with tkinter and the 'new' `Apple Silicone`, due to their switch from `AMD64` to `ARM`.
+9. **On MacOS the Buttons in the Options Window don't get rendered correctly**: I have tried every fix I could think of, but this seems to be an issue with tkinter and the 'new' `Apple Silicone`, due to their switch from `AMD64` to `ARM`.
 
 ## Notice for Developers
 
@@ -116,9 +116,6 @@ If you have been actively working on the `develop` branch, I recommend switching
 I appreciate your understanding and cooperation in this transition. If you have any questions or need further assistance, please don't hesitate to reach out to me. Thank you for your continued support and dedication to this project!
 
 ---
-
 ### General Notices
-
-- Older commits and tags might be tagged as unverified. This is due to a switch of GPG keys, and due to me using my Mac and being too lazy to set up gpg.
 
 - Starting from v0.3.5, the `convertme.py` file has been removed, and the CLI is now located in `isThisWebsiteOnlineCLI.py` and `isThisWebsiteOnlineCLI.exe`.
