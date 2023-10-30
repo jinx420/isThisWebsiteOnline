@@ -37,7 +37,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 *Note: The order of contents does not represent the order in which they will be implemented. Active development on a feature is marked by (**WIP**).*
 
-- [ ] ⚠️ Fix the issue of having an outdated `options.json`
+- [x] ⚠️ Fix the issue of having an outdated `options.json`
 - [ ] More Options
 - [ ] Major UI overhaul
 - [x] Fix the issue of deleting existing `./source` folder in current working directory
@@ -105,7 +105,11 @@ This is a simple Python project designed to check the availability of websites. 
 
 	  *Note: This also applies if you utilize the application's source code directly, as I have removed the development branch. For further Information read more [here](#notice-for-developers).*
 
-9. **On MacOS the Buttons in the Options Window don't get rendered correctly**: I have tried every fix I could think of, but this seems to be an issue with tkinter and the 'new' `Apple Silicone`, due to their switch from `AMD64` to `ARM`.
+9. **On MacOS the Buttons in the Options Window don't get rendered correctly:** I have tried every fix I could think of, but this seems to be an issue with tkinter and the 'new' `Apple Silicone`, due to their switch from `AMD64` to `ARM`.
+
+10. **My Settings will always get deleted after closing the program:**  You probably have enabled TemporaryMode, which will prevent any files from staying behind after closing it.
+
+11. **I can't close the program when the options file gets deleted while it's open:** This was fixed in this commit [00d3f25](https://github.com/jinx420/isThisWebsiteOnline/commit/00d3f251cf7d036aeb97ea7b5df0824719aa94ea).
 
 ## Notice for Developers
 
