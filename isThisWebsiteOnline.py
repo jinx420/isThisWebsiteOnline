@@ -170,6 +170,19 @@ img_data = b'''iVBORw0KGgoAAAANSUhEUgAAAQAAAAFACAYAAABTKqIKAAAC8XpUWHRSYXcgcHJvZ
             auuMr/n/s/qT6rerT89gDOurl1Y3Vi+qts1gkR11eHiX+0j1rmrXjMbxjdXN1eXVzmZ3U/nIcAr+D8P6+KsZXaKcNcTnFcNZ0oYZX/Pvru6qPlA9caIBOGprdcqMf5jD1f7q0WZ/F3rzc
             PBvmuEYjlQHhne7WV+Lr69OG+ZlaYbjODhE4MCM52Op2j68gc7yt2zLwzX/PNzABgAAAAAAAAAAAAAAAP4//wNHW/lI2njGLgAAAABJRU5ErkJggg=='''
 
+
+class CheckInput:
+    def __init__(self, method, url):
+        self.method = method
+        self.url = url
+
+    def is_valid_method(self):
+        return self.method == "http" or self.method == "https"
+
+    def is_valid_url(self):
+        return "." in self.url
+
+
 # check if critical files and folders exist
 critDirs = ['./source']
 critFiles = ['./source/options.json', './source/pasteHistory.json']
@@ -281,40 +294,33 @@ def isWebsiteOnline(url, method):
 
 
 def checkWebsite():
-    if urlEntry.get() == "" or httpOrHttpsEntry.get() == "":
-        statusLabel.config(text="Please enter an url\nand http or https")
-        return
+    check = CheckInput(httpOrHttpsEntry.get().lower(), urlEntry.get().lower())
 
-    # check if user put in http or https
-    if httpOrHttpsEntry.get().lower() == "http" or httpOrHttpsEntry.get().lower() == "https":
-        pass
-    elif httpOrHttpsEntry.get().lower() == "http":
-        statusLabel.config(text="Please enter https")
-        return
-    else:
-        statusLabel.config(text="Please enter http or https")
-        return
-
-    # check if user put in a url with a dot
-    if "." in urlEntry.get():
+    if check.is_valid_method():
         pass
     else:
-        statusLabel.config(text="Please enter a valid url")
+        messagebox.showerror(
+            "Error", "Please enter a valid method.")
+        return
+
+    if check.is_valid_url():
+        pass
+    else:
+        messagebox.showerror("Error", "Please enter a valid url.")
         return
 
     options = load_options()
     if options['saveHistoryOnCheck'] == 1:
         historyWithDateAndTime()
+
     method = httpOrHttpsEntry.get().lower()
     url = urlEntry.get().lower()
-    if method == "http" or method == 'https':
-        if isWebsiteOnline(url, method):
-            statusLabel.config(text="Website is online")
-        else:
-            statusLabel.config(
-                text="Website is offline\nor took too long to respond")
+
+    if isWebsiteOnline(url, method):
+        statusLabel.config(text="Website is online")
     else:
-        statusLabel.config(text="Please enter http or https")
+        statusLabel.config(
+            text="Website is offline\nor took too long to respond")
 
 
 # save history
@@ -721,48 +727,53 @@ def prediction():
     url = urlEntry.get()
     httpOrHttps = httpOrHttpsEntry.get()
 
-    if httpOrHttps == "":
-        messagebox.showerror(
-            "Error", "You need to enter http/https.")
-    elif url == "":
-        messagebox.showerror(
-            "Error", "You need to enter an url.")
-    elif not '.' in url:
-        messagebox.showerror("Error", "You need to enter a valid url.")
+    check = CheckInput(httpOrHttps, url)
+
+    if check.is_valid_method():
+        pass
     else:
-        online = 0
-        offline = 0
-        with open("./source/options.json", "r") as f:
-            data = json.load(f)
-        for i in data["fullHistory"]:
-            if data["fullHistory"][i]["url"] == url and data["fullHistory"][i]["httpOrHttps"] == httpOrHttps:
-                if data["fullHistory"][i]["status"] == "online":
-                    online += 1
-                elif data["fullHistory"][i]["status"] == "offline":
-                    offline += 1
+        messagebox.showerror("Error", "Please enter a valid method.")
+        return
 
-        # if it has been online more, it will predict that it will be online, add a 0.5% random chance of it being offline
-        if online > offline:
-            prediction = "online"
-            randomNum = random.randint(0, 200)
-            if randomNum == 0:
-                prediction = "offline"
+    if check.is_valid_url():
+        pass
+    else:
+        messagebox.showerror("Error", "Please enter a valid url.")
+        return
 
-        # if it has been offline more, it will predict that it will be offline, add a 0.5% random chance of it being online
-        elif offline > online:
+    online = 0
+    offline = 0
+    with open("./source/options.json", "r") as f:
+        data = json.load(f)
+    for i in data["fullHistory"]:
+        if data["fullHistory"][i]["url"] == url and data["fullHistory"][i]["httpOrHttps"] == httpOrHttps:
+            if data["fullHistory"][i]["status"] == "online":
+                online += 1
+            elif data["fullHistory"][i]["status"] == "offline":
+                offline += 1
+
+    # if it has been online more, it will predict that it will be online, add a 0.5% random chance of it being offline
+    if online > offline:
+        prediction = "online"
+        randomNum = random.randint(0, 200)
+        if randomNum == 0:
             prediction = "offline"
-            randomNum = random.randint(0, 200)
-            if randomNum == 0:
-                prediction = "online"
 
-        # if it has been online and offline the same amount of times, it will be a random outcome
-        elif online == offline:
-            prediction = random.choice(["online", "offline"])
+    # if it has been offline more, it will predict that it will be offline, add a 0.5% random chance of it being online
+    elif offline > online:
+        prediction = "offline"
+        randomNum = random.randint(0, 200)
+        if randomNum == 0:
+            prediction = "online"
 
-        # display prediction
-        messagebox.showinfo(
-            "Prediction", f"The prediction for {httpOrHttps}://{url} is:\n\n {httpOrHttps}://{url} should be {prediction}.")
-        # print(f"Prediction: {prediction}")
+    # if it has been online and offline the same amount of times, it will be a random outcome
+    elif online == offline:
+        prediction = random.choice(["online", "offline"])
+
+    # display prediction
+    messagebox.showinfo(
+        "Prediction", f"The prediction for {httpOrHttps}://{url} is:\n\n {httpOrHttps}://{url} should be {prediction}.")
+    # print(f"Prediction: {prediction}")
 
 
 # main
@@ -801,11 +812,17 @@ if __name__ == "__main__":
     def reloadGUI():
         options = load_options()
         root.destroy()
-        if options['reloadGUIwith'] == 1:
+        if options['reloadGUIwith'] == 1 and os.name != "nt":
             subprocess.call(
                 ["python3", "isThisWebsiteOnline.py", "gui"])
-        elif options['reloadGUIwith'] == 0:
+        elif options['reloadGUIwith'] == 1 and os.name == "nt":
+            subprocess.call(
+                ["python", "isThisWebsiteOnline.py", "gui"])
+        elif options['reloadGUIwith'] == 0 and os.name == "nt":
             subprocess.call([".\isThisWebsiteOnline.exe"])
+        elif options['reloadGUIwith'] == 0 and os.name != "nt":
+            messagebox.showerror(
+                "Error", "This feature is only available on Windows. Please use the .py file instead.")
 
     # regenerate options.json
     def regenerateOptions():
