@@ -238,8 +238,6 @@ def checkIfOld():
     # check if old iwoSource folder is present and if it is ask to move all contents to the new ./source folder
     if os.path.exists("./iwoSource"):
         if os.path.exists("./source"):
-            # this should be a better way to do this but the old one will still be left here as a comment
-            # shutil.rmtree("./source")
             try:
                 for file in os.listdir("./iwoSource"):
                     shutil.move(f"./iwoSource/{file}", "./source")
@@ -290,7 +288,6 @@ def thread(func):
     threading.Thread(target=func).start()
 
 
-# check if website is online
 def isWebsiteOnline(url, method):
     try:
         httpx.get(f'{method}://{url}', timeout=5)
@@ -331,7 +328,6 @@ def checkWebsite():
             text="Website is offline\nor took too long to respond")
 
 
-# save history
 def history():
     history = []
     history.append(urlEntry.get())
@@ -341,7 +337,6 @@ def history():
     statusLabel.config(text="History saved")
 
 
-# load history
 def loadHistory():
     with open("./source/pasteHistory.json", "r") as f:
         history = json.load(f)
@@ -352,7 +347,6 @@ def loadHistory():
     statusLabel.config(text="History loaded")
 
 
-# clear all history
 def clearAllHistory():
     options = load_options()
     saveHistoryOnCheck = options["saveHistoryOnCheck"]
@@ -376,7 +370,6 @@ def clearAllHistory():
         statusLabel.config(text="Cleared everything")
 
 
-# get status for logs
 def status():
     url = urlEntry.get().lower()
     method = httpOrHttpsEntry.get().lower()
@@ -386,7 +379,6 @@ def status():
         return 'offline'
 
 
-# save history with date and time
 def historyWithDateAndTime():
     json_file = f'./source/options-{options_ver}.json'
     with open(json_file, 'r+') as jfile:
@@ -410,7 +402,6 @@ def historyWithDateAndTime():
         json.dump(j, jfile, indent=4)
 
 
-# view Logs
 def viewLogs():
     root = tk.Toplevel()
     root.title("Press right click on a row to copy the url and method")
@@ -457,7 +448,6 @@ def viewLogs():
     tree.pack()
 
 
-# options window
 def optionsWindow():
     def saveOptions():
         with open(f'./source/options-{options_ver}.json', 'r') as f:
@@ -593,22 +583,18 @@ def optionsWindow():
     icon = ImageTk.PhotoImage(icon)
     optionsWindow.resizable(False, False)
 
-    # check mark boxes to enable or disable the options
     checkMarkBox1 = tk.Checkbutton(optionsWindow, text="Save history on every check",
                                    variable=saveHistoryOnCheck, onvalue=1, offvalue=0, command=saveHistoryOnCheck)
     checkMarkBox1.place(x=10, y=10)
 
-    # check mark box to check for updates on startup
     checkUpdateCMBox = tk.Checkbutton(optionsWindow, text="Check for updates on startup",
                                       variable=checkUpdateCM, onvalue=1, offvalue=0, command=checkUpdateCM)
     checkUpdateCMBox.place(x=10, y=40)
 
-    # clear button to also clear the logs
     clearCMBox = tk.Checkbutton(
         optionsWindow, text="Clear the logs with the clear button", variable=clearCM, onvalue=1, offvalue=0)
     clearCMBox.place(x=10, y=70)
 
-    # reload gui with .py or .exe
     reloadGUIBox = tk.Checkbutton(optionsWindow, text="Reload GUI with .exe or .py",
                                   variable=reloadGUIwith, onvalue=1, offvalue=0, command=lambda: devPopUp())
     reloadGUIBox.place(x=10, y=100)
@@ -616,30 +602,24 @@ def optionsWindow():
                                  padx=0, pady=0)
     reloadExplanation.place(x=30, y=120)
 
-    # temporary mode
     temporaryModeBox = tk.Checkbutton(optionsWindow, text="Don't save Files",
                                       variable=temporaryMode, onvalue=1, offvalue=0)
     temporaryModeBox.place(x=10, y=140)
 
-    # save button
     saveButton = tk.Button(optionsWindow, text="Save", command=saveOptions)
     saveButton.place(x=10, y=170)
 
-    # reset button
     resetButton = tk.Button(optionsWindow, text="Reset", command=resetOptions)
     resetButton.place(x=80, y=170)
 
-    # import button
     importButton = tk.Button(
         optionsWindow, text="Import", command=importOptions)
     importButton.place(x=150, y=170)
 
-    # export button
     exportButton = tk.Button(
         optionsWindow, text="Export", command=exportOptions, fg="black")
     exportButton.place(x=220, y=170)
 
-    # saved text
     savedText = tk.Label(optionsWindow, text="", padx=0, pady=0)
     savedText.place(x=300, y=172)
 
@@ -803,7 +783,6 @@ if __name__ == "__main__":
     checkIfOld()
     options = load_options()
 
-    # root
     root = tk.Tk()
     root.title(
         "IsThisWebsiteOnline?                                                                                  Made with 💜 by jinx")
@@ -816,7 +795,6 @@ if __name__ == "__main__":
     img = ImageTk.PhotoImage(Image.open(io.BytesIO(icon)))
     root.iconphoto(True, img)
 
-    # reload gui
     def reloadGUI():
         options = load_options()
         root.destroy()
@@ -832,7 +810,6 @@ if __name__ == "__main__":
             messagebox.showerror(
                 "Error", "This feature is only available on Windows. Please use the .py file instead.")
 
-    # regenerate options.json
     def regenerateOptions():
         with open(f"./source/options-{options_ver}.json", "w") as f:
             json.dump(
@@ -840,12 +817,10 @@ if __name__ == "__main__":
 
         statusLabel.config(text="options.json regenerated!")
 
-    # reload gui button
     reloadGUIButton = ttk.Button(
         root, text="Reload GUI", command=reloadGUI)
     reloadGUIButton.place(x=10, y=300)
 
-    # regenerate options.json button
     regenerateOptionsButton = ttk.Button(
         root, text="Regenerate options.json", command=regenerateOptions)
     regenerateOptionsButton.place(x=120, y=300)
@@ -858,53 +833,43 @@ if __name__ == "__main__":
     if os.name != "nt":
         imageLabel.place(x=440, y=0)
 
-    # http or https label
     httpOrHttpsLabel = ttk.Label(
         root, text="Is the website using http or https? : ")
     httpOrHttpsLabel.place(x=10, y=23)
 
-    # http or https entry
     httpOrHttpsEntry = ttk.Entry(root)
     httpOrHttpsEntry.place(x=220, y=20)
     httpOrHttpsEntry.config(width=23)
     if os.name != "nt":
         httpOrHttpsEntry.config(width=19)
 
-    # url label
     urlLabel = ttk.Label(root, text="Enter the url: ")
     urlLabel.place(x=10, y=57)
 
-    # url entry
     urlEntry = ttk.Entry(root)
     urlEntry.place(x=220, y=54)
     urlEntry.config(width=23)
     if os.name != "nt":
         urlEntry.config(width=19)
 
-    # Check Button
     checkButton = ttk.Button(
         root, text="Check", command=lambda: statusLabel.config(text='Checking...') or thread(checkWebsite))
     checkButton.place(x=10, y=100)
 
-    # Status Label
     statusLabel = ttk.Label(root, text="Waiting...")
     statusLabel.place(x=235, y=102)
 
-    # Clear Button
     clearButton = ttk.Button(root, text="Clear", command=clear)
     clearButton.place(x=120, y=100)
 
-    # save to logs button
     viewLogsButton = ttk.Button(
         root, text="View logs", command=viewLogs)
     viewLogsButton.place(x=10, y=150)
 
-    # graph button
     graphButton = ttk.Button(
         root, text="Graph", command=lambda: thread(graph))
     graphButton.place(x=120, y=150)
 
-    # prediction button
     predictionButton = ttk.Button(
         root, text="Prediction", command=lambda: thread(prediction))
     predictionButton.place(x=10, y=200)
