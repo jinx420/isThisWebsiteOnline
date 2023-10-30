@@ -33,6 +33,7 @@ from PIL import Image, ImageTk
 warnings.filterwarnings('ignore', message='Image was not the expected size')
 
 version = 'v0.3.7rc'
+options_ver = 'v1.0.0'
 os_name = os.name
 
 icon_data = b'''AAABAAEAAAAAAAEAIACBGAAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAEAAAABBQgGAAAADL851QAAGEhJREFUeJztnUtsXVlWhj+/42s7cd5VSaUeXXRVURIgaHpAqyWaUqth0mrBA
@@ -185,7 +186,8 @@ class CheckInput:
 
 # check if critical files and folders exist
 critDirs = ['./source']
-critFiles = ['./source/options.json', './source/pasteHistory.json']
+critFiles = [
+    f'./source/options-{options_ver}.json', './source/pasteHistory.json']
 
 for dirs in critDirs:
     if os.path.exists(dirs):
@@ -199,17 +201,23 @@ for files in critFiles:
         # print(f'{files} File exists')
         pass
     else:
-        # nt
-        if files == './source/options.json':
+        if files == f'./source/options-{options_ver}.json':
+            if os.path.exists(f'./source/options.json'):
+                messagebox.showinfo(
+                    'Options', 'Outdated options file found\n\nA new one will be created.')
+                os.remove(f'./source/options.json')
+            else:
+                messagebox.showinfo(
+                    'Options', 'Options file not found\n\nA new one will be created.')
             with open(files, "w") as f:
                 json.dump(
-                    {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0, "darkMode": "False", "temporaryMode": 1}, "fullHistory": {}}, f, indent=4)
+                    {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0, "darkMode": "False", "temporaryMode": 0}, "fullHistory": {}}, f, indent=4)
         elif files == './source/pasteHistory.json':
             with open('./source/pasteHistory.json', "w") as f:
                 json.dump([], f, indent=4)
 
 
-options_file = './source/options.json'
+options_file = f'./source/options-{options_ver}.json'
 last_modified_time = 0
 global_options = {}
 
@@ -355,7 +363,7 @@ def clearAllHistory():
     darkMode = options["darkMode"]
     temporaryMode = options["temporaryMode"]
 
-    with open("./source/options.json", "w") as f:
+    with open(f"./source/options-{options_ver}.json", "w") as f:
         json.dump({"options": {"saveHistoryOnCheck": saveHistoryOnCheck, "checkForUpdatesOnStartup": checkUpdateCM, "clearLogsWithClearButton": clearCM,
                   "reloadGUIwith": reloadCM, "devPopUp": devPopUp, "darkMode": darkMode, "temporaryMode": temporaryMode}, "fullHistory": {}}, f, indent=4)
 
@@ -380,7 +388,7 @@ def status():
 
 # save history with date and time
 def historyWithDateAndTime():
-    json_file = './source/options.json'
+    json_file = f'./source/options-{options_ver}.json'
     with open(json_file, 'r+') as jfile:
         j = json.load(jfile)
         data = j
@@ -441,7 +449,7 @@ def viewLogs():
     tree.heading("three", text="http/https", anchor=tk.W)
     tree.heading("four", text="Status", anchor=tk.W)
     tree.heading("five", text="Date and Time", anchor=tk.W)
-    with open("./source/options.json", "r") as f:
+    with open(f"./source/options-{options_ver}.json", "r") as f:
         data = json.load(f)
         for i in data["fullHistory"]:
             tree.insert("", tk.END, text="", values=(
@@ -452,7 +460,7 @@ def viewLogs():
 # options window
 def optionsWindow():
     def saveOptions():
-        with open('./source/options.json', 'r') as f:
+        with open(f'./source/options-{options_ver}.json', 'r') as f:
             devVar = json.load(f)
 
         devPopUpVar = devVar['options']['devPopUp']
@@ -469,7 +477,7 @@ def optionsWindow():
             },
             "fullHistory": {}
         }
-        with open("./source/options.json", "w") as f:
+        with open(f"./source/options-{options_ver}.json", "w") as f:
             json.dump(options, f, indent=4)
 
         savedText.config(text="Options saved")
@@ -489,7 +497,7 @@ def optionsWindow():
             "fullHistory": {}
         }
 
-        with open("./source/options.json", "w") as f:
+        with open(f"./source/options-{options_ver}.json", "w") as f:
             json.dump(optionsReset, f, indent=4)
         saveHistoryOnCheck.set(1)
         checkUpdateCM.set(0)
@@ -556,7 +564,7 @@ def optionsWindow():
                 },
                 "fullHistory": {}
             }
-            with open("./source/options.json", "w") as f:
+            with open(f"./source/options-{options_ver}.json", "w") as f:
                 json.dump(options, f, indent=4)
         elif data['devPopUp'] == 1:
             pass
@@ -644,7 +652,7 @@ def optionsWindow():
 
 
 def graph():
-    with open("./source/options.json", "r") as f:
+    with open(f"./source/options-{options_ver}.json", "r") as f:
         data = json.load(f)
     online = 0
     offline = 0
@@ -743,7 +751,7 @@ def prediction():
 
     online = 0
     offline = 0
-    with open("./source/options.json", "r") as f:
+    with open(f"./source/options-{options_ver}.json", "r") as f:
         data = json.load(f)
     for i in data["fullHistory"]:
         if data["fullHistory"][i]["url"] == url and data["fullHistory"][i]["httpOrHttps"] == httpOrHttps:
@@ -826,7 +834,7 @@ if __name__ == "__main__":
 
     # regenerate options.json
     def regenerateOptions():
-        with open("./source/options.json", "w") as f:
+        with open(f"./source/options-{options_ver}.json", "w") as f:
             json.dump(
                 {"options": {"saveHistoryOnCheck": 1, "checkForUpdatesOnStartup": 0, "clearLogsWithClearButton": 0, "reloadGUIwith": 0, "devPopUp": 0, "darkMode": "False", "temporaryMode": 1}, "fullHistory": {}}, f, indent=4)
 
@@ -1153,10 +1161,13 @@ if __name__ == "__main__":
         root.destroy()
 
     def on_closing():
-        options = load_options()
-        if options['temporaryMode'] == True:
-            temp()
-        else:
+        try:
+            options = load_options()
+            if options['temporaryMode'] == True:
+                temp()
+            else:
+                root.destroy()
+        except:
             root.destroy()
 
     root.protocol("WM_DELETE_WINDOW", on_closing)
