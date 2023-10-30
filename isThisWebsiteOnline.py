@@ -279,10 +279,6 @@ def isWebsiteOnline(url, method):
     except:
         return False
 
-# hi
-
-# check website
-
 
 def checkWebsite():
     if urlEntry.get() == "" or httpOrHttpsEntry.get() == "":
