@@ -290,7 +290,7 @@ def thread(func):
 
 def isWebsiteOnline(url, method):
     try:
-        httpx.get(f'{method}://{url}', timeout=5)
+        httpx.get(f'{method}: //{url}', timeout=5)
         return True
     except httpx.TimeoutException:
         return False
@@ -760,7 +760,7 @@ def prediction():
 
     # display prediction
     messagebox.showinfo(
-        "Prediction", f"The prediction for {httpOrHttps}://{url} is:\n\n {httpOrHttps}://{url} should be {prediction}.")
+        "Prediction", f"The prediction for {httpOrHttps}: //{url} is: \n\n {httpOrHttps}: //{url} should be {prediction}.")
     # print(f"Prediction: {prediction}")
 
 
@@ -1094,7 +1094,7 @@ if __name__ == "__main__":
     misc_submenu.config(background="#222222", foreground="#FFFFFF")
     file_menu.add_cascade(label="Misc", menu=misc_submenu)
     misc_submenu.add_command(label="Open In Browser", command=lambda: webbrowser.open(
-        f"{httpOrHttpsEntry.get()}://{urlEntry.get()}"))
+        f"{httpOrHttpsEntry.get()}: //{urlEntry.get()}"))
 
     file_menu.add_separator()
     file_menu.add_command(label='Options', command=optionsWindow)
