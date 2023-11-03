@@ -16,7 +16,7 @@
   - [Notice for Developers](#notice-for-developers)
     - [General Notices](#general-notices)
 
-This is a simple Python project designed to check the availability of websites. It provides both a command-line interface (CLI) and a graphical user interface (GUI), making it easy to use for different preferences. This project is currently a work in progress (WIP), and there is no estimated completion date at the moment. The project offers the following features:
+This is a simple Python project designed to check the availability of websites. It provides both a command-line interface (CLI) and a graphical user interface (GUI), making it easy to use for different preferences. This project is currently a work in progress (WIP), and there is no estimated completion date at the moment.
 
 ## Features
 
@@ -38,8 +38,8 @@ This is a simple Python project designed to check the availability of websites. 
 *Note: The order of contents does not represent the order in which they will be implemented. Active development on a feature is marked by (**WIP**).*
 
 - [x] ⚠️ Fix the issue of having an outdated `options.json`
-- [ ] More Options
-- [ ] Major UI overhaul
+- [ ] More Options (Things like: Save location etc.)
+- [ ] Major UI overhaul (Things like: Status overhaul and more.)
 - [x] Fix the issue of deleting existing `./source` folder in current working directory
 - [x] Minor UI change
 - [x] Remove need for `.png` and or `.ico` file.
@@ -53,14 +53,14 @@ This is a simple Python project designed to check the availability of websites. 
 - [ ] Favorites
 - [ ] Batch checking
 - [ ] Extensions
-- [ ] HTTP Request sender (Don't know the use for this yet, but it seems cool. Basically just like this project 😅)
+- [ ] Request sender (Don't know the use for this yet, but it seems cool. Basically just like this project 😅)
 - [ ] Documentation
 
 ### Scrapped Features
 
-*Note: Features listed here are gone for good, some will also have an explanation why I decided to remove them (see `Explanation:`). There is a very slim chance they will get implemented again after some time. Farewell, my friends.* 😢
+*Note: Many features listed here are gone for good, but some might only be here temporarily (will be marked if that's the case). Some will also have an explanation why I decided to remove them (see `Explanation:`).*
 
-- Multiple Languages (*Explanation: This is a pain in the ass to maintain/verify translation, it also adds like **300** lines, many of which repeat themselves due to how this code is structured and due to limitations of the way I chose to implement it. The multiple languages were kind of alright at the beginning, but as soon as the code kept getting bigger, so did the translations. For every line of code, I had to add like 3 lines for translation. This made the code very bloated, inefficient, and it also introduced lots of bugs.*)
+- Multiple Languages (*`Explanation:` This is a pain in the ass to maintain/verify translation, it also adds like **300** lines of code, many of which repeat themselves due to how this code is structured and due to limitations of the way I chose to implement it. The multiple languages were kind of alright at the beginning, but as soon as the code kept getting bigger, so did the translations. For every line of code, I had to add like 3 lines for translation. This made the code very bloated, inefficient, and it also introduced lots of bugs. I might try to implement this in a different way some time in the future, but currently there are no plans for this.*)
 
 ## How to Compile It Yourself
 
