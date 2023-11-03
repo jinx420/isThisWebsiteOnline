@@ -29,7 +29,7 @@ from PIL import Image, ImageTk
 #     \|__|\|____________|\|_______|      |\__\
 #         (t)                             \|__|
 
-# added this to suppress the warning about the image not being the expected size, it's not a problem
+# added this to suppress the warning about the image not being the expected size, this is not a problem so dont make my terminal all messy
 warnings.filterwarnings('ignore', message='Image was not the expected size')
 
 version = 'v0.3.7rc'
@@ -184,7 +184,6 @@ class CheckInput:
         return "." in self.url
 
 
-# check if critical files and folders exist
 critDirs = ['./source']
 critFiles = [
     f'./source/options-{options_ver}.json', './source/pasteHistory.json']
@@ -235,7 +234,7 @@ def load_options():
 
 
 def checkIfOld():
-    # check if old iwoSource folder is present and if it is ask to move all contents to the new ./source folder
+    # This checks if the old iwoSource folder is there, if yes then it will move the contents to the new source folder
     if os.path.exists("./iwoSource"):
         if os.path.exists("./source"):
             try:
@@ -262,6 +261,7 @@ def checkUpdate():
             if latestVersion != f'{version}':
                 if latestVersion > f'{version}':
                     if messagebox.askyesno('Update', 'There is a new update available. Do you want to download it?'):
+                        # This is for downloading the zip file directly, but ideally I want people to read the release notes first
                         # webbrowser.open(f'https://api.github.com/repos/jinx420/isThisWebsiteOnline/zipball/refs/tags/{latestVersion}')
                         webbrowser.open(
                             'https://github.com/jinx420/isThisWebsiteOnline/releases')
