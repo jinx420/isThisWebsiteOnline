@@ -35,11 +35,12 @@ This is a simple Python project designed to check the availability of websites. 
 
 ### Planned Features and Enhancements
 
-*Note: The order of contents does not represent the order in which they will be implemented. Active development on a feature is marked by (**WIP**).*
+*Note: The sequence of contents listed does not reflect their implementation order. Features currently under active development are indicated with (**In Progress**). Major features and enhancements are highlighted in bold.*
 
 - [x] ⚠️ Fix the issue of having an outdated `options.json`
+- [ ] **Switch to PyQt5**
 - [ ] More Options (Things like: Save location etc.)
-- [ ] Major UI overhaul (Things like: Status overhaul and more.)
+- [ ] UI overhaul (Things like: Status overhaul and more.)
 - [x] Fix the issue of deleting existing `./source` folder in current working directory
 - [x] Minor UI change
 - [x] Remove need for `.png` and or `.ico` file.
