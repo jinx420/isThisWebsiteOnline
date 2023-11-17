@@ -947,7 +947,7 @@ if __name__ == "__main__":
         root, text="???", command=disappearEastereggs)
 
     nerdEggLabel = tk.Label(root, text=" ")
-    nerdEggLabel.place(x=105, y=318)
+    nerdEggLabel.place(x=105, y=330)
 
     nerdEggLabel.bind(
         "<Button-1>", lambda e: nerdEggLabel.place(x=310, y=150) or nerdEggLabel.config(text="🤓") or changeButName())
