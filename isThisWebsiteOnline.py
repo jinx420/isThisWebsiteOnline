@@ -18,9 +18,7 @@ from tkinter import ttk
 from ttkbootstrap import Style
 import shutil
 from PIL import Image, ImageTk
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtCore import QByteArray, QBuffer, QIODevice
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
+# from PyQt5.QtWidgets import QApplication, QMainWindow
 
 
 #  ___  ___       __   ________  ________
@@ -786,21 +784,6 @@ if __name__ == "__main__":
     checkIfOld()
     options = load_options()
 
-    app = QApplication([])
-    window = QMainWindow()
-    window.setWindowTitle("IsThisWebsiteOnline?")
-    window.setFixedSize(710, 340)
-
-    pixmap = QPixmap()
-    buffer = QBuffer()
-    buffer.open(QIODevice.WriteOnly)
-    buffer.write(QByteArray.fromBase64(icon_data))
-    buffer.close()
-    pixmap.loadFromData(buffer.data())
-
-    icon = QIcon(pixmap)
-    window.setWindowIcon(icon)
-
     root = tk.Tk()
     root.title(
         "IsThisWebsiteOnline?                                                                                  Made with 💜 by jinx")
@@ -816,7 +799,6 @@ if __name__ == "__main__":
     def reloadGUI():
         options = load_options()
         root.destroy()
-        window.destroy()
         if options['reloadGUIwith'] == 1 and os.name != "nt":
             subprocess.call(
                 ["python3", "isThisWebsiteOnline.py", "gui"])
@@ -836,21 +818,13 @@ if __name__ == "__main__":
 
         statusLabel.config(text="options.json regenerated!")
 
-    # reloadGUIButton = ttk.Button(
-    #     root, text="Reload GUI", command=reloadGUI)
-    # reloadGUIButton.place(x=10, y=300)
+    reloadGUIButton = ttk.Button(
+        root, text="Reload GUI", command=reloadGUI)
+    reloadGUIButton.place(x=10, y=300)
 
-    reloadGUIButton = QPushButton('Reload GUI', window)
-    reloadGUIButton.setToolTip('Click to reload the GUI (Default: .exe)')
-    reloadGUIButton.clicked.connect(reloadGUI)
-    reloadGUIButton.move(10, 300)
-
-    regenerateOptionsButton = QPushButton(
-        'Regenerate options', window)
-    regenerateOptionsButton.setToolTip('Click to regenerate options.json')
-    regenerateOptionsButton.clicked.connect(regenerateOptions)
-    regenerateOptionsButton.move(120, 300)
-    regenerateOptionsButton.resize(150, 30)
+    regenerateOptionsButton = ttk.Button(
+        root, text="Regenerate options.json", command=regenerateOptions)
+    regenerateOptionsButton.place(x=120, y=300)
 
     # image
     img_decoded = base64.b64decode(img_data)
@@ -859,16 +833,6 @@ if __name__ == "__main__":
     imageLabel.place(x=390, y=0)
     if os.name != "nt":
         imageLabel.place(x=440, y=0)
-
-    # image
-    img_decoded = base64.b64decode(img_data)
-    pixmap = QPixmap()
-    pixmap.loadFromData(img_decoded)
-    imageLabel = QLabel(window)
-    imageLabel.setPixmap(pixmap)
-    imageLabel.move(390, 0)
-    if os.name != "nt":
-        imageLabel.move(440, 0)
 
     httpOrHttpsLabel = ttk.Label(
         root, text="Is the website using http or https? : ")
@@ -1144,9 +1108,6 @@ if __name__ == "__main__":
     help_menu.add_command(label='Check for update', command=checkUpdate)
     help_menu.add_command(label="About", command=about)
     help_menu.config(background="#222222", foreground="#FFFFFF")
-
-    window.show()
-    app.exec_()
 
     # MinSize and MaxSize
     root.update()
