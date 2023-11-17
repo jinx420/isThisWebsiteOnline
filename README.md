@@ -38,9 +38,8 @@ This is a simple Python project designed to check the availability of websites. 
 *Note: The sequence of contents listed does not reflect their implementation order. Features currently under active development are indicated with (**In Progress**). Major features and enhancements are highlighted in bold.*
 
 - [x] ⚠️ Fix the issue of having an outdated `options.json`
-- [ ] **Switch to PyQt5**
 - [ ] More Options (Things like: Save location etc.)
-- [ ] UI overhaul (Things like: Status overhaul and more.)
+- [ ] **UI overhaul (Things like: Status overhaul and more.)**
 - [x] Fix the issue of deleting existing `./source` folder in current working directory
 - [x] Minor UI change
 - [x] Remove need for `.png` and or `.ico` file.
@@ -114,11 +113,13 @@ This is a simple Python project designed to check the availability of websites. 
 
 ## Notice for Developers
 
-⚠️ **Important Notice:** Starting from version v0.3.2, the branch `develop` has been renamed to `old-develop` and is no longer actively maintained. To streamline our development process and focus efforts on the `master` branch, which contains the latest stable version, we have made this change.
+⚠️ **Transition Notice:** As of version v0.3.2, the `develop` branch has been renamed to `old-develop` and will no longer receive updates. We've streamlined our development process to concentrate our efforts on the `master` branch, which holds the most recent stable version.
 
-If you have been actively working on the `develop` branch, I recommend switching to the `master` branch and creating a new branch based on it for your ongoing development work. Please ensure that any bug fixes or new features are implemented on the `master` branch going forward.
+If you've been working on the `develop` branch, we advise switching to the `master` branch and initiating a new branch from it for your ongoing development tasks. Please ensure future bug fixes or feature additions are implemented on the `master` branch.
 
-I appreciate your understanding and cooperation in this transition. If you have any questions or need further assistance, please don't hesitate to reach out to me. Thank you for your continued support and dedication to this project!
+We appreciate your understanding and cooperation during this transition. For any queries or further assistance, feel free to reach out. Thank you for your unwavering support and dedication to this project!
+
+**Update 17.11.23:** The `old-develop` branch has now been removed.
 
 ---
 ### General Notices
