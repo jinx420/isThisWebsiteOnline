@@ -26,7 +26,7 @@ This is a simple Python project designed to check the availability of websites. 
 
 - [x] Open in Browser: Quickly open the website in your default web browser directly from the program.
 - [x] Save and Load History: Keep a record of website status checks by saving and loading the history.
-- [x] Multithreading: Utilize multithreading to improve performance.
+- [x] Multi threading: Utilize multi threading to improve performance.
 - [x] Automatic Updates: Stay up to date with the latest version of the program through automatic updates.
 - [x] Online-Offline Ratio Graph: Visualize the online and offline ratio of websites with a graphical representation.
 - [x] Easily import and export your options to use them on another system or after a version upgrade.
@@ -113,13 +113,13 @@ This is a simple Python project designed to check the availability of websites. 
 
 ## Notice for Developers
 
-⚠️ **Transition Notice:** As of version v0.3.2, the `develop` branch has been renamed to `old-develop` and will no longer receive updates. We've streamlined our development process to concentrate our efforts on the `master` branch, which holds the most recent stable version.
+⚠️ **Transition Notice:** ~~As of version v0.3.2, the `develop` branch has been renamed to `old-develop` and will no longer receive updates. We've streamlined our development process to concentrate our efforts on the `master` branch, which holds the most recent stable version.~~
 
-If you've been working on the `develop` branch, we advise switching to the `master` branch and initiating a new branch from it for your ongoing development tasks. Please ensure future bug fixes or feature additions are implemented on the `master` branch.
+~~If you've been working on the `develop` branch, we advise switching to the `master` branch and initiating a new branch from it for your ongoing development tasks. Please ensure future bug fixes or feature additions are implemented on the `master` branch.~~
 
-We appreciate your understanding and cooperation during this transition. For any queries or further assistance, feel free to reach out. Thank you for your unwavering support and dedication to this project!
+~~We appreciate your understanding and cooperation during this transition. For any queries or further assistance, feel free to reach out. Thank you for your unwavering support and dedication to this project!~~
 
-**Update 17.11.23:** The `old-develop` branch has now been removed.
+- **Update 17.11.23:** The `old-develop` branch has now been removed.
 
 ---
 ### General Notices
