@@ -16,7 +16,7 @@
   - [Notice for Developers](#notice-for-developers)
     - [General Notices](#general-notices)
 
-This is a simple Python project designed to check the availability of websites. It provides both a command-line interface (CLI) and a graphical user interface (GUI), making it easy to use for different preferences. This project is currently a work in progress (WIP), and there is no estimated completion date at the moment.
+This is a simple Python project designed to check the availability of websites. It provides both a command-line interface (CLI) and a graphical user interface (GUI), making it easy to use for different preferences. This project is currently a work in progress (WIP) but I don't have that much time to work on it, and there is no estimated completion date at the moment.
 
 ## Features
 
